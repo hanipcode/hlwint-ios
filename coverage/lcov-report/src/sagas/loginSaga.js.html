@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/sagas/loginSaga.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">src/sagas</a> loginSaga.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">18.18% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">18.75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">18.18% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>8/44</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { call, put } from 'redux-saga/effects';
+import { NavigationActions } from 'react-navigation';
+import device from 'react-native-device-info';
+import { actionCreators } from '../ducks/login';
+import { didReceiveError, ERROR_TAG, ERROR_MESSAGE } from '../ducks/error';
+import * as service from '../helpers/api';
+import Storage from '../data/storage';
+import CONSTANTS from '../constants';
+&nbsp;
+const { ACTIVITY } = CONSTANTS;
+const deviceOS = 'iOS';
+&nbsp;
+export function* <span class="fstat-no" title="function not covered" >uploadDeviceSaga(</span>) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const userId = <span class="cstat-no" title="statement not covered" >yield Storage.getUser();</span>
+    const accessToken = <span class="cstat-no" title="statement not covered" >yield Storage.getToken();</span>
+    const deviceAgent = <span class="cstat-no" title="statement not covered" >device.getUniqueID().replace(/[-]/gi, '');</span>
+    const uploadLastDeviceResponse = <span class="cstat-no" title="statement not covered" >yield call(</span>
+      service.uploadLastDevice,
+      userId.id,
+      deviceAgent,
+      deviceOS,
+      accessToken,
+    );
+<span class="cstat-no" title="statement not covered" >    if (uploadLastDeviceResponse.status !== 200) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(ERROR_MESSAGE.DEVICE_FAIL);</span>
+    }
+    const uploadLastDeviceJson = <span class="cstat-no" title="statement not covered" >yield uploadLastDeviceResponse.json();</span>
+<span class="cstat-no" title="statement not covered" >    if (uploadLastDeviceJson.message !== 'success') {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(ERROR_TAG.LOGIN_ERROR, ERROR_MESSAGE.DEVICE_FAIL);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    yield put(NavigationActions.navigate({</span>
+      routeName: 'Tutorial',
+    }));
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    yield put(didReceiveError(ERROR_TAG.LOGIN_ERROR, ERROR_MESSAGE.DEVICE_FAIL));</span>
+  }
+}
+&nbsp;
+export default function* loginSaga({ payload }) {
+  yield put(actionCreators.startLogin());
+  try {
+    let socialLoginResponse;
+    if (payload.socialType === 'facebook') {
+      socialLoginResponse = yield call(
+        service.facebookLogin,
+        payload.firstName,
+        payload.lastName,
+        payload.dateOfBirth,
+        payload.gender,
+        payload.email,
+        payload.phoneNumber,
+        payload.profilePic,
+        payload.socialId,
+      );
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (payload.socialType === 'google') {
+      socialLoginResponse = yield call(
+        service.googleLogin,
+        payload.firstName,
+        payload.lastName,
+        payload.dateOfBirth,
+        payload.gender,
+        payload.email,
+        payload.phoneNumber,
+        payload.profilePic,
+        payload.socialId,
+      );
+    }
+    const json = <span class="cstat-no" title="statement not covered" >yield socialLoginResponse.json();</span>
+    const { data } = <span class="cstat-no" title="statement not covered" >json;</span>
+    const accessToken = <span class="cstat-no" title="statement not covered" >data.u_token;</span>
+    const deviceAgent = <span class="cstat-no" title="statement not covered" >device.getUniqueID();</span>
+    const [uploadLastDeviceResponse, sendTaskResponse] = <span class="cstat-no" title="statement not covered" >[</span>
+      yield call(service.uploadLastDevice, data.id, deviceAgent, deviceOS, accessToken),
+      yield call(service.sendTask, data.id, ACTIVITY.LOGIN, data.id, accessToken),
+    ];
+<span class="cstat-no" title="statement not covered" >    if (uploadLastDeviceResponse.status !== 200) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(ERROR_MESSAGE.DEVICE_FAIL);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (sendTaskResponse.status !== 200) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(ERROR_MESSAGE.TASK_FAILL);</span>
+    }
+    const uploadLastDeviceJson = <span class="cstat-no" title="statement not covered" >yield uploadLastDeviceResponse.json();</span>
+    const sendTaskJson = <span class="cstat-no" title="statement not covered" >yield sendTaskResponse.json();</span>
+    const uploadLastDeviceData = <span class="cstat-no" title="statement not covered" >uploadLastDeviceJson;</span>
+    const sendTaskData = <span class="cstat-no" title="statement not covered" >sendTaskJson;</span>
+<span class="cstat-no" title="statement not covered" >    if (uploadLastDeviceData.message !== 'success') {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(ERROR_MESSAGE.DEVICE_FAIL);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (sendTaskData.message !== 'success') {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(ERROR_MESSAGE.TASK_FAILL);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    yield Storage.setUser(data);</span>
+<span class="cstat-no" title="statement not covered" >    yield Storage.setToken(accessToken);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(sendTaskData, uploadLastDeviceData);</span>
+<span class="cstat-no" title="statement not covered" >    yield put(actionCreators.finishLogin(accessToken, data));</span>
+<span class="cstat-no" title="statement not covered" >    yield put(NavigationActions.navigate({</span>
+      routeName: 'Tutorial',
+    }));
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    console.warn(err.message, err.stack);</span>
+<span class="cstat-no" title="statement not covered" >    yield put(didReceiveError(ERROR_TAG.LOGIN_ERROR, err.toString()));</span>
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Dec 13 2017 10:45:02 GMT+0700 (WIB)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hlwint API Service able to create broadcast 1`] = `
+Object {
+  "data": Object {
+    "b_start_time": "2017-12-13 10:57:40",
+    "b_title": "test title",
+    "b_user_id": 384,
+    "hash": "9067e033e0406d6778979adb058c1c53",
+    "id": 180,
+    "rviewers": 0,
+    "tviewers": 0,
+    "viewers": 0,
+  },
+  "message": "success",
+}
+`;
+
+exports[`Hlwint API Service able to end broadcast 1`] = `
+Object {
+  "message": "success",
+}
+`;
+
+exports[`Hlwint API Service able to get Broadcast Detail 1`] = `
+Object {
+  "data": Object {
+    "b_end_time": null,
+    "b_start_time": "2017-12-15 13:26:20",
+    "b_title": "hi",
+    "b_user_id": 2755,
+    "hash": "aed480bdacd31e6e9388b4709c23bef7",
+    "id": 1,
+    "rviewers": 0,
+    "tviewers": 0,
+    "viewers": 0,
+  },
+  "message": "success",
+}
+`;
+
+exports[`Hlwint API Service able to get server info 1`] = `
+Object {
+  "ip_address": "52.221.111.204",
+  "password": "i-01ab9da248512996d",
+  "username": "wowza",
+}
+`;
+
+exports[`Hlwint API Service able to input task to task log 1`] = `
+Object {
+  "message": "success",
+}
+`;
+
+exports[`Hlwint API Service able to retrieve live data 1`] = `
+Object {
+  "live_lists": Array [
+    Object {
+      "first_name": "Khin Yadanar",
+      "id": 2755,
+      "larger_profile_pic": null,
+      "last_name": "Nwe",
+      "nick_name": "khin2755",
+      "profile_pic": "https://graph.facebook.com/552560781773526/picture?type=large",
+      "type": 1,
+      "view_count": 44,
+    },
+    Object {
+      "first_name": "Ye Htet",
+      "id": 18,
+      "larger_profile_pic": null,
+      "last_name": "Aung",
+      "nick_name": "yehtet18",
+      "profile_pic": "https://dashboard.imliveapp.com/public/mlive_img/22_08_2118_profile.png",
+      "type": 1,
+      "view_count": 44,
+    },
+    Object {
+      "first_name": "လင္း",
+      "id": 3619,
+      "larger_profile_pic": null,
+      "last_name": "လြင္",
+      "nick_name": "လင္း3619",
+      "profile_pic": "https://graph.facebook.com/1924560524528843/picture?type=large",
+      "type": 1,
+      "view_count": 41,
+    },
+    Object {
+      "first_name": "Muhammad",
+      "id": 1134,
+      "larger_profile_pic": null,
+      "last_name": "Hanif",
+      "nick_name": "muhammad1134",
+      "profile_pic": "https://graph.facebook.com/1964593906889919/picture?type=large",
+      "type": 1,
+      "view_count": 11,
+    },
+  ],
+  "message": "success",
+}
+`;
+
+exports[`Hlwint API Service able to retrieve live data 2`] = `
+Array [
+  Object {
+    "first_name": "Khin Yadanar",
+    "id": 2755,
+    "larger_profile_pic": null,
+    "last_name": "Nwe",
+    "nick_name": "khin2755",
+    "profile_pic": "https://graph.facebook.com/552560781773526/picture?type=large",
+    "type": 1,
+    "view_count": 44,
+  },
+  Object {
+    "first_name": "Ye Htet",
+    "id": 18,
+    "larger_profile_pic": null,
+    "last_name": "Aung",
+    "nick_name": "yehtet18",
+    "profile_pic": "https://dashboard.imliveapp.com/public/mlive_img/22_08_2118_profile.png",
+    "type": 1,
+    "view_count": 44,
+  },
+  Object {
+    "first_name": "လင္း",
+    "id": 3619,
+    "larger_profile_pic": null,
+    "last_name": "လြင္",
+    "nick_name": "လင္း3619",
+    "profile_pic": "https://graph.facebook.com/1924560524528843/picture?type=large",
+    "type": 1,
+    "view_count": 41,
+  },
+  Object {
+    "first_name": "Muhammad",
+    "id": 1134,
+    "larger_profile_pic": null,
+    "last_name": "Hanif",
+    "nick_name": "muhammad1134",
+    "profile_pic": "https://graph.facebook.com/1964593906889919/picture?type=large",
+    "type": 1,
+    "view_count": 11,
+  },
+]
+`;
+
+exports[`Hlwint API Service able to upload last device 1`] = `
+Object {
+  "message": "success",
+  "promotion": "true",
+}
+`;
+
+exports[`Hlwint API Service have a correct login service 1`] = `
+Object {
+  "data": Object {
+    "bot": 0,
+    "data_usage": null,
+    "id": 384,
+    "u_account_status": "active",
+    "u_biography": null,
+    "u_city": "Pathein",
+    "u_coins": 3540,
+    "u_created_time": "2017-11-13 15:36:22",
+    "u_date_of_birth": "null",
+    "u_device_os": "android",
+    "u_duration": "00:00:00",
+    "u_email": "null",
+    "u_facebook_id": "367599367030660",
+    "u_fan_count": 0,
+    "u_first_name": "Ko",
+    "u_follower_count": 0,
+    "u_full_name": "Ko Kyaw",
+    "u_gender": "female",
+    "u_google_id": "null",
+    "u_income": 0,
+    "u_ip_address": "119.2.52.244",
+    "u_key_id": "91600",
+    "u_larger_profile_pic": null,
+    "u_last_device": "android test",
+    "u_last_login_time": "2017-12-13 10:57:33",
+    "u_last_name": "Kyaw",
+    "u_nick_name": "ko384",
+    "u_phone_number": "09",
+    "u_profile_pic": "https://graph.facebook.com/367599367030660/picture?type=large",
+    "u_reward_status": 0,
+    "u_token": "P8HuQaRkHV0j7hKEWvXuP60XYycrqj9IQUBIWLrUVlUbhPys0EEvFMmpnoam",
+    "u_type": 1,
+  },
+  "message": "success",
+  "version": "15",
+}
+`;
