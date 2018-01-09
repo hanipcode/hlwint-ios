@@ -1,4 +1,4 @@
-import { put, call, take } from 'redux-saga/effects';
+import { put, call, take, fork } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 import { cloneableGenerator } from 'redux-saga/utils';
 import { fetchLive, fetchLiveFinish, fetchLiveStart, FETCH_LIVE } from '../../ducks/live';
@@ -72,6 +72,6 @@ describe('Live Saga Watcher', () => {
   });
   it('call init the live saga', () => {
     const tested = data.next(fetchLive(payload)).value;
-    expect(tested).toEqual(call(liveSaga, payload));
+    expect(tested).toEqual(fork(liveSaga, payload));
   });
 });

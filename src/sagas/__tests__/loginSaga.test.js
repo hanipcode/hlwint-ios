@@ -1,4 +1,4 @@
-import { put, call } from 'redux-saga/effects';
+import { put, call, fork } from 'redux-saga/effects';
 import { cloneableGenerator } from 'redux-saga/utils';
 import { actionCreators } from '../../ducks/login';
 import loginSaga from '../loginSaga';

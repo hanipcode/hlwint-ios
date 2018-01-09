@@ -38,6 +38,7 @@
 		29889CA91FE0CB6700F0B520 /* WowzaGoCoderSDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 29889CA71FE0CB4A00F0B520 /* WowzaGoCoderSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		29889CAA1FE115C100F0B520 /* libRNWowzaBroadcaster.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29889C981FE0C7B600F0B520 /* libRNWowzaBroadcaster.a */; };
 		29B18ADF1FCFBCC900A7B4A8 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B18ACA1FCFBC8A00A7B4A8 /* libRCTVideo.a */; };
+		29BD5C121FF4B50F000C5425 /* gift_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 29BD5BE21FF4B50F000C5425 /* gift_sound.wav */; };
 		29C6322F1FE909A1005418A4 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6322D1FE90997005418A4 /* libRNSound.a */; };
 		29C632311FE90D67005418A4 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 29C632301FE90D67005418A4 /* pop.wav */; };
 		29EC509E1FBC2C55008983EE /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29EC509B1FBC2C0E008983EE /* libRNDeviceInfo.a */; };
@@ -451,6 +452,7 @@
 		2971DD021FB1AB600011EA18 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		29889CA71FE0CB4A00F0B520 /* WowzaGoCoderSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WowzaGoCoderSDK.framework; sourceTree = "<group>"; };
 		29B18AAF1FCFBC8A00A7B4A8 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
+		29BD5BE21FF4B50F000C5425 /* gift_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = gift_sound.wav; path = ../src/assets/sound/gift_sound.wav; sourceTree = "<group>"; };
 		29C631FB1FE90997005418A4 /* RNSound.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		29C632301FE90D67005418A4 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		29EC50701FBC2C0E008983EE /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 			isa = PBXGroup;
 			children = (
 				29C632301FE90D67005418A4 /* pop.wav */,
+				29BD5BE21FF4B50F000C5425 /* gift_sound.wav */,
 				29889CA71FE0CB4A00F0B520 /* WowzaGoCoderSDK.framework */,
 				13B07FAE1A68108700A75B9A /* mlive */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1390,6 +1393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29BD5C121FF4B50F000C5425 /* gift_sound.wav in Resources */,
 				29C632311FE90D67005418A4 /* pop.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,

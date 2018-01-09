@@ -10,6 +10,8 @@ import watchLive from './WatchLive';
 import commentBox from './commentBox';
 import commentItem from './commentItem';
 import commentBoxBottom from './commentBoxBottom';
+import giftBox from './giftBox';
+import picker from './dropdownPicker';
 
 export default {
   login,
@@ -24,4 +26,6 @@ export default {
   commentBox,
   commentItem,
   commentBoxBottom,
+  giftBox,
+  picker,
 };

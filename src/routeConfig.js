@@ -1,15 +1,14 @@
 import { StackNavigator } from 'react-navigation';
-import Heart from './components/HeartContainer';
 import LoginPage from './screen/LoginPage';
 import Tutorial from './screen/Tutorial';
 import Home from './screen/HomeTabNavigator';
 import WatchLive from './screen/WatchLive';
-import CommentBox from './components/ComentBox';
+import CommentBox from './components/GiftAnimator';
 
 export default StackNavigator({
-  CommentBox: {
-    screen: CommentBox,
-  },
+  // CommentBox: {
+  //   screen: CommentBox,
+  // },
   Login: {
     screen: LoginPage,
   },

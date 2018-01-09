@@ -107,7 +107,6 @@ export default function* loginSaga({ payload }) {
     yield Storage.setUser(data);
     yield Storage.setToken(accessToken);
     yield Storage.setUserPicture(u_profile_pic);
-    console.log(sendTaskData, uploadLastDeviceData);
     yield put(actionCreators.finishLogin(accessToken, data));
     yield put(NavigationActions.navigate({
       routeName: 'Tutorial',

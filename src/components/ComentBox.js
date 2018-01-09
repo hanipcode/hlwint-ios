@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, TextInput } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../styles';
 import { publishComment, subscribe } from '../data/pubnub';
@@ -21,27 +21,24 @@ class CommentBox extends React.Component {
     this.state = {
       comments: [],
       subscription: null,
-      userInfo: null,
     };
+    this.publishComment = this.publishComment.bind(this);
   }
   async componentWillMount() {
-    const { subscription } = this.state;
-    const { broadcasterId, userInfo } = this.props;
-    const newSubscription = await subscribe('43', null, message => this.messageHandler(message));
+    const { broadcasterId } = this.props;
+    const newSubscription = await subscribe(broadcasterId.toString(), null, message =>
+      this.messageHandler(message));
     await this.setState({
-      userInfo,
       subscription: newSubscription,
     });
-    // setInterval(() => {
-    //   comments.push({
-    //     id: comments.length + 1,
-    //     name: `Nama Ste ${comments.length + 1}`,
-    //     image: `https://robohash.org/21${comments.length}`,
-    //     content: 'Lorem lorem ipsum ?',
-    //   });
-    //   this.setState({ comments }, () => this.scroll.scrollToEnd());
-    // }, 31000);
   }
+
+  // componentWillUnmount() {
+  //   const { subscription } = this.state;
+  //   if (subscription) {
+  //     subscription.unsubscribe();
+  //   }
+  // }
 
   pushComment(sender, text) {
     const { id, name, avatar } = sender;
@@ -56,19 +53,28 @@ class CommentBox extends React.Component {
   }
 
   messageHandler(handler) {
-    console.log('new comment');
-    console.log(handler);
     const { message } = handler;
     const { type, sender, text } = message;
     if (type !== 'comment') return;
     this.pushComment(sender, text);
   }
 
+  publishComment(text) {
+    const { broadcasterId, userInfo } = this.props;
+    const { id, u_profile_pic, u_full_name } = userInfo;
+    const sender = {
+      id,
+      name: u_full_name,
+      avatar: u_profile_pic,
+    };
+    publishComment(broadcasterId.toString(), sender, text);
+  }
+
   render() {
     const { comments } = this.state;
     return (
       <View style={styles.commentBox.container}>
-        <View style={{ height: 200 }}>
+        <View style={{ height: 200, backgroundColor: 'transparent' }}>
           <ScrollView
             contentContainerStyle={styles.commentBox.scrollViewContainer}
             contentOffset={{ x: 0, y: 1 }}
@@ -78,21 +84,15 @@ class CommentBox extends React.Component {
           >
             {comments.map(comment => (
               <CommentItem
-                key={comment.id}
+                key={comment.id + comments.length + comment.content}
                 name={comment.name}
                 avatar={comment.image}
                 content={comment.content}
               />
             ))}
           </ScrollView>
-          <LinearGradient
-            style={styles.commentBox.darkOverlay}
-            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.5)']}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 0, y: 0 }}
-          />
         </View>
-        <CommentBoxBottom />
+        <CommentBoxBottom publishComment={this.publishComment} />
       </View>
     );
   }

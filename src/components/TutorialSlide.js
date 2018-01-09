@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 import { Image, TouchableHighlight, Text, View } from 'react-native';
 import StyleManager from '../styles';
-import CONFIG from '../config';
+import CONFIG from '../constants';
 
 const styles = StyleManager.tutorial;
 

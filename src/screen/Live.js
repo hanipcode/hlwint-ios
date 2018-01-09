@@ -70,7 +70,7 @@ class Live extends React.Component {
           onPress={() => this.goToWatchLive(item.get('id'), item.get('liveImage'))}
           image={item.get('liveImage')}
           name={item.get('name')}
-          viewCount={item.get('viewCount')}
+          viewCount={item.get('id')}
         />
       </View>
     );

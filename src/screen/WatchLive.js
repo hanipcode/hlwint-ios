@@ -4,14 +4,18 @@ import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Video from 'react-native-video';
-import { BlurView, VibrancyView } from 'react-native-blur';
 import { generateStreamLink } from '../data/wowza';
 import Storage from '../data/storage';
+import * as service from '../helpers/api';
 import { subscribe, publishHeart } from '../data/pubnub';
 import styles from '../styles';
 import { fetchLive } from '../ducks/live';
+import { getIsShowGiftBox, toggleGiftBox } from '../ducks/watchLive';
 import Loading from '../components/LoadingPage';
 import HeartContainer from '../components/HeartContainer';
+import CommentBox from '../components/ComentBox';
+import GiftBox from '../components/GiftBox';
+import GiftAnimator from '../components/GiftAnimator';
 
 const filter = require('../assets/beauty.png');
 
@@ -40,35 +44,43 @@ class WatchLive extends React.Component {
       buffer: false,
       paused: true,
       serverInfo: null,
-      subscribption: null,
+      subscription: null,
       userInfo: null,
+      giftList: null,
     };
     this.onBuffer = this.onBuffer.bind(this);
     this.onLoadStart = this.onLoadStart.bind(this);
     this.onError = this.onError.bind(this);
-    this.onPlaybackStalled = this.onPlaybackStalled.bind(this);
+    this.onProgress = this.onProgress.bind(this);
   }
 
   async componentWillMount() {
-    const { subscribption } = this.state;
     const { navigation } = this.props;
     const { params } = navigation.state;
     const { broadcasterId } = params;
     const serverInfo = await Storage.getServerInfo();
     const userInfo = await Storage.getUser();
+    const accessToken = await Storage.getToken();
+    const { id } = userInfo;
     const newSubscription = await subscribe(
       broadcasterId.toString(),
       p => this.presenceHandler(p),
       m => this.messageHandler(m),
     );
-    console.log(newSubscription);
-    this.setState({ serverInfo, subscription: newSubscription, userInfo });
+    const giftList = await this.prepareGiftList(id, accessToken);
+    this.setState({
+      serverInfo,
+      subscription: newSubscription,
+      userInfo,
+      giftList,
+    });
   }
-  componentWillUnmount() {
-    const { subscription } = this.state;
-    if (!subscription) return;
-    subscription.unsubscribe();
-  }
+
+  // componentWillUnmount() {
+  //   const { subscription } = this.state;
+  //   if (!subscription) return;
+  //   subscription.unsubscribe();
+  // }
 
   onLoadStart(e) {
     console.log('this load start');
@@ -78,17 +90,15 @@ class WatchLive extends React.Component {
       paused: false,
     });
   }
-  onLoad(e) {
-    console.log('this on load');
-    console.log(e);
-  }
-  onProgress(e) {
+  onProgress() {
+    const { buffer } = this.state;
     console.log('this on progress');
     // console.log(e);
-  }
-  onEnd(e) {
-    console.log('onEnd');
-    console.log(e);
+    if (buffer) {
+      this.setState({
+        buffer: false,
+      });
+    }
   }
   onError(e) {
     const { navigation } = this.props;
@@ -103,21 +113,6 @@ class WatchLive extends React.Component {
     this.setState({
       buffer: e.isBuffering,
     });
-  }
-  onTimedMetadata(e) {
-    console.log('onTimedMetadata');
-    console.log(e);
-  }
-  onPlaybackStalled(e) {
-    const { navigation } = this.props;
-    console.log('onPlaybackStalled');
-    console.log(e);
-    Alert.alert('Videonya Ended');
-    navigation.goBack(null);
-  }
-  onPlaybackRateChange(e) {
-    console.log('playbackratechange');
-    console.log(e);
   }
   onBack() {
     const { dispatch, navigation } = this.props;
@@ -140,13 +135,28 @@ class WatchLive extends React.Component {
     this.heartContainer.addHeart(sender);
   }
 
+  async prepareGiftList(userId, accessToken) {
+    const giftList = await service.getGiftList(userId, accessToken);
+    return giftList;
+  }
+
   messageHandler(handler) {
+    if (!this.heartContainer) return;
     console.log('message');
-    console.log(handler);
     const { message } = handler;
     const { type, sender } = message;
+    const { userInfo } = this.state;
+    console.log(message);
     if (type === 'heart') {
+      if (sender.id === userInfo.id) return;
       this.heartContainer.addHeart(sender);
+    }
+    if (type === 'like') {
+      const { item_count, item_image, item_name } = message;
+      const { id, name, avatar } = sender;
+      
+      requestAnimationFrame(() =>
+        this.giftAnimator.addGiftItem(id, name, avatar, item_name, item_image));
     }
   }
 
@@ -157,12 +167,11 @@ class WatchLive extends React.Component {
 
   render() {
     const {
-      buffer, paused, serverInfo, subscription,
+      buffer, paused, serverInfo, subscription, userInfo, giftList,
     } = this.state;
-    const { navigation } = this.props;
+    const { navigation, isGiftBoxShowed } = this.props;
     const { params } = navigation.state;
     const { hash, broadcasterId, liveImage } = params;
-    console.log(subscription);
     if (!serverInfo) {
       return <Loading />;
     }
@@ -174,30 +183,20 @@ class WatchLive extends React.Component {
           }}
           source={{ uri: generateStreamLink(serverInfo, hash, broadcasterId) }}
           onLoadStart={this.onLoadStart} // Callback when video starts to load
-          onLoad={this.onLoad} // Callback when video loads
           onProgress={this.onProgress} // Callback every ~250ms with currentTime
-          onEnd={this.onEnd} // Callback when playback finishes
           onError={this.onError} // Callback when video cannot be loaded
           onBuffer={this.onBuffer} // Callback when remote video is buffering
-          onTimedMetadata={this.onTimedMetadata}
-          onPlaybackStalled={this.onPlaybackStalled}
-          onPlaybackRateChange={this.onPLaybackRateChange}
-          paused={paused}
+          paused={false}
           poster={liveImage}
-          muted={false}
           resizeMode="cover"
-          playInBackground
-          playWhenInactive
           repeat
           style={{ flex: 1, transform: [{ scaleX: -1 }] }}
-          progressUpdateInterval={850}
         />
         <Image
           source={filter}
           resizeMode="cover"
           style={{
-            maxWidth: 200,
-            opacity: 0.25,
+            opacity: 0.23,
             backgroundColor: 'transparent',
             position: 'absolute',
             top: 0,
@@ -206,6 +205,7 @@ class WatchLive extends React.Component {
             bottom: 0,
           }}
         />
+
         {buffer && (
           <View style={styles.watchLive.loadingOverlay}>
             <ActivityIndicator />
@@ -218,11 +218,20 @@ class WatchLive extends React.Component {
             }}
           />
         )}
+        <GiftAnimator
+          ref={(animator) => {
+            this.giftAnimator = animator;
+          }}
+        />
         {!buffer && (
           <TouchableOpacity
             style={styles.watchLive.heartTouchableArea}
             onPress={() => this.onHeartAreaPress()}
           />
+        )}
+        <CommentBox userInfo={userInfo} broadcasterId={broadcasterId} />
+        {isGiftBoxShowed && (
+          <GiftBox giftList={giftList} broadcasterId={broadcasterId} userInfo={userInfo} />
         )}
       </View>
     );
@@ -242,6 +251,11 @@ WatchLive.propTypes = {
     goBack: PropTypes.func.isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  isGiftBoxShowed: PropTypes.bool.isRequired,
 };
 
-export default connect()(WatchLive);
+const mapStateToProps = state => ({
+  isGiftBoxShowed: getIsShowGiftBox(state.watchLiveReducer),
+});
+
+export default connect(mapStateToProps)(WatchLive);

@@ -19,7 +19,7 @@ class CommentItem extends React.Component {
 
   componentDidMount() {
     pop.stop(() => {
-      // pop.play(() => {});
+      pop.play(() => {});
     });
   }
 

@@ -237,3 +237,39 @@ export const publishHeart = (broadcasterId, sender) =>
         },
       ));
   });
+
+export const publishGift = (broadcasterId, sender, itemCount, itemName, itemImage) =>
+  new Promise((resolve, reject) => {
+    connect().then(({ pubnub }) =>
+      pubnub.publish(
+        {
+          channel: broadcasterId,
+          message: {
+            type: MESSAGE_TYPE.MESSAGE_LIKE,
+            sender,
+            text: '',
+            item_count: itemCount,
+            item_name: itemName,
+            item_image: itemImage,
+          },
+        },
+        (status, response) => {
+          if (status.error) {
+            console.log(status);
+            reject(status.category);
+          } else {
+            console.log(
+              'successed',
+              response,
+              broadcasterId,
+              sender,
+              itemCount,
+              itemName,
+              MESSAGE_TYPE.MESSAGE_LIKE,
+            );
+
+            resolve();
+          }
+        },
+      ));
+  });

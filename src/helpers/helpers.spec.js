@@ -4,6 +4,7 @@ import { generateStreamLink } from '../data/wowza';
 if (!global.fetch) {
   global.fetch = require('node-fetch'); // eslint-disable-line global-require
 }
+jest.setTimeout(30000);
 
 describe('Hlwint API Service', () => {
   let data;
@@ -110,5 +111,12 @@ describe('Hlwint API Service', () => {
   it('able to get server info', async () => {
     const serverInfoData = await service.getServerInfo();
     expect(serverInfoData).toMatchSnapshot();
+  });
+
+  it('able to get list of gift', async () => {
+    const blob = await data.json();
+    const { id, u_token } = blob.data;
+    const giftInfoData = await service.getGiftList(id, u_token);
+    expect(giftInfoData).toMatchSnapshot();
   });
 });

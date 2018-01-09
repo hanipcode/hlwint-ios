@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   input: {
     flexGrow: 70,
+    paddingHorizontal: 15,
     marginVertical: 8,
     alignSelf: 'stretch',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -19,6 +20,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     marginHorizontal: 5,
     borderRadius: 50,
+    color: '#FFF',
   },
   share: {
     backgroundColor: 'blue',

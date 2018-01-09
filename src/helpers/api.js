@@ -132,7 +132,9 @@ export function initBroadcast(broadcasterId, accessToken, title, tags) {
   }).then((response) => {
     if (response.status !== 200) {
       response.text().then(text => console.log('here', text));
-      throw new Error(`Error creating broadcast with response code ${response.status} uid is ${broadcasterId} acctoken is ${accessToken}, ${data}`);
+      throw new Error(`Error creating broadcast with response code ${
+        response.status
+      } uid is ${broadcasterId} acctoken is ${accessToken}, ${data}`);
     }
     return response.json();
   });
@@ -163,6 +165,40 @@ export function getServerInfo() {
     }
     return response.json();
   });
+}
+
+export function getGiftList(id, accessToken) {
+  console.log(id, accessToken);
+  function fetchItem(type) {
+    return fetch(`${BASE_URL}api/ml/giftitem`, {
+      headers: defaultHeaders,
+      method: 'POST',
+      body: JSON.stringify({
+        id,
+        u_token: accessToken,
+        item_type: type,
+      }),
+    }).then((response) => {
+      if (response.status !== 200) {
+        throw new Error(`Error Server Info with response code ${response.status}`);
+      }
+      return response.json();
+    });
+  }
+  const items = {};
+  return fetchItem('basic')
+    .then((basicData) => {
+      items.basic = basicData.basic;
+    })
+    .then(() => fetchItem('hot'))
+    .then((hotData) => {
+      items.hot = hotData.hot;
+    })
+    .then(() => fetchItem('premium'))
+    .then((premiumData) => {
+      items.premium = premiumData.premium;
+      return items;
+    });
 }
 
 // fetch('http://dashboard.imliveapp.com/api/ml/fblogin', {method: 'POST', headers: { Authorization: 'Basic dXNlcjpwYXNzd29yZA=='}}).then(data => data.json().then(dat=> console.log(dat)))
