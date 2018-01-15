@@ -23,7 +23,7 @@ export function* liveSaga(payload) {
       }
       const liveList = convertToState(liveFetchData.live_lists);
       yield put(fetchLiveFinish(liveList));
-      yield call(delay, 10000);
+      yield call(delay, 15000);
     } catch (error) {
       yield put(didReceiveError(ERROR_TAG.LIVE_FETCH_ERROR, error.message));
     }

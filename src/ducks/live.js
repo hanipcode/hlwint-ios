@@ -1,4 +1,4 @@
-import { Map, List, fromJS } from 'immutable';
+import { Map, List, fromJS, Seq } from 'immutable';
 
 export const FETCH_LIVE = 'fetch/fetchLive';
 export const FETCH_LIVE_START = 'fetch/fetchLiveStart';
@@ -75,3 +75,8 @@ export default function reducer(state = initialState, action) {
 
 export const getIsLoading = state => state.get('isFetching');
 export const getStreamList = state => state.get('liveList');
+// export const getStreamIds = (state) => {
+//   const list = state.get('liveList');
+//   const lazySeq = Seq(list);
+//   return lazySeq.map(streamData => streamData.id);
+// };

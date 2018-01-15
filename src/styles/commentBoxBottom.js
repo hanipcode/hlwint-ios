@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
     flexDirection: 'row',
     maxHeight: 50,
     alignItems: 'center',
@@ -22,15 +21,19 @@ export default StyleSheet.create({
     borderRadius: 50,
     color: '#FFF',
   },
-  share: {
-    backgroundColor: 'blue',
-  },
+  share: {},
   send: {
-    backgroundColor: 'blue',
     marginRight: 5,
   },
-  gift: {
-    backgroundColor: 'blue',
+  gift: {},
+  image: {
+    maxWidth: 32,
+    height: 32,
+  },
+  giftImage: {
+    maxWidth: 32.5,
+    height: 65,
+    marginBottom: 35,
   },
   space: {
     flex: 2,

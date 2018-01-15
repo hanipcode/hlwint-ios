@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableHighlight, TouchableOpacity, ScrollView, LayoutAnimation } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
 import styles from '../styles';
+import assets from '../assets';
 import { publishGift } from '../data/pubnub';
 import Loading from './LoadingPage';
+import DropdownPicker from './DropdownPicker';
 import CONSTANTS from '../constants';
 
 class GiftBox extends React.Component {
@@ -21,17 +23,30 @@ class GiftBox extends React.Component {
       u_full_name: PropTypes.string.isRequired,
       u_profile_pic: PropTypes.string.isRequired,
     }).isRequired,
+    onSendPress: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
     this.state = {
       index: 0,
+      selectedCount: null,
+      selectedGift: null,
+      selectedType: null,
     };
+    
   }
 
-  async onGiftPress(gift) {
+  onGiftPress(type, gift) {
+    this.setState({ selectedGift: gift, selectedType: type });
+  }
+  
+
+  async onSendPress() {
+    const { selectedGift: gift } = this.state;
     const { broadcasterId, userInfo } = this.props;
     const { id, u_full_name, u_profile_pic } = userInfo;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.onSendPress();
     await publishGift(
       broadcasterId.toString(),
       {
@@ -45,7 +60,7 @@ class GiftBox extends React.Component {
     );
   }
 
-  goToIndex(toIndex) {
+  onGoToIndex(toIndex) {
     const { index } = this.state;
     if (toIndex === index) return;
     this.setState({ index: toIndex });
@@ -57,8 +72,25 @@ class GiftBox extends React.Component {
     }
   }
 
+  onDropdownChangeIndex(selectedCount) {
+    this.setState({ selectedCount });
+  }
+
+  isGiftSelected(type, itemName) {
+    const { selectedGift, selectedType } = this.state;
+    if (!selectedGift || !selectedType) {
+      return false;
+    }
+    if (type !== selectedType) return false;
+    if (itemName !== selectedGift.cs_itemname) return false;
+    return true;
+  }
+  // async prepareGiftList(userId, accessToken) {
+  //   const giftList = await service.getGiftList(userId, accessToken);
+  //   return giftList;
+  // }
   render() {
-    const { index } = this.state;
+    const { index, selectedCount, selectedGift, selectedType } = this.state;
     const { giftList } = this.props;
     const { basic, hot, premium } = giftList;
     if (!basic || !hot || !premium) return <Loading backgroundColor="#FFF" />;
@@ -67,19 +99,19 @@ class GiftBox extends React.Component {
         <View style={styles.giftBox.buttonContainer}>
           <TouchableHighlight
             style={index === 0 ? styles.giftBox.selected : styles.giftBox.button}
-            onPress={() => this.goToIndex(0)}
+            onPress={() => this.onGoToIndex(0)}
           >
             <Text style={styles.giftBox.buttonText}>Hot</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={index === 1 ? styles.giftBox.selected : styles.giftBox.button}
-            onPress={() => this.goToIndex(1)}
+            onPress={() => this.onGoToIndex(1)}
           >
             <Text style={styles.giftBox.buttonText}>Basic</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={index === 2 ? styles.giftBox.selected : styles.giftBox.button}
-            onPress={() => this.goToIndex(2)}
+            onPress={() => this.onGoToIndex(2)}
           >
             <Text style={styles.giftBox.buttonText}>Premium</Text>
           </TouchableHighlight>
@@ -96,8 +128,8 @@ class GiftBox extends React.Component {
           <ScrollView contentContainerStyle={styles.giftBox.giftBox}>
             {hot.map(gift => (
               <TouchableOpacity
-                onPress={() => this.onGiftPress(gift)}
-                style={styles.giftBox.giftImageContainer}
+                onPress={() => this.onGiftPress('hot', gift)}
+                style={this.isGiftSelected('hot', gift.cs_itemname) ? styles.giftBox.giftImageContainerSelected : styles.giftBox.giftImageContainer}
                 key={gift.cs_itemname}
               >
                 <Image
@@ -117,9 +149,9 @@ class GiftBox extends React.Component {
           <ScrollView contentContainerStyle={styles.giftBox.giftBox}>
             {basic.map(gift => (
               <TouchableOpacity
-                onPress={() => this.onGiftPress(gift)}
+              onPress={() => this.onGiftPress('basic', gift)}
+              style={this.isGiftSelected('basic', gift.cs_itemname) ? styles.giftBox.giftImageContainerSelected : styles.giftBox.giftImageContainer}
                 key={`basic${gift.cs_itemname}`}
-                style={styles.giftBox.giftImageContainer}
               >
                 <Image
                   source={{
@@ -139,9 +171,9 @@ class GiftBox extends React.Component {
           <ScrollView contentContainerStyle={styles.giftBox.giftBox}>
             {premium.map(gift => (
               <TouchableOpacity
-                onPress={() => this.onGiftPress(gift)}
+              onPress={() => this.onGiftPress('premium', gift)}
+              style={this.isGiftSelected('premium', gift.cs_itemname) ? styles.giftBox.giftImageContainerSelected : styles.giftBox.giftImageContainer}
                 key={`premium${gift.cs_itemname}`}
-                style={styles.giftBox.giftImageContainer}
               >
                 <Image
                   source={{
@@ -159,30 +191,23 @@ class GiftBox extends React.Component {
           </ScrollView>
         </Swiper>
         <LinearGradient {...CONSTANTS.GRADIENTS_PROPS} style={styles.giftBox.footerBox}>
-          <View>
-            <Text>Balance</Text>
-            <Text>305</Text>
+          <View style={styles.giftBox.balanceBox}>
+            <Text style={styles.giftBox.balanceLabel}>Balance</Text>
+            <Image source={assets.nut} style={styles.giftBox.nutsIcon} resizeMode="contain" />
+            <Text style={styles.giftBox.balanceCount}>305</Text>
           </View>
-          <View style={styles.picker.container}>
-            <View style={styles.picker.activeContainer}>
-              <Text>1</Text>
-              <View style={styles.picker.pickerTriangle} />
-            </View>
-            <View style={styles.picker.option}>
-              <TouchableHighlight style={styles.picker.optionItem}>
-                <Text style={styles.picker.optionItemText}>2</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.picker.optionItem}>
-                <Text style={styles.picker.optionItemText}>3</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.picker.optionItem}>
-                <Text style={styles.picker.optionItemText}>4</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
+          <DropdownPicker
+            selected={selectedCount}
+            onDropdownChange={selectedIndex => this.onDropdownChangeIndex(selectedIndex)}
+          />
         </LinearGradient>
         <LinearGradient {...CONSTANTS.GRADIENTS_PROPS} style={styles.giftBox.footerBox}>
-          <View />
+          <TouchableHighlight style={styles.giftBox.footerButton}>
+            <Text style={styles.giftBox.footerButtonText}>Recharge</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.giftBox.footerButton} onPress={() => this.onSendPress()}>
+            <Text style={styles.giftBox.footerButtonText}>Send</Text>
+          </TouchableHighlight>
         </LinearGradient>
       </View>
     );

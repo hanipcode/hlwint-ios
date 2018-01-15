@@ -1,0 +1,123 @@
+import { StyleSheet, Dimensions } from 'react-native';
+
+export default StyleSheet.create({
+  container: {
+    position: 'absolute',
+    zIndex: 2,
+    top: 16,
+    left: 8,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  image: {
+    backgroundColor: 'red',
+    borderRadius: 17.5,
+    borderWidth: 2,
+    borderColor: '#FFFFFFaa',
+  },
+  text: {
+    marginLeft: 5,
+    color: '#FFFFFFEE',
+    fontWeight: '600',
+    fontSize: 13,
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 50,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingRight: 17.5,
+  },
+  coinContainer: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 50,
+    marginLeft: 8,
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    marginTop: 8,
+    paddingRight: 11,
+  },
+  coinImage: {
+    height: 21.6,
+    width: 21.5,
+  },
+  coinText: {
+    color: '#FFEB3B',
+    marginLeft: 6,
+    fontSize: 13,
+  },
+  viewerCount: {
+    height: 21.6,
+    flexDirection: 'row',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 50,
+    marginLeft: 8,
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    marginTop: 8,
+    paddingRight: 11,
+  },
+  viewText: {
+    color: '#FFFFFFEE',
+    fontWeight: '600',
+    fontSize: 13,
+    marginLeft: 26,
+  },
+  viewImage: {
+    height: 26.6,
+    width: 23.6,
+    position: 'absolute',
+    marginLeft: -2,
+  },
+  streamInfo: {
+    flexDirection: 'row',
+  },
+  close: {
+    position: 'absolute',
+    right: 0,
+  },
+  closeImage: {
+    height: 35 / 1.618 / 1.618,
+    width: 35 / 1.618 / 1.618,
+    top: 6,
+    right: 8 * 1.618,
+  },
+  viewerListHeader: {
+    width: 36,
+    height: 35,
+    borderRadius: 18,
+    backgroundColor: '#ddddddfa',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 3,
+  },
+  viewerListHeaderText: {
+    fontSize: 9,
+    color: '#777',
+    fontWeight: '900',
+  },
+  viewerListFooter: {
+    width: 35,
+    height: 35,
+    marginLeft: -17.5,
+    borderRadius: 17.5,
+    backgroundColor: '#ddddddfa',
+  },
+  viewerListItemCollapsed: {
+    borderRadius: 17.5,
+    marginLeft: -17.5,
+    borderWidth: 2,
+  },
+  viwerListItemExpanded: {
+    borderRadius: 17.5,
+    marginLeft: 3,
+    borderWidth: 2,
+  },
+  viewerList: {
+    marginLeft: 32,
+    marginRight: 10,
+    marginTop: 5,
+  },
+});

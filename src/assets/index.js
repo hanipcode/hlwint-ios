@@ -1,6 +1,15 @@
 /* eslint-disable global-require */
 export default {
   logo: require('./hwlint_logo.png'),
+  home: require('./home.png'),
+  live: require('./live.png'),
+  world: require('./world.png'),
+  menu: require('./menu.png'),
+  close: require('./cancel.png'),
+  plane: require('./send_icon.png'),
+  share: require('./share_icon.png'),
+  sendGift: require('./send_gift_icon.gif'),
+  refreshJump: require('./refresh_jump.gif'),
   tutorialSlide1: require('./t1_slide.png'),
   tutorialSlide1Text: require('./t1_text.png'),
   tutorialSlide2: require('./t2_image.png'),
@@ -9,6 +18,9 @@ export default {
   tutorialSlide3Text: require('./t3_text.png'),
   tutorialSlide4: require('./t4_image.png'),
   tutorialSlide4Text: require('./t4_text.png'),
+  nut: require('./nut.png'),
+  nutPlain: require('./nut_plain.png'),
+  eye: require('./eye.png'),
   heartGroup: [
     require('./heart_1.png'),
     require('./heart_2.png'),

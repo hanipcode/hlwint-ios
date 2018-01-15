@@ -9,5 +9,5 @@ export const WOWZA_APPLICATION = 'live';
 
 export function generateStreamLink(serverInfo, hash, broadcasterId) {
   const { ip_address } = serverInfo;
-  return `http://${ip_address}:${WOWZA_PORT}/${WOWZA_APPLICATION}/${hash}-${broadcasterId}/playlist.m3u8`;
+  return `http://${ip_address}:${WOWZA_PORT}/${WOWZA_APPLICATION}/ngrp:${hash}-${broadcasterId}_all/playlist.m3u8`;
 }

@@ -12,6 +12,9 @@ import commentItem from './commentItem';
 import commentBoxBottom from './commentBoxBottom';
 import giftBox from './giftBox';
 import picker from './dropdownPicker';
+import home from './home';
+import tabBar from './HomeTabBar';
+import watchLiveHeader from './watchLiveHeader';
 
 export default {
   login,
@@ -28,4 +31,7 @@ export default {
   commentBoxBottom,
   giftBox,
   picker,
+  home,
+  tabBar,
+  watchLiveHeader,
 };

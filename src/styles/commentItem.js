@@ -4,9 +4,10 @@ export default StyleSheet.create({
   container: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     flexDirection: 'row',
-    padding: 5,
-    margin: 5,
-    borderRadius: 10,
+    borderRadius: 15,
+    marginBottom: 8,
+    marginLeft: 8,
+    paddingRight: 30 / 1.618 / 1.618,
     alignSelf: 'flex-start',
   },
   image: {
@@ -21,12 +22,13 @@ export default StyleSheet.create({
   name: {
     color: '#E53935',
     fontWeight: '600',
-    marginLeft: 5,
+    marginLeft: 30 / 1.618 / 1.618,
     fontSize: 14,
   },
   content: {
     marginTop: 3,
     flexShrink: 1,
+    paddingVertical: 30 / 1.618 / 1.618 / 1.618 / 1.618,
     flexWrap: 'wrap',
     color: '#FFF',
   },

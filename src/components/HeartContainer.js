@@ -47,7 +47,7 @@ class HeartContainer extends Component {
               key={heartItem.id}
               id={heartItem.id}
               avatar={heartItem.avatar}
-              removeHeart={() => this.removeHeart(heartItem.id)}
+              removeHeart={() => requestAnimationFrame(() => this.removeHeart(heartItem.id))}
             />
           ))}
         </View>

@@ -26,7 +26,7 @@ class CommentItem extends React.Component {
   render() {
     const { avatar, name, content } = this.props;
     return (
-      <View style={styles.commentItem.container}>
+      <View style={styles.commentItem.container} pointerEvents="auto">
         <Image source={{ uri: avatar, width: 100, height: 100 }} style={styles.commentItem.image} />
         <Text style={styles.commentItem.content}>
           <Text style={styles.commentItem.name}>{name}: </Text>

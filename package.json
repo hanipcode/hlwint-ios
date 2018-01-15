@@ -26,6 +26,7 @@
     "pubnub": "^4.19.0",
     "react": "16.0.0",
     "react-native": "0.50.1",
+    "react-native-animated-linear-gradient": "^1.1.2",
     "react-native-blur": "^3.2.2",
     "react-native-device-info": "^0.12.1",
     "react-native-fbsdk": "^0.6.3",

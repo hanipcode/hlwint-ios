@@ -59,10 +59,12 @@ class Heart extends React.Component {
         Animated.timing(rightPosition, {
           toValue: Math.random() * 40 - (Math.random() * 50 + 10),
           duration: 2000,
+          useNativeDriver: true,
         }),
         Animated.timing(rightPosition, {
           toValue: -20,
           duration: 2000,
+          useNativeDriver: true,
         }),
       ]),
 
@@ -71,24 +73,31 @@ class Heart extends React.Component {
       },
     ).start();
     Animated.parallel([
-      Animated.spring(opacityValue, {
-        delay: 1000,
+      // Animated.spring(opacityValue, {
+      //   delay: 1000,
+      //   toValue: 100,
+      //   stiffness: 5,
+      //   damping: 6,
+      //   restDisplacementThreshold: 30,
+      //   restSpeedThreshold: 1,
+      //   useNativeDriver: true,
+      // }),
+      Animated.timing(opacityValue, {
         toValue: 100,
-        stiffness: 5,
-        damping: 6,
-        restDisplacementThreshold: 30,
-        restSpeedThreshold: 1,
+        duration: 2000,
+        useNativeDriver: true,
       }),
 
       Animated.timing(scaleValue, {
-        delay: 200,
         toValue: 100,
-        duration: 1000,
+        duration: 2000,
+        useNativeDriver: true,
       }),
 
       Animated.timing(heartPosition, {
-        toValue: height + 10,
+        toValue: (height + Math.random() * 100) * -1,
         duration: 5000 - Math.random() * 1000,
+        useNativeDriver: true,
       }),
     ]).start(() => removeHeart());
   }
@@ -121,10 +130,14 @@ class Heart extends React.Component {
         style={[
           styles.heart,
           {
-            bottom: heartPosition,
-            right: rightPosition,
+            bottom: 10,
+            right: -5,
             opacity: opacityInterpolated,
-            transform: [{ scale: scaleInterpolated }],
+            transform: [
+              { scale: scaleInterpolated },
+              { translateX: rightPosition },
+              { translateY: heartPosition },
+            ],
           },
         ]}
       >

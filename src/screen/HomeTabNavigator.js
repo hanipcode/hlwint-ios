@@ -1,7 +1,9 @@
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import Live from './Live';
 import Explore from './Explore';
 import Stream from './Stream';
+import HomeTabBar from '../components/HomeTabBar';
 
 const AppTabNavigator = TabNavigator(
   {
@@ -17,6 +19,7 @@ const AppTabNavigator = TabNavigator(
   },
   {
     lazy: true,
+    tabBarComponent: HomeTabBar,
   },
 );
 

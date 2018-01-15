@@ -67,6 +67,87 @@ export function uploadLastDevice(id, lastDevice, deviceOS, accessToken) {
   });
 }
 
+export function getUserProfile(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/userprofile`, {
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+    }),
+    headers: defaultHeaders,
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting current user profile ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getOtherUserProfile(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/otherprofile`, {
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+    }),
+    headers: defaultHeaders,
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting other user profile ${response.status}`);
+    }
+  });
+}
+
+export function getUserFollowing(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/getfollowing`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting user following ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getUserFollower(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/getfollowers`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting user follower ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function addOrRemoveFollowing(id, accessToken, targetId, param) {
+  return fetch(`${BASE_URL}api/ml/following`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      other_id: targetId,
+      param,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while add or remove follower ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
 export function sendTask(id, type, parameter, accessToken) {
   return fetch(`${BASE_URL}api/ml/tasklogs`, {
     method: 'POST',
@@ -202,3 +283,201 @@ export function getGiftList(id, accessToken) {
 }
 
 // fetch('http://dashboard.imliveapp.com/api/ml/fblogin', {method: 'POST', headers: { Authorization: 'Basic dXNlcjpwYXNzd29yZA=='}}).then(data => data.json().then(dat=> console.log(dat)))
+
+export function updateBroadcastEndtime(broadcasterId) {
+  return fetch(`${BASE_URL}api/ml/modifyendtime`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      user_id: broadcasterId,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while modify endtime ${response.status}`);
+    }
+    return response.json();
+  });
+}
+export function getBroadcasterLiveEnded(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/liveended`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting broadcastended response code ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function joinLive(id, accessToken, broadcasterId) {
+  return fetch(`${BASE_URL}api/ml/streamjoin`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      broadcaster_id: broadcasterId,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while joining stream response code ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function leaveLive(id, accessToken, broadcasterId) {
+  return fetch(`${BASE_URL}api/ml/streamleave`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      broadcaster_id: broadcasterId,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while leaving stream response code ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getViewerList(id) {
+  return fetch(`${BASE_URL}api/ml/getviewers?broadcaster_id=${id}`, {
+    headers: defaultHeaders,
+    method: 'GET',
+  }).then((response) => {
+    if (response.status !== 200) {
+      response.text().then(text => console.log('nyooh', text));
+      throw new Error(`Error while getting viewers ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getViewerLiveEnded(id, accessToken, broadcasterId) {
+  return fetch(`${BASE_URL}api/ml/viewerended`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      broadcaster_id: broadcasterId,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting viewerended response code ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function createTag(id, accessToken, tagName) {
+  return fetch(`${BASE_URL}api/ml/createtag`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      tag_name: tagName,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while creating tag ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getTagList(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/tag`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      limit: 30,
+      count: 1,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting tags list response code ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getStreamByTags(id, accessToken, tagId) {
+  return fetch(`${BASE_URL}api/ml/userusetag`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      tag_id: tagId,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting stream by tags response code ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getExploreData(id, accessToken) {
+  return fetch(`${BASE_URL}api/ml/explore`, {
+    method: 'POST',
+    headers: defaultHeaders,
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting explore data ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getTopRankData(id, accessToken, limit, offset) {
+  return fetch(`${BASE_URL}api/ml/toprank`, {
+    method: 'POST',
+    headers: defaultHeaders,
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      limit,
+      offset,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting top rank data ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+export function getNearbyData(id, accessToken, limit, offset) {
+  return fetch(`${BASE_URL}api/ml/nearby`, {
+    method: 'POST',
+    headers: defaultHeaders,
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      limit,
+      offset,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting nearby data ${response.status}`);
+    }
+    return response.json();
+  });
+}

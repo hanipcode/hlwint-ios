@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../styles';
 import { publishComment, subscribe } from '../data/pubnub';
@@ -33,12 +33,12 @@ class CommentBox extends React.Component {
     });
   }
 
-  // componentWillUnmount() {
-  //   const { subscription } = this.state;
-  //   if (subscription) {
-  //     subscription.unsubscribe();
-  //   }
-  // }
+  componentWillUnmount() {
+    const { subscription } = this.state;
+    if (subscription) {
+      subscription.unsubscribe();
+    }
+  }
 
   pushComment(sender, text) {
     const { id, name, avatar } = sender;
@@ -69,28 +69,29 @@ class CommentBox extends React.Component {
     };
     publishComment(broadcasterId.toString(), sender, text);
   }
-
+  renderItem({ item: comment }) {
+    return <CommentItem name={comment.name} avatar={comment.image} content={comment.content} />;
+  }
   render() {
     const { comments } = this.state;
     return (
-      <View style={styles.commentBox.container}>
-        <View style={{ height: 200, backgroundColor: 'transparent' }}>
-          <ScrollView
+      <View style={styles.commentBox.container} pointerEvents="box-none">
+        <View
+          style={{ height: 200, backgroundColor: 'transparent', marginRight: 80 }}
+          pointerEvents="box-none"
+        >
+          <FlatList
             contentContainerStyle={styles.commentBox.scrollViewContainer}
             contentOffset={{ x: 0, y: 1 }}
+            style={{ flex: 1 }}
             ref={(scrollView) => {
               this.scroll = scrollView;
             }}
-          >
-            {comments.map(comment => (
-              <CommentItem
-                key={comment.id + comments.length + comment.content}
-                name={comment.name}
-                avatar={comment.image}
-                content={comment.content}
-              />
-            ))}
-          </ScrollView>
+            pointerEvents="auto"
+            data={comments}
+            renderItem={item => this.renderItem(item)}
+            keyExtractor={(item, index) => `${item.id}index${index}`}
+          />
         </View>
         <CommentBoxBottom publishComment={this.publishComment} />
       </View>

@@ -12,6 +12,7 @@ import sagas from './sagas';
 import AppNavigator from './routeConfig';
 
 // export const AppNavigator = StackNavigator(routeConfig);
+console.disableYellowBox = true;
 
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [thunk, sagaMiddleware];
@@ -32,7 +33,7 @@ const logger = createLogger({
   },
 });
 
-middlewares.push(logger);
+// middlewares.push(logger);
 
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducers);
 
