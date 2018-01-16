@@ -1,11 +1,15 @@
 // import { takeEvery, takeLatest } from 'redux-saga';
-import { takeEvery, takeLatest, fork } from 'redux-saga/effects';
+import { takeEvery, takeLatest, fork, all } from 'redux-saga/effects';
 import { USER_LOGIN, USER_ALREADY_LOGGEDIN } from '../ducks/login';
 import loginSaga, { uploadDeviceSaga } from './loginSaga';
 import liveSaga from './liveSaga';
+import watchPubnub from './watchLiveSaga';
 
 export default function* rootSaga() {
-  yield takeEvery(USER_LOGIN, loginSaga);
-  yield takeEvery(USER_ALREADY_LOGGEDIN, uploadDeviceSaga);
-  yield fork(liveSaga);
+  yield all([
+    takeEvery(USER_LOGIN, loginSaga),
+    takeEvery(USER_ALREADY_LOGGEDIN, uploadDeviceSaga),
+    fork(liveSaga),
+    fork(watchPubnub),
+  ]);
 }

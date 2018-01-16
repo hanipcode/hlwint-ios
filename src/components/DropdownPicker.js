@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity, Text, Animated, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, Dimensions, LayoutAnimation } from 'react-native';
 import _ from 'lodash';
 import styles from '../styles';
 
@@ -29,6 +29,7 @@ class DropdownPicker extends React.Component {
 
   onActivePress() {
     const { optionHeight, optionOpacity, expanded } = this.state;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Animated.parallel([
       Animated.timing(optionOpacity, {
         toValue: expanded ? 0 : 1,
@@ -40,7 +41,8 @@ class DropdownPicker extends React.Component {
         toValue: expanded ? 0 : -10,
         useNativeDriver: true,
       }),
-    ]).start(() => this.setState({ expanded: !expanded }));
+    ]).start();
+    this.setState({ expanded: !expanded });
   }
 
   onOptionPress(selected) {
@@ -69,8 +71,9 @@ class DropdownPicker extends React.Component {
         <Animated.View
           style={[
             styles.picker.option,
+            !expanded && { height: 0 },
             {
-              transform: [{ translateY: optionHeight }, { translateX: optionHeight }],
+              transform: [{ translateY: optionHeight }],
               opacity: optionOpacity,
             },
           ]}

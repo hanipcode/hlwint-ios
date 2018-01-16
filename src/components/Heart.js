@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     position: 'absolute',
-    bottom: 0,
+    // bottom: 0,
   },
   heartShape: {
     width: 30,
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
 
 class Heart extends React.Component {
   static propTypes = {
-    removeHeart: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired,
     avatar: PropTypes.string.isRequired,
   };
@@ -46,6 +45,7 @@ class Heart extends React.Component {
       rightPosition: new Animated.Value(-10),
       opacityValue: new Animated.Value(0),
       scaleValue: new Animated.Value(0),
+      isRemoved: false,
     };
   }
 
@@ -73,18 +73,13 @@ class Heart extends React.Component {
       },
     ).start();
     Animated.parallel([
-      // Animated.spring(opacityValue, {
-      //   delay: 1000,
-      //   toValue: 100,
-      //   stiffness: 5,
-      //   damping: 6,
-      //   restDisplacementThreshold: 30,
-      //   restSpeedThreshold: 1,
-      //   useNativeDriver: true,
-      // }),
-      Animated.timing(opacityValue, {
+      Animated.spring(opacityValue, {
+        delay: 1000,
         toValue: 100,
-        duration: 2000,
+        stiffness: 5,
+        damping: 6,
+        restDisplacementThreshold: 30,
+        restSpeedThreshold: 1,
         useNativeDriver: true,
       }),
 
@@ -95,26 +90,22 @@ class Heart extends React.Component {
       }),
 
       Animated.timing(heartPosition, {
-        toValue: (height + Math.random() * 100) * -1,
-        duration: 5000 - Math.random() * 1000,
+        toValue: (height + Math.random() * 1000) * -1,
+        duration: 5000 - Math.random() * 200,
         useNativeDriver: true,
       }),
-    ]).start(() => removeHeart());
+    ]).start(() => this.removeHeart());
   }
 
-  rainbowColor(numOfSteps, step) {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+  removeHeart() {
+    this.setState({ isRemoved: true });
   }
 
   render() {
     const {
-      heartPosition, rightPosition, opacityValue, scaleValue,
+      heartPosition, rightPosition, opacityValue, scaleValue, isRemoved,
     } = this.state;
+    if (isRemoved) return null;
     const { id, avatar } = this.props;
     const opacityInterpolated = opacityValue.interpolate({
       inputRange: [0, 100],
@@ -126,6 +117,7 @@ class Heart extends React.Component {
     });
     return (
       <Animated.View
+        pointerEvents="none"
         {...this.props}
         style={[
           styles.heart,

@@ -58,7 +58,7 @@ class CommentBoxBottom extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.commentBoxBottom.gift}
-            onPress={() => dispatch(toggleGiftBox())}
+            onPress={() => requestAnimationFrame(() => dispatch(toggleGiftBox()))}
           >
             <Image style={styles.commentBoxBottom.giftImage} source={assets.sendGift} />
           </TouchableOpacity>

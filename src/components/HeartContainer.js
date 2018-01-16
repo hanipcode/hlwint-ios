@@ -1,59 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { List } from 'immutable';
+import { connect } from 'react-redux';
+import { View } from 'react-native';
+import { getHeartIdList } from '../ducks/watchLive';
 import Heart from './Heart';
 import styles from '../styles';
 
 class HeartContainer extends Component {
+  static propTypes = {
+    heartIdList: PropTypes.instanceOf(List).isRequired,
+  };
   constructor(props) {
     super(props);
-    this.state = {
-      heart: [],
-      lastId: 0,
-    };
+    this.state = {};
   }
-
-  componentDidMount() {
-    const { heart } = this.state;
-  }
-
-  addHeart(sender) {
-    const { heart, lastId } = this.state;
-    const { avatar } = sender;
-    const nextId = lastId + 1;
-    heart.push({
-      id: nextId,
-      avatar,
-    });
-    this.setState({ heart, lastId: nextId });
-  }
-
-  removeHeart(id) {
-    const { heart } = this.state;
-    this.setState({ heart: heart.filter(heartItem => heartItem.id !== id) });
-  }
-
   render() {
-    const { heart } = this.state;
-    if (!heart) {
+    const { heartIdList } = this.props;
+    if (heartIdList.size === 0) {
       return null;
     }
     return (
-      <View>
-        <View style={styles.heartContainer.container}>
-          <Text>{heart.length}</Text>
-          {heart.map(heartItem => (
-            <Heart
-              key={heartItem.id}
-              id={heartItem.id}
-              avatar={heartItem.avatar}
-              removeHeart={() => requestAnimationFrame(() => this.removeHeart(heartItem.id))}
-            />
-          ))}
-        </View>
+      <View style={styles.heartContainer.container} pointerEvents="none">
+        {/* <Text style={{ color: '#FFF' }}>{heart.length}</Text> */}
+        {heartIdList.map(heartItem => (
+          <Heart
+            key={heartItem}
+            id={heartItem}
+            // avatar={heartItem.avatar}
+            // removeHeart={() => this.removeHeart(heartItem.id)}
+          />
+        ))}
       </View>
     );
   }
 }
 
-export default HeartContainer;
+const mapStateToProps = state => ({
+  heartIdList: getHeartIdList(state.watchLiveReducer),
+});
+
+export default connect(mapStateToProps)(HeartContainer);

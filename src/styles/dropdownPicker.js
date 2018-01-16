@@ -40,7 +40,7 @@ export default StyleSheet.create({
     flexGrow: 1,
     alignItems: 'flex-end',
     paddingRight: 5,
-    marginBottom: 5,
+    paddingBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#777',
   },

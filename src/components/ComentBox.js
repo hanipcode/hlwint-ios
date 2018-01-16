@@ -49,7 +49,7 @@ class CommentBox extends React.Component {
       image: avatar,
       content: text,
     });
-    this.setState({ comments }, () => requestAnimationFrame(() => this.scroll.scrollToEnd()));
+    this.setState({ comments }, () => this.scroll.scrollToEnd());
   }
 
   messageHandler(handler) {

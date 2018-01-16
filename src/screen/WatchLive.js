@@ -18,10 +18,17 @@ import AnimatedGradient, { presetColors } from 'react-native-animated-linear-gra
 import { generateStreamLink } from '../data/wowza';
 import Storage from '../data/storage';
 import * as service from '../helpers/api';
-import { subscribe, publishHeart } from '../data/pubnub';
+import { subscribe } from '../data/pubnub';
 import styles from '../styles';
 import { fetchLive, getStreamList } from '../ducks/live';
-import { getIsShowGiftBox, toggleGiftBox } from '../ducks/watchLive';
+import {
+  getIsShowGiftBox,
+  toggleGiftBox,
+  subscribeBroadcaster,
+  unsubscribeBroadcaster,
+  addHeart,
+  publishHeart,
+} from '../ducks/watchLive';
 import HeartContainer from '../components/HeartContainer';
 import CommentBox from '../components/ComentBox';
 import GiftBox from '../components/GiftBox';
@@ -126,7 +133,7 @@ class WatchLive extends React.Component {
   }
 
   async componentWillMount() {
-    const { navigation } = this.props;
+    const { navigation, dispatch } = this.props;
     const { params } = navigation.state;
     const { broadcasterId, accessToken } = params;
     const serverInfo = await Storage.getServerInfo();
@@ -135,6 +142,8 @@ class WatchLive extends React.Component {
     const broadcastDetail = await service.getBroadcastDetail(id, accessToken, broadcasterId);
     const { data } = broadcastDetail;
     const { hash } = data;
+    dispatch(subscribeBroadcaster(broadcasterId.toString(), id));
+    
     const newSubscription = await subscribe(
       broadcasterId.toString(),
       p => this.presenceHandler(p),
@@ -150,15 +159,15 @@ class WatchLive extends React.Component {
     });
   }
 
-  // componentWillUnmount() {
-  //   const { subscription } = this.state;
-  //   if (!subscription) return;
-  //   subscription.unsubscribe();
-  // }
+  onClosePress() {
+    const { navigation, dispatch } = this.props;
+    const { params } = navigation.state;
+    const { broadcasterId } = params;
+    dispatch(unsubscribeBroadcaster(broadcasterId));
+    navigation.dispatch(resetToLive);
+  }
 
   onLoadStart(e) {
-    console.log('this load start');
-    console.log(e);
     this.setState({
       buffer: true,
       paused: false,
@@ -166,7 +175,6 @@ class WatchLive extends React.Component {
   }
   onProgress() {
     const { buffer, screenLoading } = this.state;
-    console.log('this on progress');
     // console.log(e);
     if (buffer) {
       this.setState({
@@ -181,26 +189,18 @@ class WatchLive extends React.Component {
   }
   onError(e) {
     const { navigation } = this.props;
-    console.log('onError');
-    console.log(e);
     Alert.alert('Yah videonya error');
     navigation.dispatch(resetToLive);
   }
   onBuffer(e) {
     console.log('onBuffer');
-    console.log(e);
     this.setState({
       buffer: e.isBuffering,
     });
   }
-  // onBack() {
-  //   const { dispatch, navigation } = this.props;
-  //   navigation.goBack(null);
-  //   dispatch(fetchLive());
-  // }
 
-  async onHeartAreaPress() {
-    const { navigation } = this.props;
+  onHeartAreaPress() {
+    const { navigation, dispatch } = this.props;
     const { userInfo } = this.state;
     const { params } = navigation.state;
     const { broadcasterId } = params;
@@ -211,9 +211,7 @@ class WatchLive extends React.Component {
       name: u_full_name,
       avatar: u_profile_pic,
     };
-    this.heartContainer.addHeart(sender);
-
-    await publishHeart(broadcasterId, sender);
+    dispatch(publishHeart(broadcasterId, sender));
   }
 
   /* SWIPE UP AND DOWN CALLBACK FROM ANIMATION */
@@ -246,12 +244,6 @@ class WatchLive extends React.Component {
       broadcasterId: previousBroadcasterId,
     };
     navigation.dispatch(resetToNextStream(nextParam));
-    // navigation.navigate('WatchLive', {
-    //   id,
-    //   accessToken,
-    //   liveImage,
-    //   broadcasterId: previousBroadcasterId,
-    // });
   }
 
   async onSwipeUp() {
@@ -283,12 +275,6 @@ class WatchLive extends React.Component {
       broadcasterId: nextBroadcasterId,
     };
     navigation.dispatch(resetToNextStream(nextParam));
-    // navigation.navigate('WatchLive', {
-    //   id,
-    //   accessToken,
-    //   liveImage,
-    //   broadcasterId: nextBroadcasterId,
-    // });
   }
   /* END OF SWIPE UP AND DOWN CALLBACK FROM ANIMATION */
 
@@ -299,15 +285,13 @@ class WatchLive extends React.Component {
 
   messageHandler(handler) {
     if (!this.heartContainer) return;
-    console.log('message');
+    const { dispatch } = this.props;
     const { message } = handler;
     const { type, sender } = message;
     const { userInfo } = this.state;
-    console.log(message);
     if (!userInfo) return;
     if (type === 'heart') {
       if (sender.id === userInfo.id) return;
-      this.heartContainer.addHeart(sender);
     }
     if (type === 'like') {
       const { item_count, item_image, item_name } = message;
@@ -335,22 +319,9 @@ class WatchLive extends React.Component {
     const { navigation, isGiftBoxShowed } = this.props;
     const { params } = navigation.state;
     const { broadcasterId, liveImage } = params;
-    // if using implementation below, screen is flashing
-    // if (!serverInfo || !hash) {
-    //   return (
-    //     <View style={styles.watchLive.loadingContainer}>
-    //       <Image
-    //         source={{ uri: liveImage, height: 400, width: 400 }}
-    //         style={styles.watchLive.loadingContainerImage}
-    //         resizeMode="cover"
-    //       />
-    //     </View>
-    //   );
-    // }
-
     return (
       <View style={{ flex: 1 }}>
-        <Header onClosePress={() => navigation.dispatch(resetToLive)} viewerList={data} />
+        <Header onClosePress={() => this.onClosePress()} viewerList={data} />
         {serverInfo &&
           hash && (
             <Video
@@ -399,9 +370,6 @@ class WatchLive extends React.Component {
           )}
 
         <HeartContainer
-          ref={(heartContainer) => {
-            this.heartContainer = heartContainer;
-          }}
         />
         <GiftAnimator
           ref={(animator) => {
@@ -413,8 +381,7 @@ class WatchLive extends React.Component {
             <View style={styles.watchLive.heartTouchableArea} />
           </TouchableWithoutFeedback>
         )}
-        {userInfo &&
-          !isGiftBoxShowed && <CommentBox userInfo={userInfo} broadcasterId={broadcasterId} />}
+        {userInfo && <CommentBox userInfo={userInfo} broadcasterId={broadcasterId} />}
         {isGiftBoxShowed &&
           giftList && (
             <GiftBox
