@@ -2,13 +2,13 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   header: {
-    paddingTop: 10,
+    paddingTop: 22,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 20,
+    paddingBottom: 10,
   },
   logo: {
-    height: 40,
+    height: 32.5,
   },
   listContainer: {
     paddingTop: 60,
@@ -16,7 +16,7 @@ export default StyleSheet.create({
   profile_picture: {
     position: 'absolute',
     right: 12,
-    top: 15.5,
+    top: 25,
     borderRadius: 17.5,
     borderWidth: 1,
     borderColor: '#FFFFFFaa',

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import Sound from 'react-native-sound';
+import ZawgyiText from './ZawgyiText';
 import styles from '../styles';
 
 const pop = new Sound('pop.wav', Sound.MAIN_BUNDLE, (error) => {
@@ -28,10 +29,10 @@ class CommentItem extends React.Component {
     return (
       <View style={styles.commentItem.container} pointerEvents="auto">
         <Image source={{ uri: avatar, width: 100, height: 100 }} style={styles.commentItem.image} />
-        <Text style={styles.commentItem.content}>
-          <Text style={styles.commentItem.name}>{name}: </Text>
+        <ZawgyiText style={styles.commentItem.content}>
+          <ZawgyiText style={styles.commentItem.name}>{name}: </ZawgyiText>
           {content}
-        </Text>
+        </ZawgyiText>
       </View>
     );
   }

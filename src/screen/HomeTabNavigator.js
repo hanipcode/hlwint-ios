@@ -1,6 +1,5 @@
-import React from 'react';
 import { TabNavigator } from 'react-navigation';
-import Live from './Live';
+import LiveNavigator from './LiveAndWatchNavigator';
 import Explore from './Explore';
 import Stream from './Stream';
 import HomeTabBar from '../components/HomeTabBar';
@@ -8,7 +7,7 @@ import HomeTabBar from '../components/HomeTabBar';
 const AppTabNavigator = TabNavigator(
   {
     Live: {
-      screen: Live,
+      screen: LiveNavigator,
     },
     Stream: {
       screen: Stream,

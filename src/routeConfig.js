@@ -1,27 +1,31 @@
 import { StackNavigator } from 'react-navigation';
 import { Easing, Animated } from 'react-native';
-import LoginPage from './screen/LoginPage';
+import LoginPageNavigator from './screen/LoginPageNavigator';
 import Tutorial from './screen/Tutorial';
 import Home from './screen/HomeTabNavigator';
 import WatchLive from './screen/WatchLive';
-import CommentBox from './components/GiftAnimator';
+import PrivacyPolicy from './screen/PrivacyPolicy';
+import TermOfUse from './screen/TermOfUse';
 
 export default StackNavigator(
   {
     // CommentBox: {
     //   screen: CommentBox,
     // },
+    // TermOfUse: {
+    //   screen: TermOfUse,
+    // },
+    // PrivacyPolicy: {
+    //   screen: PrivacyPolicy,
+    // },
     Login: {
-      screen: LoginPage,
+      screen: LoginPageNavigator,
     },
     Tutorial: {
       screen: Tutorial,
     },
     Home: {
       screen: Home,
-    },
-    WatchLive: {
-      screen: WatchLive,
     },
   },
   {
@@ -32,5 +36,6 @@ export default StackNavigator(
         timing: Animated.timing,
       },
     }),
+    headerMode: 'none',
   },
 );

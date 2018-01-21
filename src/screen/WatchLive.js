@@ -26,8 +26,9 @@ import {
   toggleGiftBox,
   subscribeBroadcaster,
   unsubscribeBroadcaster,
-  addHeart,
   publishHeart,
+  resetHeart,
+  resetComment,
 } from '../ducks/watchLive';
 import HeartContainer from '../components/HeartContainer';
 import CommentBox from '../components/ComentBox';
@@ -95,13 +96,16 @@ const data = [
 ];
 const resetToLive = NavigationActions.reset({
   index: 0,
-  actions: [{ routeName: 'Home' }],
+  actions: [{ routeName: 'Live' }],
 });
 
 const resetToNextStream = params =>
   NavigationActions.reset({
-    index: 0,
+    index: 1,
     actions: [
+      NavigationActions.navigate({
+        routeName: 'Live',
+      }),
       NavigationActions.navigate({
         routeName: 'WatchLive',
         params,
@@ -143,7 +147,7 @@ class WatchLive extends React.Component {
     const { data } = broadcastDetail;
     const { hash } = data;
     dispatch(subscribeBroadcaster(broadcasterId.toString(), id));
-    
+
     const newSubscription = await subscribe(
       broadcasterId.toString(),
       p => this.presenceHandler(p),
@@ -164,7 +168,7 @@ class WatchLive extends React.Component {
     const { params } = navigation.state;
     const { broadcasterId } = params;
     dispatch(unsubscribeBroadcaster(broadcasterId));
-    navigation.dispatch(resetToLive);
+    navigation.goBack();
   }
 
   onLoadStart(e) {
@@ -219,7 +223,7 @@ class WatchLive extends React.Component {
     const userInfo = await Storage.getUser();
     if (!userInfo) return;
 
-    const { navigation, streamList } = this.props;
+    const { navigation, streamList, dispatch } = this.props;
     const { params } = navigation.state;
     const { accessToken, broadcasterId } = params;
     const { id } = userInfo;
@@ -250,7 +254,7 @@ class WatchLive extends React.Component {
     const userInfo = await Storage.getUser();
     if (!userInfo) return;
 
-    const { navigation, streamList } = this.props;
+    const { navigation, streamList, dispatch } = this.props;
     const { params } = navigation.state;
     const { accessToken, broadcasterId } = params;
     const { id } = userInfo;
@@ -320,7 +324,7 @@ class WatchLive extends React.Component {
     const { params } = navigation.state;
     const { broadcasterId, liveImage } = params;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: 'transparent' }} >
         <Header onClosePress={() => this.onClosePress()} viewerList={data} />
         {serverInfo &&
           hash && (
@@ -369,8 +373,7 @@ class WatchLive extends React.Component {
             </View>
           )}
 
-        <HeartContainer
-        />
+        <HeartContainer />
         <GiftAnimator
           ref={(animator) => {
             this.giftAnimator = animator;
@@ -397,6 +400,7 @@ class WatchLive extends React.Component {
               source={{ uri: liveImage, height: 400, width: 400 }}
               style={styles.watchLive.loadingContainerImage}
               resizeMode="cover"
+              blurRadius={2}
             />
             <Image
               source={assets.refreshJump}

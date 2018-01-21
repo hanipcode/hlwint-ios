@@ -39,14 +39,17 @@ const initialState = Map({
 /*
   "live_lists": Array [
     Object {
-      "first_name": "Ashoka",
-      "id": 1314,
+      "broadcast_title": "bb",
+      "first_name": "Khant",
+      "id": 625,
       "larger_profile_pic": null,
-      "last_name": "Ashoka",
-      "nick_name": "ashoka1314",
-      "profile_pic": "https://graph.facebook.com/167476340512637/picture?type=large",
+      "last_name": "Soe",
+      "location": "",
+      "nick_name": "khant625",
+      "profile_pic": "https://graph.facebook.com/371163280020749/picture?type=large",
+      "tag": Array [],
       "type": 1,
-      "view_count": 11,
+      "view_count": 34,
     },
   ],
 */
@@ -56,6 +59,10 @@ export function convertToState(liveListJson) {
     name: `${liveItem.first_name} ${liveItem.last_name}`,
     liveImage: liveItem.larger_profile_pic || liveItem.profile_pic,
     viewCount: liveItem.view_count,
+    tags: liveItem.tag,
+    location: liveItem.location,
+    isOfficial: liveItem.type === 4,
+    title: liveItem.broadcast_title,
   }));
 }
 

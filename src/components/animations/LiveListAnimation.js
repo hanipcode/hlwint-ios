@@ -13,6 +13,21 @@ export default function WithHideCards(WrappedComponent) {
         overlayOpacity: new Animated.Value(0),
       };
     }
+    resetState() {
+      const { cardsOpacity, overlayOpacity } = this.state;
+      Animated.parallel([
+        Animated.timing(cardsOpacity, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(overlayOpacity, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
     animateCards(callback) {
       const { cardsOpacity, overlayOpacity } = this.state;
       Animated.parallel([
@@ -26,11 +41,10 @@ export default function WithHideCards(WrappedComponent) {
           duration: 200,
           useNativeDriver: true,
         }),
-      ]).start(() => {
-        if (callback) {
-          callback();
-        }
-      });
+      ]).start(() => this.resetState());
+      if (callback) {
+        callback();
+      }
     }
     render() {
       const { cardsOpacity, overlayOpacity } = this.state;

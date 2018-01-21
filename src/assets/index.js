@@ -1,6 +1,9 @@
 /* eslint-disable global-require */
 export default {
   logo: require('./hwlint_logo.png'),
+  logo_white: require('./hlwint_logo_white.png'),
+  location_icon: require('./location_icon.png'),
+  broadcast_button: require('./broadcast_button.png'),
   home: require('./home.png'),
   live: require('./live.png'),
   world: require('./world.png'),
@@ -21,6 +24,9 @@ export default {
   nut: require('./nut.png'),
   nutPlain: require('./nut_plain.png'),
   eye: require('./eye.png'),
+  home_bg: require('./home_bg.png'),
+  facebook_login: require('./facebook_login.png'),
+  view_count_holder: require('./view_count_holder.png'),
   heartGroup: [
     require('./heart_1.png'),
     require('./heart_2.png'),

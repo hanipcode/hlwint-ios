@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -6,17 +8,16 @@ export default StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    width: null,
-    height: null,
-    alignSelf: 'center',
+    height: height / 1.618,
+    top: height / 1.618 / 1.618 / 1.618 / 1.618,
+    left: width / 4,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 80,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   textImage: {
     position: 'absolute',
-    top: 5,
+    bottom: height / 1.618 / 1.618 / 1.618 / 1.618,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -26,13 +27,13 @@ export default StyleSheet.create({
     flex: 1,
     position: 'absolute',
     alignSelf: 'center',
-    alignItems: 'stretch',
-    padding: 15,
-    paddingHorizontal: 60,
+    alignItems: 'center',
+    width: width / 1.618,
+    paddingVertical: 10,
     marginHorizontal: 5,
-    bottom: 65,
-    backgroundColor: '#e74c3c',
-    borderWidth: 1,
+    top: height / 1.618 / 1.618 / 1.618 / 1.618 / 1.618 / 1.618,
+    backgroundColor: '#C62828',
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#FFF',
     borderRadius: 5,
   },
@@ -43,5 +44,9 @@ export default StyleSheet.create({
     flex: 1,
     maxHeight: 100,
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  paginationStyle: {
+    color: '#FFF',
+    marginBottom: 100,
   },
 });

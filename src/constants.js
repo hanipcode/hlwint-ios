@@ -3,8 +3,8 @@ export default {
     LOGIN: 'UserLogin',
   },
   GRADIENTS_PROPS: {
-    colors: ['#D81B60', '#E91E63', '#f44336'],
-    lications: [0, 0.2, 1],
+    colors: ['#DE0996', '#E91E63', '#F36E23'],
+    lications: [0, 0.7, 1],
     start: { x: 1, y: 0 },
     end: { x: 0, y: 0 },
   },
@@ -12,4 +12,5 @@ export default {
     customColors: ['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.7)'],
     speed: 2000,
   },
+  PLACEHOLDER_URI: 'http://via.placeholder.com/255/E91E63/E91E63/',
 };

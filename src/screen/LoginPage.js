@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
+import { Text, TouchableOpacity, Image, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import { AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { actionCreators, selectAccessToken, reLogin, selectIsLoading } from '../ducks/login';
-import { getLastError, didReceiveError, ERROR_TAG, ERROR_MESSAGE } from '../ducks/error';
+import error, { getLastError, didReceiveError, ERROR_TAG, ERROR_MESSAGE } from '../ducks/error';
 import withError from '../helpers/errorHandler';
 import AssetManager from '../assets';
 import StylesManager from '../styles';
 import Storage from '../data/storage';
 import Loading from '../components/LoadingPage';
+import constants from '../constants';
 
 const styles = StylesManager.login;
 
 class Login extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    // navigation: PropTypes.shape({
-    //   navigate: PropTypes.func.isRequired,
-    // }).isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
     isFetching: PropTypes.bool.isRequired,
+  };
+
+  static navigationOptions = {
+    header: () => <View style={{ height: 0, backgroundColor: 'white', paddingTop: 22 }} />,
   };
 
   constructor(props) {
@@ -45,18 +50,34 @@ class Login extends Component {
     }
   }
 
-  onFacebookLogin(error, result) {
-    if (error) {
-      alert(`Login Has Error${result.error}`);
-    } else if (result.canceled) {
-      alert('login is canceled');
-    } else {
-      this.setState({ isLoading: true });
-      AccessToken.getCurrentAccessToken().then(() => {
-        this.buildUserProfileRequest();
+  onLoginButtonPress() {
+    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+      .then((result) => {
+        if (result.isCancelled) {
+          alert('login is canceled');
+        } else {
+          this.setState({ isLoading: true });
+          AccessToken.getCurrentAccessToken().then(() => {
+            this.buildUserProfileRequest();
+          });
+        }
+      })
+      .catch((err) => {
+        alert(`Login Has Error${err}`);
       });
-    }
   }
+
+  // onFacebookLogin(error, result) {
+  //   if (error) {
+  //   } else if (result.canceled) {
+  //     alert('login is canceled');
+  //   } else {
+  //     this.setState({ isLoading: true });
+  //     AccessToken.getCurrentAccessToken().then(() => {
+  //       this.buildUserProfileRequest();
+  //     });
+  //   }
+  // }
 
   buildUserProfileRequest() {
     const userProfileRequest = new GraphRequest(
@@ -92,25 +113,40 @@ class Login extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { isFetching } = this.props;
+    const { isFetching, navigation } = this.props;
     console.log(isFetching);
-    if (isLoading || isFetching) {
-      return <Loading />;
-    }
+
     return (
-      <LinearGradient
-        style={styles.container}
-        colors={['#D81B60', '#E91E63', '#f44336']}
-        locations={[0, 0.2, 1]}
-        start={{ x: 1, y: 0 }}
-        end={{ x: 0, y: 0 }}
-      >
+      <LinearGradient style={styles.container} {...constants.GRADIENTS_PROPS}>
+        <View style={styles.backgroundImageContainer}>
+          <Image source={AssetManager.home_bg} style={styles.backgroundImage} resizeMode="cover" />
+        </View>
+        <View style={styles.backgroundOverlay} />
         <Image source={AssetManager.logo} style={styles.logo} />
-        <LoginButton
-          readPermissions={['public_profile', 'email']}
-          style={styles.loginButton}
-          onLoginFinished={(error, result) => this.onFacebookLogin(error, result)}
-        />
+        <TouchableOpacity onPress={() => this.onLoginButtonPress()} style={styles.facebookLogin}>
+          <Image
+            source={AssetManager.facebook_login}
+            style={styles.facebookLoginImage}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        <View style={styles.textContainer}>
+          <Text style={{ textAlign: 'center', color: '#777', fontSize: 12 }}>
+            By continuing, you agree to our {'\n'}
+            <Text style={{ fontWeight: '900' }} onPress={() => navigation.navigate('TermOfUse')}>
+              Term of services{' '}
+            </Text>
+            and
+            <Text
+              style={{ fontWeight: '900' }}
+              onPress={() => navigation.navigate('PrivacyPolicy')}
+            >
+              {' '}
+              Privacy Policy
+            </Text>
+          </Text>
+        </View>
+        {(isLoading || isFetching) && <Loading backgroundColor="rgba(0, 0, 0, 0.8)" />}
       </LinearGradient>
     );
   }

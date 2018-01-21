@@ -18,7 +18,7 @@ const TutorialSlide = ({
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableHighlight>
     )}
-    <View style={styles.textImageBg} />
+    {/* <View style={styles.textImageBg} /> */}
   </LinearGradient>
 );
 

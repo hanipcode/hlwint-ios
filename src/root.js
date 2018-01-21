@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import { connect, Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -12,7 +13,10 @@ import sagas from './sagas';
 import AppNavigator from './routeConfig';
 
 // export const AppNavigator = StackNavigator(routeConfig);
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
+// Text.defaultProps.style = {
+//   fontFamily: 'Zawgyi-One',
+// };
 
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [thunk, sagaMiddleware];

@@ -1,42 +1,42 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    flexDirection: 'column-reverse',
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-  },
-  imageContainer: {
-    flexDirection: 'row-reverse',
-    margin: 5,
-    alignItems: 'center',
-  },
-  image: {
-    height: 28,
-    width: 28,
-  },
-  imageClose: {
-    height: 20,
-    width: 20,
-  },
-  imageStyle: {
-    borderRadius: 25,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    padding: 10,
-  },
-  label: {
-    flexShrink: 1,
-    paddingHorizontal: 12.5,
-    paddingVertical: 4,
-    borderRadius: 12.5,
-    marginRight: 2,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    overflow: 'hidden',
-    color: '#FFF',
-  },
-  close: {
+    flexDirection: 'row',
     position: 'absolute',
     right: 0,
+    left: 0,
+    bottom: 0,
+    alignItems: 'center',
+    height: 40,
+  },
+  buttonText: {
+    flex: 4,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
+  buttonImage: {
+    position: 'absolute',
+    width: 50,
+    resizeMode: 'contain',
+    top: -40,
+    left: -25,
+  },
+  backgroundOverlay: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.125)',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: width / 2,
+  },
+  text: {
+    color: '#FFF',
+    fontWeight: '600',
+    textShadowOffset: { width: 1, height: 0 },
+    textShadowRadius: 3,
+    textShadowColor: 'rgba(0, 0, 0, .5)',
   },
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
 import Swiper from 'react-native-swiper';
@@ -19,7 +20,13 @@ const resetToHome = NavigationActions.reset({
 });
 
 const Tutorial = ({ navigation }) => (
-  <Swiper loop={false} showsButtons horizontal showsHorizontalScrollIndicator>
+  <Swiper
+    loop={false}
+    dotColor="#FFFFFF88"
+    activeDotColor="#FFFFFFee"
+    horizontal
+    showsHorizontalScrollIndicator
+  >
     <TutorialSlide
       slideImage={AssetManager.tutorialSlide1}
       slideText={AssetManager.tutorialSlide1Text}

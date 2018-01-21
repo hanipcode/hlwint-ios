@@ -13,6 +13,7 @@ import Storage from '../data/storage';
 import assets from '../assets';
 import styles from '../styles';
 import CONSTANTS from '../constants';
+import constants from '../constants';
 
 class Live extends React.Component {
   static navigationOptions = {
@@ -32,7 +33,7 @@ class Live extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      profilePicture: '',
+      profilePicture: null,
       selectedId: null,
     };
   }
@@ -83,17 +84,33 @@ class Live extends React.Component {
     }
   }
 
-  renderItem({ item }) {
+  renderItem({ item, index }) {
+    const { streamList } = this.props;
     const { selectedId } = this.state;
     // props from animation
+    let isLast;
+    if (streamList.size % 2 !== 0 && index === streamList.size - 1) {
+      isLast = true;
+    } else {
+      isLast = false;
+    }
     const { cardsOpacity } = this.props;
+    const tagText = item
+      .get('tags')
+      .map(tag => tag.get('t_name'))
+      .join(' ');
     return (
       <Animated.View style={{ opacity: selectedId === item.get('id') ? 1 : cardsOpacity }}>
         <Card
           onPress={() => this.goToWatchLive(item.get('id'), item.get('liveImage'))}
           image={item.get('liveImage')}
           name={item.get('name')}
-          viewCount={item.get('id')}
+          viewCount={item.get('viewCount')}
+          tags={tagText}
+          title={item.get('title')}
+          location={item.get('location')}
+          isOfficial={item.get('isOfficial')}
+          isLast={isLast}
         />
       </Animated.View>
     );
@@ -105,20 +122,17 @@ class Live extends React.Component {
     const { overlayOpacity } = this.props;
     const { profilePicture } = this.state;
     const { loading } = this.state;
-
-    if (isLoading && loading && !profilePicture) {
-      return <Loading />;
-    }
     const data = streamList.toArray();
+
     return (
-      <LinearGradient {...CONSTANTS.GRADIENTS_PROPS} style={{ flex: 1 }}>
-        <View style={styles.home.header}>
-          <Image source={assets.logo} style={styles.home.logo} resizeMode="contain" />
+      <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+        <LinearGradient {...CONSTANTS.GRADIENTS_PROPS} style={styles.home.header}>
+          <Image source={assets.logo_white} style={styles.home.logo} resizeMode="contain" />
           <Image
-            source={{ uri: profilePicture, width: 35, height: 35 }}
+            source={{ uri: profilePicture || constants.PLACEHOLDER_URI, width: 32, height: 32 }}
             style={styles.home.profile_picture}
           />
-        </View>
+        </LinearGradient>
         <Animated.View
           pointerEvents="none"
           style={{
@@ -129,10 +143,17 @@ class Live extends React.Component {
         />
         <FlatList
           data={data}
+          contentContainerStyle={{
+            paddingTop: 1,
+            paddingBottom: 60,
+          }}
           renderItem={item => this.renderItem(item)}
           keyExtractor={item => item.get('id')}
         />
-      </LinearGradient>
+        {isLoading &&
+          loading &&
+          !profilePicture && <Loading backgroundColor="rgba(0, 0, 0, 0.8)" />}
+      </View>
     );
   }
 }

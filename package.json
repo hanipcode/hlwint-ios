@@ -59,9 +59,9 @@
   },
   "jest": {
     "preset": "react-native",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "spec"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "spec"]
+  },
+  "rnpm": {
+    "assets": ["./src/assets/fonts/"]
   }
 }

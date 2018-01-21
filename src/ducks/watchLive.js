@@ -10,6 +10,10 @@ export const SUBSCRIBE_CHANNEL = 'watchLive/subscribeChannel';
 export const UNSUBSCRIBE_CHANNEL = 'watchLive/unsubscribeChannel';
 export const PUBLISH_HEART = 'watchLive/publishHeart';
 export const ADD_HEART = 'watchLive/addHeart';
+export const RESET_HEART = 'watchLive/resetHeart';
+export const PUBLISH_COMMENT = 'watchLive/publishComment';
+export const ADD_COMMENT = 'watchLive/addComment';
+export const RESET_COMMENT = 'watchLive/resetComment';
 
 export function toggleGiftBox() {
   return {
@@ -32,6 +36,29 @@ export function unsubscribeBroadcaster(broadcasterId) {
   };
 }
 
+export function publishComment(broadcasterId, sender, text) {
+  return {
+    type: PUBLISH_COMMENT,
+    channel: broadcasterId,
+    sender,
+    text,
+  };
+}
+
+export function addComment(sender, text) {
+  return {
+    type: ADD_COMMENT,
+    sender,
+    text,
+  };
+}
+
+export function resetComment() {
+  return {
+    type: RESET_COMMENT,
+  };
+}
+
 export function publishHeart(broadcasterId, sender) {
   return {
     type: PUBLISH_HEART,
@@ -44,6 +71,12 @@ export function addHeart(sender) {
   return {
     type: ADD_HEART,
     sender,
+  };
+}
+
+export function resetHeart() {
+  return {
+    type: RESET_HEART,
   };
 }
 
@@ -74,6 +107,7 @@ const initialState = Map({
   viewers: null,
   giftList: null,
   heartList: List(),
+  commentList: List(),
 });
 
 export default function reducer(state = initialState, action) {
@@ -88,6 +122,12 @@ export default function reducer(state = initialState, action) {
     return state.set('giftList', null);
   } else if (action.type === ADD_HEART) {
     return state.update('heartList', heartList => heartList.push(fromJS(action.sender)));
+  } else if (action.type === RESET_HEART) {
+    return state.set('heartList', List());
+  } else if (action.type === ADD_COMMENT) {
+    return state.update('commentList', commentList => commentList.push(fromJS(action.sender)));
+  } else if (action.type === RESET_COMMENT) {
+    return state.set('commentList', List());
   }
   return state;
 }

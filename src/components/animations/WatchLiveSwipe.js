@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Animated, StyleSheet, PanResponder } from 'react-native';
+import { View, Animated, StyleSheet, PanResponder, Dimensions } from 'react-native';
+
+const { height } = Dimensions.get('window');
 
 export default function withSwipeAnimation(WrappedComponent) {
   return class WithSwipe extends React.Component {
@@ -10,6 +12,7 @@ export default function withSwipeAnimation(WrappedComponent) {
       super(props);
       this.state = {
         moveY: new Animated.Value(0),
+        scale: new Animated.Value(1),
       };
       this._panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gesture) => {
@@ -33,10 +36,10 @@ export default function withSwipeAnimation(WrappedComponent) {
     onResponderRelease(evt, gesture) {
       const { moveY } = this.state;
       const distance = gesture.dy;
-      if (distance < -150 && this.wrappedComponent.onSwipeUp) {
+      if (distance < height / 4 && this.wrappedComponent.onSwipeUp) {
         this.wrappedComponent.onSwipeUp();
       }
-      if (distance > 150 && this.wrappedComponent.onSwipeDown) {
+      if (distance > height / 4 && this.wrappedComponent.onSwipeDown) {
         this.wrappedComponent.onSwipeDown();
       }
       Animated.timing(moveY, {
@@ -44,11 +47,15 @@ export default function withSwipeAnimation(WrappedComponent) {
         toValue: 0,
       }).start(() => {});
     }
+
     render() {
       const { moveY } = this.state;
       return (
         <Animated.View
-          style={{ flex: 1, backgroundColor: '#111', transform: [{ translateY: moveY }] }}
+          style={{
+            flex: 1,
+            transform: [{ translateY: moveY }],
+          }}
           // onStartShouldSetResponder={() => true}
           // onMoveShouldSetResponder={() => true}
           // onResponderMove={evt => this.onResponderMove(evt)}

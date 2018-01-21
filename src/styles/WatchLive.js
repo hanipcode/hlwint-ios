@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   loadingOverlay: {
@@ -46,7 +46,7 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.95)',
   },
   loadingContainerImage: {
-    height: height / 2.25,
+    height,
   },
   refreshJump: {
     position: 'absolute',
