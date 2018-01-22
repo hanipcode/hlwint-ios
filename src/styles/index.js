@@ -15,6 +15,7 @@ import picker from './dropdownPicker';
 import home from './home';
 import tabBar from './HomeTabBar';
 import watchLiveHeader from './watchLiveHeader';
+import explore from './explore';
 
 export default {
   login,
@@ -34,4 +35,5 @@ export default {
   home,
   tabBar,
   watchLiveHeader,
+  explore,
 };

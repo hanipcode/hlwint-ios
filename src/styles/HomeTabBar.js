@@ -16,6 +16,8 @@ export default StyleSheet.create({
     flex: 4,
     backgroundColor: 'transparent',
     alignItems: 'center',
+    height: 40,
+    justifyContent: 'center',
   },
   buttonImage: {
     position: 'absolute',
@@ -26,14 +28,14 @@ export default StyleSheet.create({
   },
   backgroundOverlay: {
     position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.125)',
+    backgroundColor: 'rgba(0, 0, 0, 0.225)',
     top: 0,
     bottom: 0,
     left: 0,
     right: width / 2,
   },
   text: {
-    color: '#FFF',
+    color: '#FFFFFFF0',
     fontWeight: '600',
     textShadowOffset: { width: 1, height: 0 },
     textShadowRadius: 3,

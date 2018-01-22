@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Loading from '../components/LoadingPage';
 import Card from '../components/Card';
+import MainHeader from '../components/MainHeader';
 import WithAnimateOverlay from '../components/animations/LiveListAnimation';
 import { getIsLoading, getStreamList, fetchLive, fetchLiveStop } from '../ducks/live';
 import { generateStreamLink } from '../data/wowza';
@@ -13,7 +14,6 @@ import Storage from '../data/storage';
 import assets from '../assets';
 import styles from '../styles';
 import CONSTANTS from '../constants';
-import constants from '../constants';
 
 class Live extends React.Component {
   static navigationOptions = {
@@ -126,13 +126,7 @@ class Live extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <LinearGradient {...CONSTANTS.GRADIENTS_PROPS} style={styles.home.header}>
-          <Image source={assets.logo_white} style={styles.home.logo} resizeMode="contain" />
-          <Image
-            source={{ uri: profilePicture || constants.PLACEHOLDER_URI, width: 32, height: 32 }}
-            style={styles.home.profile_picture}
-          />
-        </LinearGradient>
+        <MainHeader profilePicture={profilePicture} />
         <Animated.View
           pointerEvents="none"
           style={{
@@ -145,7 +139,7 @@ class Live extends React.Component {
           data={data}
           contentContainerStyle={{
             paddingTop: 1,
-            paddingBottom: 60,
+            paddingBottom: 43,
           }}
           renderItem={item => this.renderItem(item)}
           keyExtractor={item => item.get('id')}

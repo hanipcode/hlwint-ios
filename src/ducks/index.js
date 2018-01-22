@@ -4,6 +4,7 @@ import loginReducer from './login';
 import errorReducer from './error';
 import liveReducer from './live';
 import watchLiveReducer from './watchLive';
+import exploreReducer from './explore';
 
 const reducers = combineReducers({
   nav: navReducer,
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   errorReducer,
   liveReducer,
   watchLiveReducer,
+  exploreReducer,
 });
 
 export default reducers;

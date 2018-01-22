@@ -14,6 +14,10 @@ export const RESET_HEART = 'watchLive/resetHeart';
 export const PUBLISH_COMMENT = 'watchLive/publishComment';
 export const ADD_COMMENT = 'watchLive/addComment';
 export const RESET_COMMENT = 'watchLive/resetComment';
+export const FETCH_VIEWER_LIST = 'watchLive/fetchViewerList';
+export const FETCH_VIEWER_LIST_FINISH = 'watchLive/fetchViewerListFinish';
+export const RESET_VIEWER_LIST = 'watchLive/resetViewerList';
+export const STOP_FETCH_VIEWER_LIST = 'watchLive/stopFetchViewerList';
 
 export function toggleGiftBox() {
   return {
@@ -100,6 +104,32 @@ export function resetGift() {
   };
 }
 
+export function fetchViewer(broadcasterId) {
+  return {
+    type: FETCH_VIEWER_LIST,
+    broadcasterId,
+  };
+}
+
+export function fetchViewerFinish(viewerList) {
+  return {
+    type: FETCH_VIEWER_LIST_FINISH,
+    viewerList,
+  };
+}
+
+export function resetViewerList() {
+  return {
+    type: RESET_VIEWER_LIST,
+  };
+}
+
+export function stopFetchViewer() {
+  return {
+    type: STOP_FETCH_VIEWER_LIST,
+  };
+}
+
 const initialState = Map({
   isShowGiftBox: false,
   userCoin: null,
@@ -128,6 +158,10 @@ export default function reducer(state = initialState, action) {
     return state.update('commentList', commentList => commentList.push(fromJS(action.sender)));
   } else if (action.type === RESET_COMMENT) {
     return state.set('commentList', List());
+  } else if (action.type === FETCH_VIEWER_LIST_FINISH) {
+    return state.set('viewers', fromJS(action.viewerList));
+  } else if (action.type === RESET_VIEWER_LIST) {
+    return state.set('viewers', null);
   }
   return state;
 }
@@ -135,3 +169,5 @@ export default function reducer(state = initialState, action) {
 export const getIsShowGiftBox = state => state.get('isShowGiftBox');
 export const getUserCoin = state => state.get('userCoin');
 export const getHeartIdList = state => state.get('heartList').map((_, index) => index);
+export const getCommentList = state => state.get('commentList');
+export const getViewerList = state => state.get('viewers');

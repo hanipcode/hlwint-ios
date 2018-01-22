@@ -12,24 +12,27 @@ class HomeTabBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentIndex: 0,
       overlayTranslateX: new Animated.Value(0),
     };
   }
 
   moveOverlay(index) {
     const { overlayTranslateX } = this.state;
+    if (index === 1) return;
     Animated.timing(overlayTranslateX, {
-      toValue: index > 0 ? 0 : width / 2,
+      toValue: index !== 0 ? width / 2 : 0,
       duration: 200,
       useNativeDriver: true,
     }).start();
   }
 
-  goToRoute(name) {
+  goToRoute(name, index) {
+    const { currentIndex } = this.state;
     const { navigationState, navigation } = this.props;
     const { navigate } = navigation;
-    const { index } = navigationState;
-
+    if (index === currentIndex) return;
+    this.setState({ currentIndex: index });
     this.moveOverlay(index);
     navigate(name);
   }
@@ -44,14 +47,17 @@ class HomeTabBar extends React.Component {
             { transform: [{ translateX: overlayTranslateX }] },
           ]}
         />
-        <TouchableOpacity style={styles.tabBar.buttonText} onPress={() => this.goToRoute('Live')}>
+        <TouchableOpacity
+          style={styles.tabBar.buttonText}
+          onPress={() => this.goToRoute('Live', 0)}
+        >
           <Text style={styles.tabBar.text}>Live</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.goToRoute('Stream')}>
+        <TouchableOpacity onPress={() => this.goToRoute('Stream', 1)}>
           <Image source={assets.broadcast_button} style={styles.tabBar.buttonImage} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.goToRoute('Explore')}
+          onPress={() => this.goToRoute('Explore', 2)}
           style={styles.tabBar.buttonText}
         >
           <Text style={styles.tabBar.text}>Explore</Text>

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import normalizeText from '../helpers/normalizeText';
 
 const { width, height } = Dimensions.get('window');
 
@@ -39,8 +40,8 @@ export default StyleSheet.create({
     color: '#FFF',
     position: 'absolute',
     right: 41,
-    fontSize: 9,
-    top: width / 1.45 / 9.25,
+    fontSize: normalizeText(9),
+    top: normalizeText(height / 33),
     fontWeight: '900',
   },
   nameContainer: {
@@ -50,7 +51,7 @@ export default StyleSheet.create({
     flexWrap: 'nowrap',
   },
   nameText: {
-    fontSize: 11,
+    fontSize: normalizeText(11),
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
     textShadowOffset: { width: 1, height: 0 },
     textShadowRadius: 2,
@@ -59,7 +60,7 @@ export default StyleSheet.create({
     fontWeight: '600',
   },
   notMovingTitle: {
-    fontSize: 14,
+    fontSize: normalizeText(14),
     color: '#FFF',
     backgroundColor: 'transparent',
     fontWeight: '600',
@@ -128,12 +129,12 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   locationImage: {
-    height: 15,
-    width: 15,
+    height: normalizeText(15),
+    width: normalizeText(15),
     resizeMode: 'contain',
   },
   locationText: {
-    fontSize: 12,
+    fontSize: normalizeText(12),
     backgroundColor: 'transparent',
     color: '#FFF',
     marginLeft: 1,
