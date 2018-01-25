@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 class Heart extends React.Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
-    avatar: PropTypes.string.isRequired,
   };
   constructor(props) {
     super(props);
@@ -90,7 +89,7 @@ class Heart extends React.Component {
       }),
 
       Animated.timing(heartPosition, {
-        toValue: (height + Math.random() * 1000) * -1,
+        toValue: (height + Math.random() * 2000) * -1,
         duration: 5000 - Math.random() * 200,
         useNativeDriver: true,
       }),

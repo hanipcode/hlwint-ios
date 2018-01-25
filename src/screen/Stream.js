@@ -6,12 +6,12 @@ import BroadcastView from 'react-native-wowza-gocoder';
 import Storage from '../data/storage';
 import * as service from '../helpers/api';
 import styles from '../styles';
-import StreamInfo from '../components/StreamInfo';
+import StreamStart from '../components/StreamStart';
 
 const SDK_LICENSE = 'GOSK-2A44-0100-A39E-8820-22BD';
 const resetToLive = NavigationActions.reset({
   index: 0,
-  actions: [{ routeName: 'Home' }],
+  actions: [{ routeName: 'Live' }],
 });
 const { height } = Dimensions.get('window');
 const MIDDLE_HEIGHT = height / 2 + 10; // eslint-disable-line
@@ -104,51 +104,16 @@ class Stream extends React.Component {
   }
 
   onLivePress() {
+    const { streamTitle } = this.state;
     Keyboard.dismiss();
+    if (streamTitle === '' || streamTitle === ' ') {
+      Alert.alert("Stream Title can't be empty");
+      return;
+    }
     this.dismisInfo();
     // end broadcast first then start broadcast
     this.endBroadcast().then(() => {
-      this.initBroadcastToServer().then(() => {
-        this.playCountdownAnimation();
-      });
-    });
-  }
-
-  playCountdownAnimation() {
-    const { opacityAnimated } = this.state;
-    this.initCountdown();
-
-    Animated.sequence([
-      Animated.timing(opacityAnimated, {
-        toValue: 10,
-        duration: 2000,
-      }),
-      Animated.timing(opacityAnimated, {
-        toValue: 20,
-        duration: 1000,
-      }),
-      Animated.delay(1000),
-      Animated.timing(opacityAnimated, {
-        toValue: 30,
-        duration: 2000,
-      }),
-      Animated.timing(opacityAnimated, {
-        toValue: 40,
-        duration: 1000,
-      }),
-      Animated.delay(1000),
-      Animated.timing(opacityAnimated, {
-        toValue: 50,
-        duration: 2000,
-      }),
-      Animated.timing(opacityAnimated, {
-        toValue: 60,
-        duration: 1000,
-      }),
-    ]).start(() => {
-      this.setState({
-        broadcasting: true,
-      });
+      this.initBroadcastToServer().then(() => {});
     });
   }
 
@@ -156,22 +121,6 @@ class Stream extends React.Component {
     this.setState({
       infoShowed: false,
     });
-  }
-
-  initCountdown() {
-    const interval = setInterval(() => {
-      this.setState({ count: this.state.count - 1 });
-      if (this.state.count === 0) {
-        clearInterval(interval);
-      }
-    }, 3500);
-  }
-
-  filterCountdownText(count) {
-    if (count === 3) return 'ready';
-    if (count === 2) return 'set';
-    if (count === 1) return 'go !';
-    return '';
   }
 
   initBroadcastToServer() {
@@ -212,20 +161,6 @@ class Stream extends React.Component {
       return <ActivityIndicator size="large" />;
     }
 
-    // animation interpolation
-    const opacityValue = opacityAnimated.interpolate({
-      inputRange: [0, 10, 20, 30, 40, 50, 60],
-      outputRange: [0, 1, 0, 1, 0, 1, 0],
-    });
-    const scaleValue = opacityAnimated.interpolate({
-      inputRange: [0, 10, 20, 30, 40, 50, 60],
-      outputRange: [1, 1.5, 1, 1.5, 1, 1.5, 1],
-    });
-    const bottomValue = opacityAnimated.interpolate({
-      inputRange: [0, 10, 20, 30, 40, 50, 60],
-      outputRange: [30, MIDDLE_HEIGHT, 30, MIDDLE_HEIGHT, 30, MIDDLE_HEIGHT, 30],
-    });
-
     return (
       <View style={styles.stream.container}>
         <BroadcastView
@@ -250,7 +185,7 @@ class Stream extends React.Component {
         />
 
         {infoShowed && (
-          <StreamInfo
+          <StreamStart
             onLivePress={() => this.onLivePress()}
             onTitleChange={streamTitle => this.setState({ streamTitle })}
           />
@@ -259,22 +194,6 @@ class Stream extends React.Component {
         <Text style={styles.stream.close} onPress={() => this.onClose()}>
           X
         </Text>
-
-        <Animated.Text
-          style={{
-            backgroundColor: 'red',
-            alignSelf: 'center',
-            padding: 10,
-            color: '#FFF',
-            fontSize: 22,
-            position: 'absolute',
-            bottom: bottomValue,
-            opacity: opacityValue,
-            transform: [{ scale: scaleValue }],
-          }}
-        >
-          {this.filterCountdownText(count)}
-        </Animated.Text>
       </View>
     );
   }

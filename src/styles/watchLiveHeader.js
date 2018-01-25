@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import normalizeText from '../helpers/normalizeText';
 
 export default StyleSheet.create({
   container: {
     position: 'absolute',
     zIndex: 2,
-    top: 16,
+    top: 28,
     left: 8,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0)',
@@ -12,14 +13,17 @@ export default StyleSheet.create({
   image: {
     backgroundColor: 'red',
     borderRadius: 17.5,
-    borderWidth: 2,
-    borderColor: '#FFFFFFaa',
+    position: 'absolute',
   },
   text: {
     marginLeft: 5,
     color: '#FFFFFFEE',
     fontWeight: '600',
-    fontSize: 13,
+    fontSize: normalizeText(10),
+    paddingLeft: 38,
+    alignSelf: 'flex-end',
+    paddingRight: 12,
+    paddingVertical: 3,
   },
   infoContainer: {
     flexDirection: 'row',
@@ -27,7 +31,6 @@ export default StyleSheet.create({
     borderRadius: 50,
     alignItems: 'center',
     alignSelf: 'flex-start',
-    paddingRight: 17.5,
   },
   coinContainer: {
     flexDirection: 'row',
@@ -46,7 +49,7 @@ export default StyleSheet.create({
   coinText: {
     color: '#FFEB3B',
     marginLeft: 6,
-    fontSize: 13,
+    fontSize: normalizeText(11),
   },
   viewerCount: {
     height: 21.6,
@@ -62,7 +65,7 @@ export default StyleSheet.create({
   viewText: {
     color: '#FFFFFFEE',
     fontWeight: '600',
-    fontSize: 13,
+    fontSize: normalizeText(13),
     marginLeft: 26,
   },
   viewImage: {
@@ -73,6 +76,7 @@ export default StyleSheet.create({
   },
   streamInfo: {
     flexDirection: 'row',
+    marginRight: 28,
   },
   close: {
     position: 'absolute',
@@ -85,8 +89,8 @@ export default StyleSheet.create({
     right: 8 * 1.618,
   },
   viewerListHeader: {
-    width: 36,
-    height: 35,
+    width: 32,
+    height: 32,
     borderRadius: 18,
     backgroundColor: '#ddddddfa',
     alignItems: 'center',
@@ -94,7 +98,7 @@ export default StyleSheet.create({
     marginLeft: 3,
   },
   viewerListHeaderText: {
-    fontSize: 9,
+    fontSize: normalizeText(9),
     color: '#777',
     fontWeight: '900',
   },
@@ -106,18 +110,16 @@ export default StyleSheet.create({
     backgroundColor: '#ddddddfa',
   },
   viewerListItemCollapsed: {
-    borderRadius: 17.5,
+    borderRadius: 16,
     marginLeft: -17.5,
-    borderWidth: 2,
   },
   viwerListItemExpanded: {
-    borderRadius: 17.5,
+    borderRadius: 16,
     marginLeft: 3,
-    borderWidth: 2,
   },
   viewerList: {
     marginLeft: 32,
     marginRight: 10,
-    marginTop: 5,
+    marginTop: 0,
   },
 });

@@ -111,7 +111,7 @@ export const subscribe = (channel, presenceHandler, messageHandler) => {
 
       messageSubscriptons.delete(messageHandler);
 
-      return connect().then(handle => handle.unsubscribe({ channel }));
+      return connect().then(handle => handle.unsubscribe({ channel })).catch(err => console.log(err));
     },
   };
 };
@@ -183,7 +183,7 @@ export const publishMessage = (channel, message) =>
             resolve();
           }
         },
-      ));
+      )).catch(err => console.log(err));
   });
 
 /*
@@ -213,7 +213,7 @@ export const publishComment = (broadcasterId, sender, text) =>
             resolve();
           }
         },
-      ));
+      )).catch(err => console.log(err));
   });
 
 export const publishHeart = (broadcasterId, sender) =>
@@ -271,5 +271,5 @@ export const publishGift = (broadcasterId, sender, itemCount, itemName, itemImag
             resolve();
           }
         },
-      ));
+      )).catch(err => console.log(err));
   });

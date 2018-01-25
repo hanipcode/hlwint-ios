@@ -83,18 +83,20 @@ export function getUserProfile(id, accessToken) {
   });
 }
 
-export function getOtherUserProfile(id, accessToken) {
+export function getOtherUserProfile(id, accessToken, targetId) {
   return fetch(`${BASE_URL}api/ml/otherprofile`, {
     method: 'POST',
     body: JSON.stringify({
       id,
       u_token: accessToken,
+      other_id: targetId,
     }),
     headers: defaultHeaders,
   }).then((response) => {
     if (response.status !== 200) {
       throw new Error(`Error while getting other user profile ${response.status}`);
     }
+    return response.json();
   });
 }
 
@@ -282,6 +284,27 @@ export function getGiftList(id, accessToken) {
     });
 }
 
+export function sendGift(id, accessToken, senderId, receiverId, itemId, itemCount, income) {
+  return fetch(`${BASE_URL}api/ml/sendgift`, {
+    headers: defaultHeaders,
+    method: 'POST',
+    body: JSON.stringify({
+      id,
+      u_token: accessToken,
+      sender_id: senderId,
+      receiver_id: receiverId,
+      item_id: itemId,
+      item_quantity: itemCount,
+      income,
+    }),
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`ERror while sending gift ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
 // fetch('http://dashboard.imliveapp.com/api/ml/fblogin', {method: 'POST', headers: { Authorization: 'Basic dXNlcjpwYXNzd29yZA=='}}).then(data => data.json().then(dat=> console.log(dat)))
 
 export function updateBroadcastEndtime(broadcasterId) {
@@ -354,8 +377,8 @@ export function getViewerList(id) {
     method: 'GET',
   }).then((response) => {
     if (response.status !== 200) {
-      response.text().then(text => console.log('nyooh', text));
-      throw new Error(`Error while getting viewers ${response.status}`);
+      // response.text().then(text => console.log('nyooh', text));
+      // throw new Error(`Error while getting viewers ${response.status}`);
     }
     return response.json();
   });

@@ -17,13 +17,10 @@ class HeartContainer extends Component {
   }
   render() {
     const { heartIdList } = this.props;
-    if (heartIdList.size === 0) {
-      return null;
-    }
     return (
       <View style={styles.heartContainer.container} pointerEvents="none">
         {/* <Text style={{ color: '#FFF' }}>{heart.length}</Text> */}
-        {heartIdList.map(heartItem => (
+        {heartIdList.size > 0 && heartIdList.map(heartItem => (
           <Heart
             key={heartItem}
             id={heartItem}

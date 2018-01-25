@@ -194,6 +194,13 @@ describe('Hlwint API Service', () => {
     expect(viewerListData).toMatchSnapshot();
     expect(viewerListData.message).toEqual('success');
   });
+  it('able to send gift', async () => {
+    const blob = await data.json();
+    const { id, u_token } = blob.data;
+    const sendCashData = await service.sendGift(id, u_token, id, 43, 37, 9, 100000);
+    expect(sendCashData).toMatchSnapshot();
+    expect(sendCashData.message).toEqual('success');
+  });
   it('able to get viewer ended', async () => {
     const blob = await data.json();
     const { id, u_token } = blob.data;

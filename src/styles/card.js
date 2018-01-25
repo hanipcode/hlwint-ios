@@ -32,16 +32,16 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   countHolder: {
-    height: 40,
-    width: 80,
+    height: height / 16.675,
+    width: width / 4.5,
     resizeMode: 'contain',
   },
   viewCount: {
     color: '#FFF',
     position: 'absolute',
-    right: 41,
+    right: width / 9,
     fontSize: normalizeText(9),
-    top: normalizeText(height / 33),
+    top: height / 28.5,
     fontWeight: '900',
   },
   nameContainer: {

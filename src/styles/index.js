@@ -16,6 +16,7 @@ import home from './home';
 import tabBar from './HomeTabBar';
 import watchLiveHeader from './watchLiveHeader';
 import explore from './explore';
+import giftAnimator from './giftAnimator';
 
 export default {
   login,
@@ -36,4 +37,5 @@ export default {
   tabBar,
   watchLiveHeader,
   explore,
+  giftAnimator,
 };

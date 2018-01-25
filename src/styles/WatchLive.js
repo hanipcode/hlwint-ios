@@ -12,7 +12,7 @@ export default StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.15)',
   },
   gradientContainer: {
     flex: 1,
@@ -34,6 +34,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  video: {
+    ...StyleSheet.absoluteFillObject,
+    transform: [{ scaleX: -1 }],
+  },
   loadingContainer: {
     flex: 1,
     top: 0,
@@ -50,8 +54,8 @@ export default StyleSheet.create({
   },
   refreshJump: {
     position: 'absolute',
-    height: 65,
-    width: 65,
+    height: 85,
+    width: 85,
   },
   close: {
     position: 'absolute',

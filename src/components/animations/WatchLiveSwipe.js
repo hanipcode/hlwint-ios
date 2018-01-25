@@ -16,11 +16,11 @@ export default function withSwipeAnimation(WrappedComponent) {
       };
       this._panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gesture) => {
-          if (gesture.dy > 20 || gesture.dy < -20) return true;
+          if (gesture.dy > 40 || gesture.dy < -40) return true;
           return false;
         },
         onMoveShouldSetPanResponder: (evt, gesture) => {
-          if (gesture.dy > 20 || gesture.dy < -20) return true;
+          if (gesture.dy > 40 || gesture.dy < -40) return true;
           return false;
         },
         onPanResponderMove: (evt, gesture) => this.onResponderMove(evt, gesture),
@@ -36,10 +36,10 @@ export default function withSwipeAnimation(WrappedComponent) {
     onResponderRelease(evt, gesture) {
       const { moveY } = this.state;
       const distance = gesture.dy;
-      if (distance < height / 4 && this.wrappedComponent.onSwipeUp) {
+      if (distance < -180 && this.wrappedComponent.onSwipeUp) {
         this.wrappedComponent.onSwipeUp();
       }
-      if (distance > height / 4 && this.wrappedComponent.onSwipeDown) {
+      if (distance > 180 && this.wrappedComponent.onSwipeDown) {
         this.wrappedComponent.onSwipeDown();
       }
       Animated.timing(moveY, {

@@ -77,7 +77,7 @@ class Live extends React.Component {
           broadcasterId,
         });
       });
-      dispatch(fetchLiveStop());
+      // dispatch(fetchLiveStop());
     } catch (error) {
       // Alert.alert(error);
       console.log(error);
@@ -105,7 +105,7 @@ class Live extends React.Component {
           onPress={() => this.goToWatchLive(item.get('id'), item.get('liveImage'))}
           image={item.get('liveImage')}
           name={item.get('name')}
-          viewCount={item.get('viewCount')}
+          viewCount={item.get('id')}
           tags={tagText}
           title={item.get('title')}
           location={item.get('location')}

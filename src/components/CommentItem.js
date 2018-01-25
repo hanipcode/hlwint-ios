@@ -30,7 +30,7 @@ class CommentItem extends React.Component {
       <View style={styles.commentItem.container} pointerEvents="auto">
         <Image source={{ uri: avatar, width: 100, height: 100 }} style={styles.commentItem.image} />
         <Text style={styles.commentItem.content}>
-          <ZawgyiText>{name}</ZawgyiText>
+          <ZawgyiText style={styles.commentItem.name}>{name}</ZawgyiText>
           <Text>: </Text>
           <ZawgyiText>{content}</ZawgyiText>
         </Text>

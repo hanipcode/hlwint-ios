@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Image, TouchableOpacity, FlatList, LayoutAnimation } from 'react-native';
+import { List, Map } from 'immutable';
+import ZawgyiText from './ZawgyiText';
 import styles from '../styles';
 import assets from '../assets';
+import CONSTANTS from '../constants';
+import IncreasingText from './animations/IncreasingText';
 
 class WatchLiveHeader extends React.Component {
   constructor(props) {
@@ -17,7 +21,7 @@ class WatchLiveHeader extends React.Component {
   }
   renderHeader() {
     const { viewerList } = this.props;
-    let count = viewerList.length;
+    let count = viewerList.size;
     if (count > 3) {
       count -= 3;
     }
@@ -47,57 +51,75 @@ class WatchLiveHeader extends React.Component {
               ? styles.watchLiveHeader.viwerListItemExpanded
               : styles.watchLiveHeader.viewerListItemCollapsed
           }
-          source={{ uri: item.image, width: 35, height: 35 }}
+          source={{
+            uri: item.get('profilePicture') || CONSTANTS.PLACEHOLDER_URI,
+            width: 32,
+            height: 32,
+          }}
           resizeMode="cover"
         />
       </View>
     );
   }
+
+  excerptName(name) {
+    if (name.length < 16) return name;
+    return `${name.substring(0, 16)}...`;
+  }
+
   render() {
-    const { onClosePress, viewerList } = this.props;
+    const {
+      onClosePress, viewerList, broadcasterCoin, broadcasterInfo, isShowed,
+    } = this.props;
     const { expanded } = this.state;
     let data = [];
     if (!expanded) {
-      data = viewerList.slice(0, 3);
+      data = viewerList.take(3);
     } else {
       data = viewerList;
     }
     return (
       <View style={styles.watchLiveHeader.container}>
-        <View style={styles.watchLiveHeader.infoContainer}>
-          <Image
-            style={styles.watchLiveHeader.image}
-            source={{ uri: 'http://via.placeholder.com/350x150', width: 35, height: 35 }}
-          />
-          <Text style={styles.watchLiveHeader.text}>John Doe</Text>
-        </View>
-        <View style={styles.watchLiveHeader.streamInfo}>
+        {isShowed && (
+          <View style={styles.watchLiveHeader.streamInfo}>
+            <View style={styles.watchLiveHeader.infoContainer}>
+              <Image
+                style={styles.watchLiveHeader.image}
+                source={{
+                  uri: broadcasterInfo.get('profilePicture') || CONSTANTS.PLACEHOLDER_URI,
+                  width: 35,
+                  height: 35,
+                }}
+              />
+              <Text style={styles.watchLiveHeader.text}>
+                <ZawgyiText style={styles.watchLiveHeader.nameText}>
+                  {this.excerptName(broadcasterInfo.get('name'))}
+                </ZawgyiText>
+              </Text>
+            </View>
+            <FlatList
+              data={data.toArray()}
+              horizontal
+              style={styles.watchLiveHeader.viewerList}
+              renderItem={item => this.renderItem(item)}
+              ListHeaderComponent={() => this.renderHeader()}
+              showsHorizontalScrollIndicator={false}
+              // ListFooterComponent={() => this.renderFooter()}
+              inverted
+            />
+          </View>
+        )}
+        {isShowed && (
           <View style={styles.watchLiveHeader.coinContainer}>
             <Image
               style={styles.watchLiveHeader.coinImage}
               source={assets.nutPlain}
               resizeMode="contain"
             />
-            <Text style={styles.watchLiveHeader.coinText}>218695</Text>
+            {/* <Text style={styles.watchLiveHeader.coinText}>{broadcasterCoin}</Text> */}
+            <IncreasingText style={styles.watchLiveHeader.coinText} value={broadcasterCoin} />
           </View>
-          {/* <View style={styles.watchLiveHeader.viewerCount}>
-            <Image
-              source={assets.eye}
-              style={styles.watchLiveHeader.viewImage}
-              resizeMode="stretch"
-            />
-            <Text style={styles.watchLiveHeader.viewText}>100000</Text>
-          </View> */}
-          <FlatList
-            data={data}
-            horizontal
-            style={styles.watchLiveHeader.viewerList}
-            renderItem={item => this.renderItem(item)}
-            ListHeaderComponent={() => this.renderHeader()}
-            // ListFooterComponent={() => this.renderFooter()}
-            inverted
-          />
-        </View>
+        )}
         <TouchableOpacity onPress={() => onClosePress()} style={styles.watchLiveHeader.close}>
           <Image
             source={assets.close}
@@ -111,10 +133,11 @@ class WatchLiveHeader extends React.Component {
 }
 
 WatchLiveHeader.propTypes = {
-  onClosePress: PropTypes.func,
-  profilePicture: PropTypes.string,
-  coin: PropTypes.number,
-  viewCount: PropTypes.number,
+  onClosePress: PropTypes.func.isRequired,
+  broadcasterInfo: PropTypes.instanceOf(Map).isRequired,
+  broadcasterCoin: PropTypes.number.isRequired,
+  viewerList: PropTypes.instanceOf(List).isRequired,
+  isShowed: PropTypes.bool.isRequired,
 };
 
 export default WatchLiveHeader;

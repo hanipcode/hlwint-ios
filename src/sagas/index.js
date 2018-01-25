@@ -5,6 +5,7 @@ import loginSaga, { uploadDeviceSaga } from './loginSaga';
 import liveSaga from './liveSaga';
 import exploreSaga from './exploreSaga';
 import watchPubnub from './watchLiveSaga';
+import userInfoSaga from './userInfoSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -13,5 +14,6 @@ export default function* rootSaga() {
     fork(liveSaga),
     fork(watchPubnub),
     fork(exploreSaga),
+    fork(userInfoSaga),
   ]);
 }

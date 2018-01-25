@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, Image, FlatList, Text } from 'react-native';
+import { View, Dimensions, Image, FlatList, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import {
@@ -100,41 +100,47 @@ class Explore extends React.Component {
     return (
       <View style={styles.explore.container}>
         <MainHeader />
-        <Image
-          source={{ uri: officialImage || constants.PLACEHOLDER_URI, width, height: 120 }}
-          resizeMethod="cover"
-        />
-        <Text style={styles.explore.headerText}>Top Rank</Text>
-        <View style={styles.explore.roundImageContainer}>
-          <FlatList
-            data={topRank.toArray()}
-            renderItem={item => this.renderRoundImageItem(item)}
-            keyExtractor={item => item.get('id')}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+        <ScrollView
+          style={{ flex: 1 }}
+          bounces={false}
+          contentContainerStyle={{ paddingBottom: 60 }}
+        >
+          <Image
+            source={{ uri: officialImage || constants.PLACEHOLDER_URI, width, height: 120 }}
+            resizeMethod="cover"
           />
-        </View>
-        <Text style={styles.explore.headerText}>Top Follower</Text>
-        <View style={styles.explore.roundImageContainer}>
-          <FlatList
-            data={topFollower.toArray()}
-            contentContainerStyle={styles.explore.rectFlatList}
-            renderItem={item => this.renderRectImageItem(item)}
-            keyExtractor={item => item.get('id')}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-        <View style={styles.explore.tagContainer}>
-          <FlatList
-            data={topTags.toArray()}
-            contentContainerStyle={styles.explore.rectFlatList}
-            renderItem={item => this.renderTagsItem(item)}
-            keyExtractor={item => item.get('id')}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+          <Text style={styles.explore.headerText}>Top Rank</Text>
+          <View style={styles.explore.roundImageContainer}>
+            <FlatList
+              data={topRank.toArray()}
+              renderItem={item => this.renderRoundImageItem(item)}
+              keyExtractor={item => item.get('id')}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+          <Text style={styles.explore.headerText}>Top Follower</Text>
+          <View style={styles.explore.roundImageContainer}>
+            <FlatList
+              data={topFollower.toArray()}
+              contentContainerStyle={styles.explore.rectFlatList}
+              renderItem={item => this.renderRectImageItem(item)}
+              keyExtractor={item => item.get('id')}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+          <View style={styles.explore.tagContainer}>
+            <FlatList
+              data={topTags.toArray()}
+              contentContainerStyle={styles.explore.rectFlatList}
+              renderItem={item => this.renderTagsItem(item)}
+              keyExtractor={item => item.get('id')}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }

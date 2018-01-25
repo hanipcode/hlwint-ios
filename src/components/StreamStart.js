@@ -6,7 +6,7 @@ import styles from '../styles';
 import AutoCompleteTag from './TagAutoComplete';
 import Button from './Button';
 
-class StreamInfo extends React.Component {
+class StreamStart extends React.Component {
   static propTypes = {
     onLivePress: PropTypes.func.isRequired,
   };
@@ -14,6 +14,7 @@ class StreamInfo extends React.Component {
     super(props);
     this.state = {
       cover: null,
+      tagList: [],
     };
   }
   async componentWillMount() {
@@ -22,8 +23,11 @@ class StreamInfo extends React.Component {
       cover: userPicture,
     });
   }
+  onTagListChange(tagList) {
+    this.setState({ tagList });
+  }
   render() {
-    const { cover } = this.state;
+    const { cover, tagList } = this.state;
     const { onLivePress, onTitleChange } = this.props;
     if (!cover) return null;
     return (
@@ -36,23 +40,18 @@ class StreamInfo extends React.Component {
           <Image source={{ uri: cover, width: 100, height: 100 }} resizeMethod="cover" />
           <Text style={styles.streamInfo.coverText}>Cover</Text>
         </View>
-        <TextInput
-          style={styles.streamInfo.inputTitle}
-          placeholder="Stream Title"
-          placeholderTextColor="#FFF"
-          onChangeText={text => onTitleChange(text)}
-        />
         <View style={styles.streamInfo.tagContainer}>
-          <AutoCompleteTag />
+          <AutoCompleteTag onTagListChange={newTagList => this.onTagListChange(newTagList)} />
         </View>
         <Button
           onPress={() => onLivePress()}
           text="Start Live!"
-          style={{ marginTop: 40, zIndex: 10000 }}
+          style={styles.streamInfo.button}
+          textStyle={styles.streamInfo.buttonText}
         />
       </TouchableOpacity>
     );
   }
 }
 
-export default StreamInfo;
+export default StreamStart;

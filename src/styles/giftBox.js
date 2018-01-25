@@ -1,11 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { height } = Dimensions.get('window');
 
 export default StyleSheet.create({
+  screen: {
+    backgroundColor: 'transparent',
+    height,
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
   container: {
     flex: 1,
     maxHeight: 300,
-    backgroundColor: 'rgba(255,255,255,1)',
-    opacity: 0.85,
+    backgroundColor: 'rgba(255,255,255, 1)',
   },
   giftBox: {
     flexDirection: 'row',
