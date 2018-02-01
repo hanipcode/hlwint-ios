@@ -53,14 +53,15 @@ class HomeTabBar extends React.Component {
         >
           <Text style={styles.tabBar.text}>Live</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.goToRoute('Stream', 1)}>
-          <Image source={assets.broadcast_button} style={styles.tabBar.buttonImage} />
-        </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => this.goToRoute('Explore', 2)}
           style={styles.tabBar.buttonText}
         >
           <Text style={styles.tabBar.text}>Explore</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.goToRoute('Stream', 1)}>
+          <Image source={assets.broadcast_button} style={styles.tabBar.buttonImage} />
         </TouchableOpacity>
       </LinearGradient>
     );

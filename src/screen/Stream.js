@@ -1,21 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ActivityIndicator, Alert, Animated, Dimensions, Keyboard } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Alert,
+  Animated,
+  Dimensions,
+  Keyboard,
+  NetInfo,
+  Vibration,
+} from 'react-native';
+import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import BroadcastView from 'react-native-wowza-gocoder';
 import Storage from '../data/storage';
 import * as service from '../helpers/api';
 import styles from '../styles';
 import StreamStart from '../components/StreamStart';
+import BroadcastingFragment from '../components/BroadcastingFragment';
+import { getIsFrontCamera } from '../ducks/broadcast';
 
 const SDK_LICENSE = 'GOSK-2A44-0100-A39E-8820-22BD';
 const resetToLive = NavigationActions.reset({
   index: 0,
-  actions: [{ routeName: 'Live' }],
+  actions: [
+    NavigationActions.navigate({
+      routeName: 'Live',
+    }),
+  ],
 });
 const { height } = Dimensions.get('window');
 const MIDDLE_HEIGHT = height / 2 + 10; // eslint-disable-line
 
+/* IMPORT ANT
+  NOTE THAT FOR STREAM INFORMATION WE REUSE MOST OF THE LOGIC FROM WATCH LIVE
+  BECAUSE ESSENTIALLY INFORMATION FOR BROADCASTER AND WATCHER SHOULD BE IDENTICAL
+  SO WE USE REDUCER AND SAGAS THAT USED FOR WATCH LIVE (watchLiveSaga)
+  TO ALSO MAKE THE STREAM COMPONENT CONCISE AND NOT MIXED INFORMATION AND STREAMING LOGIC,
+  WE SEPARATE THE INFORMATION COMPONENT (Header, COmment, etc) IN THE BroadcastingFragment Component
+  AND THAT COMPONENT IS THE ONE THAT CONNECTED TO THE REDUCER;
+*/
 class Stream extends React.Component {
   static navigationOptions = {
     header: null,
@@ -27,11 +52,12 @@ class Stream extends React.Component {
       goBack: PropTypes.func.isRequired,
       dispatch: PropTypes.func.isRequired,
     }).isRequired,
+    isFrontCamera: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
+    this.defaultState = {
       wowzaUsername: null,
       wowzaPassword: null,
       wowzaHost: null,
@@ -40,9 +66,18 @@ class Stream extends React.Component {
       userId: null,
       userToken: null,
       broadcasting: false,
-      opacityAnimated: new Animated.Value(0),
-      count: 3,
+      isInitiated: false,
       infoShowed: true,
+      tagList: [],
+    };
+    this.state = this.defaultState;
+    this.resetState = {
+      streamHash: null,
+      streamTitle: '',
+      broadcasting: false,
+      isInitiated: false,
+      infoShowed: true,
+      tagList: [],
     };
   }
 
@@ -62,9 +97,14 @@ class Stream extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.setState(this.defaultState);
+  }
+
   onBroadcastStart() {
     console.log('Bcast start');
-    Alert.alert('yuhu');
+    Vibration.vibrate();
+    Vibration.vibrate();
   }
 
   onBroadcastFail() {
@@ -96,6 +136,7 @@ class Stream extends React.Component {
     const { broadcasting } = this.state;
     if (broadcasting) {
       this.endBroadcast().then(() => {
+        this.setState(this.resetState);
         navigation.dispatch(resetToLive);
       });
     } else {
@@ -113,8 +154,14 @@ class Stream extends React.Component {
     this.dismisInfo();
     // end broadcast first then start broadcast
     this.endBroadcast().then(() => {
-      this.initBroadcastToServer().then(() => {});
+      this.initBroadcastToServer().then(() => {
+        this.setState({ isInitiated: true, broadcasting: true });
+      });
     });
+  }
+
+  onTagListChange(tagList) {
+    this.setState({ tagList });
   }
 
   dismisInfo() {
@@ -123,10 +170,24 @@ class Stream extends React.Component {
     });
   }
 
+  postTagToServer() {
+    const { tagList, userId, userToken } = this.state;
+    return Promise.all(tagList.map(tagName => service.createTag(userId, userToken, tagName)));
+  }
+
   initBroadcastToServer() {
     const { userId, userToken, streamTitle } = this.state;
-    return service
-      .initBroadcast(userId, userToken, streamTitle)
+    return this.postTagToServer()
+      .then((tagArr) => {
+        console.log('nih', tagArr);
+        const acceptedTagList = [];
+        for (let i = 0; i < tagArr.length; i += 1) {
+          acceptedTagList.push({ id: tagArr[i].data.id });
+        }
+        return acceptedTagList;
+      })
+      .then(acceptedTagList =>
+        service.initBroadcast(userId, userToken, streamTitle, acceptedTagList))
       .then((streamData) => {
         const { hash } = streamData.data;
         this.setState({
@@ -150,13 +211,12 @@ class Stream extends React.Component {
       wowzaPassword,
       wowzaUsername,
       broadcasting,
-      count,
-      opacityAnimated,
       infoShowed,
       streamHash,
+      userId,
+      isInitiated,
     } = this.state;
-    const { navigation } = this.props;
-
+    const { isFrontCamera } = this.props;
     if (wowzaHost == null || wowzaPassword == null || wowzaUsername == null) {
       return <ActivityIndicator size="large" />;
     }
@@ -181,22 +241,31 @@ class Stream extends React.Component {
           onBroadcastErrorReceive={this.onBroadcastErrorReceive}
           onBroadcastVideoEncoded={this.onBroadcastVideoEncoded}
           onBroadcastStop={this.onBroadcastStop}
-          frontCamera
+          frontCamera={isFrontCamera}
         />
 
         {infoShowed && (
           <StreamStart
             onLivePress={() => this.onLivePress()}
             onTitleChange={streamTitle => this.setState({ streamTitle })}
+            onTagListChange={tagList => this.onTagListChange(tagList)}
           />
         )}
-
-        <Text style={styles.stream.close} onPress={() => this.onClose()}>
-          X
-        </Text>
+        {isInitiated && (
+          <BroadcastingFragment broadcasterId={userId} onClose={() => this.onClose()} />
+        )}
+        {!isInitiated && (
+          <Text style={styles.stream.close} onPress={() => this.onClose()}>
+            X
+          </Text>
+        )}
       </View>
     );
   }
 }
 
-export default Stream;
+const mapStateToProps = state => ({
+  isFrontCamera: getIsFrontCamera(state.broadcastReducer),
+});
+
+export default connect(mapStateToProps)(Stream);

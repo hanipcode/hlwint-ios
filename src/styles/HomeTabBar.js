@@ -24,7 +24,7 @@ export default StyleSheet.create({
     width: 50,
     resizeMode: 'contain',
     top: -40,
-    left: -25,
+    left: -width / 2 - 25,
   },
   backgroundOverlay: {
     position: 'absolute',

@@ -2,6 +2,7 @@ import { Animated, Easing } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Live from './Live';
 import WatchLive from './WatchLive';
+import ViewerLiveEnded from './ViewerLiveEnded';
 
 export default StackNavigator(
   {
@@ -10,6 +11,12 @@ export default StackNavigator(
     },
     WatchLive: {
       screen: WatchLive,
+      navigationOptions: {
+        tabBarVisible: false,
+      },
+    },
+    ViewerLiveEnded: {
+      screen: ViewerLiveEnded,
       navigationOptions: {
         tabBarVisible: false,
       },

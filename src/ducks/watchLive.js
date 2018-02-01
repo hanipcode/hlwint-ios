@@ -2,7 +2,6 @@ import { Map, fromJS, List } from 'immutable';
 
 export const FETCH_BROADCAST_DETAIL = 'watchLive/fetchBroadcastDetail';
 export const SET_BROADCASTER_INFO = 'watchLive/setBroadcasterInfo';
-export const SET_BROADCAST_HASH = 'watchLive/setBroadcastHash';
 export const RESET_BROADCAST_STATE = 'watchLive/resetBroadcastState';
 export const TOGGLE_GIFT_BOX = 'watchLive/toggleGiftBox';
 export const HIDE_GIFT_BOX = 'watchLive/hideGiftBox';
@@ -25,7 +24,10 @@ export const FETCH_VIEWER_LIST = 'watchLive/fetchViewerList';
 export const FETCH_VIEWER_LIST_FINISH = 'watchLive/fetchViewerListFinish';
 export const RESET_VIEWER_LIST = 'watchLive/resetViewerList';
 export const STOP_FETCH_VIEWER_LIST = 'watchLive/stopFetchViewerList';
-export const SET_BROADCASTER_COIN = 'watchLive/';
+export const SET_BROADCASTER_COIN = 'watchLive/setBroadcasterCoin';
+export const END_BROADCAST = 'watchLive/EndBroadcast';
+export const SET_BROADCAST_ENDED = 'watchLive/SetBroadcastENded';
+export const RESET_BROADCAST_ENDED = 'watchLive/resetBroadcastEnded';
 
 export function fetchBroadcastDetail(broadcasterId) {
   return {
@@ -173,12 +175,6 @@ export function setBroadcasterInfo(broadcasterName, broadcasterProfilePicture, b
   };
 }
 
-export function setBroadcastHash(hash) {
-  return {
-    type: SET_BROADCAST_HASH,
-    hash,
-  };
-}
 
 export function resetBroadcastState() {
   return {
@@ -214,6 +210,28 @@ export function resetActiveGift() {
   };
 }
 
+export function endBroadcast() {
+  return {
+    type: END_BROADCAST,
+  };
+}
+
+export function setBroadcastEnded(isEnded, reason) {
+  return {
+    type: SET_BROADCAST_ENDED,
+    data: Map({
+      isEnded,
+      reason,
+    })
+  }
+}
+
+export function resetBroadcastEnded() {
+  return {
+    type: RESET_BROADCAST_ENDED
+  }
+}
+
 const initialState = Map({
   isShowGiftBox: false,
   broadcasterInfo: Map({
@@ -221,14 +239,18 @@ const initialState = Map({
     profilePicture: null,
     gender: '',
   }),
-  broadcastHash: null,
   broadcasterCoin: 0,
   viewers: List(),
   giftList: List(),
   heartList: List(),
   commentList: List(),
   activeGift: null,
+  endedData: Map({
+    isEnded: false,
+    reason: null,
+  }),
 });
+
 
 export default function reducer(state = initialState, action) {
   if (action.type === TOGGLE_GIFT_BOX) {
@@ -245,8 +267,6 @@ export default function reducer(state = initialState, action) {
         gender: action.broadcasterGender,
       }),
     );
-  } else if (action.type === SET_BROADCAST_HASH) {
-    return state.set('broadcastHash', action.hash);
   } else if (action.type === RESET_BROADCAST_STATE) {
     return state.withMutations(currentState =>
       currentState
@@ -259,7 +279,7 @@ export default function reducer(state = initialState, action) {
           }),
         )
         .set('broadcasterCoin', 0)
-        .set('broadcastHash', null));
+        .set('ended', false));
   } else if (action.type === SET_BROADCASTER_COIN) {
     return state.set('broadcasterCoin', action.ammount);
   } else if (action.type === SET_GIFT) {
@@ -295,6 +315,10 @@ export default function reducer(state = initialState, action) {
     return state.set('viewers', fromJS(action.viewerList));
   } else if (action.type === RESET_VIEWER_LIST) {
     return state.set('viewers', List());
+  } else if (action.type === SET_BROADCAST_ENDED) {
+    return state.set('endedData', action.data);
+  } else if (action.typee === RESET_BROADCAST_ENDED) {
+    return state.set('endedData', initialState.get('endedData'));
   }
   return state;
 }
@@ -315,5 +339,5 @@ export const getBroadcasterProfilePicture = state =>
   state.getIn(['broadcasterInfo', 'profilePicture']);
 export const getBroadcasterName = state => state.getIn(['broadcasterInfo', 'name']);
 export const getBroadcasterGender = state => state.getIn(['broadcasterInfo', 'gender']);
-export const getBroadcastHash = state => state.get('broadcastHash');
 export const getActiveGift = state => state.get('activeGift');
+export const getBroadcastEnded = state => state.get('endedData');

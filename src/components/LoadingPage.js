@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ActivityIndicator, View, StyleSheet, Dimensions } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Dimensions, Image } from 'react-native';
+import assets from '../assets';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,7 +16,7 @@ const Loading = ({ backgroundColor }) => (
   >
     <View
       style={{
-        backgroundColor,
+        backgroundColor: 'transparent',
         width: width / 1.618 / 1.618,
         height: height / 1.618 / 1.618 / 1.618,
         borderRadius: 10,
@@ -23,7 +24,8 @@ const Loading = ({ backgroundColor }) => (
         alignItems: 'center',
       }}
     >
-      <ActivityIndicator size="small" />
+      {/* <ActivityIndicator size="small" /> */}
+      <Image source={assets.refreshJump} style={{ width: 50, height: 50 }} />
     </View>
   </View>
 );

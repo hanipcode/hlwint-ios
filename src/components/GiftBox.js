@@ -112,7 +112,7 @@ class GiftBox extends React.Component {
     // if (!basic || !hot || !premium) return <Loading backgroundColor="#FFF" />;
     return (
       <View style={styles.giftBox.screen} pointerEvents="box-none">
-        <View style={isShowed ? styles.giftBox.container : { height: 0 }} pointerEvents="box-none">
+        <View style={styles.giftBox.container} pointerEvents="box-none">
           <View style={styles.giftBox.buttonContainer}>
             <TouchableHighlight
               style={index === 0 ? styles.giftBox.selected : styles.giftBox.button}

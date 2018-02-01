@@ -9,6 +9,8 @@ import Button from './Button';
 class StreamStart extends React.Component {
   static propTypes = {
     onLivePress: PropTypes.func.isRequired,
+    onTitleChange: PropTypes.func.isRequired,
+    onTagListChange: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -24,11 +26,17 @@ class StreamStart extends React.Component {
     });
   }
   onTagListChange(tagList) {
+    const { onTagListChange } = this.props;
     this.setState({ tagList });
+    onTagListChange(tagList);
+  }
+  onTitleChange(title) {
+    const { onTitleChange } = this.props;
+    onTitleChange(title);
   }
   render() {
     const { cover, tagList } = this.state;
-    const { onLivePress, onTitleChange } = this.props;
+    const { onLivePress } = this.props;
     if (!cover) return null;
     return (
       <TouchableOpacity
@@ -41,7 +49,10 @@ class StreamStart extends React.Component {
           <Text style={styles.streamInfo.coverText}>Cover</Text>
         </View>
         <View style={styles.streamInfo.tagContainer}>
-          <AutoCompleteTag onTagListChange={newTagList => this.onTagListChange(newTagList)} />
+          <AutoCompleteTag
+            onTagListChange={newTagList => this.onTagListChange(newTagList)}
+            onTitleChange={title => this.onTitleChange(title)}
+          />
         </View>
         <Button
           onPress={() => onLivePress()}

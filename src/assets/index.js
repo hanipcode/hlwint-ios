@@ -28,9 +28,13 @@ export default {
   home_bg: require('./home_bg.png'),
   facebook_login: require('./facebook_login.png'),
   view_count_holder: require('./view_count_holder.png'),
+  camera_flip: require('./camera_flip.png'),
   giftUserBar: require('./gift_user_bar.png'),
+  back: require('./back.png'),
   giftImageGlitter: require('./gift_image_glitter.png'),
   giftImageSprinkler: require('./gift_image_sprinkler.png'),
+  follow: require('./follow.png'),
+  following: require('./following.png'),
   giftCountGroup: [
     require('./x1.png'),
     require('./x2.png'),

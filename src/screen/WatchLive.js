@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   LayoutAnimation,
   Keyboard,
+  Share,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -16,7 +17,7 @@ import AnimatedGradient, { presetColors } from 'react-native-animated-linear-gra
 import { generateStreamLink } from '../data/wowza';
 import Storage from '../data/storage';
 import styles from '../styles';
-import { getStreamList } from '../ducks/live';
+import { getStreamList, fetchLive } from '../ducks/live';
 import {
   getIsShowGiftBox,
   toggleGiftBox,
@@ -28,16 +29,21 @@ import {
   getBroadcasterInfo,
   getBroadcasterCoin,
   fetchBroadcastDetail,
-  getBroadcastHash,
   getGiftList,
   getActiveGift,
   resetGift,
   publishGift,
   getCommentList,
   publishComment,
+  getHeartIdList,
+  addHeart,
+  hideGiftBox,
+  resetBroadcastState,
+  getBroadcastEnded,
+  resetBroadcastEnded,
 } from '../ducks/watchLive';
 import HeartContainer from '../components/HeartContainer';
-import CommentBox from '../components/ComentBox';
+import CommentBox from '../components/CommentBox';
 import GiftBox from '../components/GiftBox';
 import GiftAnimator from '../components/GiftAnimator';
 import WatchLiveSwipeAnimation from '../components/animations/WatchLiveSwipe';
@@ -48,10 +54,11 @@ import { getUserCoin } from '../ducks/userInfo';
 
 const filter = require('../assets/beauty.png');
 
-const resetToLive = NavigationActions.reset({
-  index: 0,
-  actions: [{ routeName: 'Live' }],
-});
+const resetToLiveEnded = params =>
+  NavigationActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'ViewerLiveEnded', params })],
+  });
 
 const resetToNextStream = params =>
   NavigationActions.reset({
@@ -108,14 +115,22 @@ class WatchLive extends React.Component {
     const { params } = navigation.state;
     const { broadcasterId } = params;
     dispatch(unsubscribeBroadcaster(broadcasterId));
+    dispatch(resetBroadcastState());
+    dispatch(hideGiftBox());
+    // dispatch(fetchLive())
   }
 
   onClosePress() {
     const { navigation, dispatch } = this.props;
     const { params } = navigation.state;
     const { broadcasterId } = params;
-    dispatch(unsubscribeBroadcaster(broadcasterId));
-    navigation.goBack();
+    const endedParams = {
+      userId: broadcasterId,
+    };
+    navigation.dispatch(resetToLiveEnded(endedParams));
+    // dispatch(unsubscribeBroadcaster(broadcasterId));
+    // dispatch(resetBroadcastState());
+    // dispatch(hideGiftBox());
   }
 
   onLoadStart(e) {
@@ -138,7 +153,7 @@ class WatchLive extends React.Component {
     }
   }
   onError(e) {
-    const { navigation, broadcastHash } = this.props;
+    const { navigation } = this.props;
     // Alert.alert('Yah videonya error');
     // navigation.dispatch(resetToLive);
     this.onClosePress();
@@ -169,6 +184,11 @@ class WatchLive extends React.Component {
     dispatch(publishComment(broadcasterId, sender, text));
   }
 
+  onGiftIconPress() {
+    const { dispatch } = this.props;
+    Keyboard.dismiss();
+    dispatch(toggleGiftBox());
+  }
   onHeartAreaPress() {
     const { navigation, dispatch, isGiftBoxShowed } = this.props;
     const { userInfo } = this.state;
@@ -180,12 +200,22 @@ class WatchLive extends React.Component {
       name: u_full_name,
       avatar: u_profile_pic,
     };
-    Keyboard.dismiss();
     dispatch(publishHeart(broadcasterId, sender));
+    requestAnimationFrame(() => Keyboard.dismiss());
     if (isGiftBoxShowed) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       dispatch(toggleGiftBox());
     }
+  }
+  onSharePress() {
+    const { broadcasterInfo } = this.props;
+    const url = 'http://hlwintlive.com';
+    const message = `${broadcasterInfo.get('name')} video chat room, provide rich and wonderful video show. here you can chat, make friends, and get reward`;
+    Share.share({
+      title: 'Hlwintlive Broadcasting App',
+      message,
+      url,
+    });
   }
 
   /* SWIPE UP AND DOWN CALLBACK FROM ANIMATION */
@@ -261,7 +291,6 @@ class WatchLive extends React.Component {
       viewerList,
       broadcasterInfo,
       broadcasterCoin,
-      broadcastHash,
       giftList,
       commentList,
       activeGift,
@@ -269,7 +298,7 @@ class WatchLive extends React.Component {
     } = this.props;
 
     const { params } = navigation.state;
-    const { broadcasterId, liveImage } = params;
+    const { broadcasterId, liveImage, streamName } = params;
     return (
       <View style={{ flex: 1, backgroundColor: 'transparent' }}>
         <Header
@@ -279,40 +308,26 @@ class WatchLive extends React.Component {
           broadcasterInfo={broadcasterInfo}
           broadcasterCoin={broadcasterCoin}
         />
-        {serverInfo &&
-          broadcastHash && (
-            <Video
-              ref={(vid) => {
-                this.vid = vid;
-              }}
-              source={{ uri: generateStreamLink(serverInfo, broadcastHash, broadcasterId) }}
-              onLoadStart={this.onLoadStart} // Callback when video starts to load
-              onProgress={this.onProgress} // Callback every ~250ms with currentTime
-              onError={this.onError} // Callback when video cannot be loaded
-              onBuffer={this.onBuffer} // Callback when remote video is buffering
-              paused={!broadcastHash}
-              poster={liveImage}
-              playInBackground // Audio continues to play when app entering background.
-              playWhenInactive // [iOS] Video continues to play when control or notification center are shown.
-              resizeMode="cover"
-              repeat
-              style={styles.watchLive.video}
-            />
-          )}
-        <Image
-          source={filter}
-          resizeMode="cover"
-          blurRadius={5}
-          style={{
-            opacity: 0.25,
-            backgroundColor: 'transparent',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-        />
+        {serverInfo && (
+          <Video
+            ref={(vid) => {
+              this.vid = vid;
+            }}
+            source={{ uri: generateStreamLink(serverInfo, streamName) }}
+            onLoadStart={this.onLoadStart} // Callback when video starts to load
+            onProgress={this.onProgress} // Callback every ~250ms with currentTime
+            onError={this.onError} // Callback when video cannot be loaded
+            onBuffer={this.onBuffer} // Callback when remote video is buffering
+            paused={false}
+            poster={liveImage}
+            // playInBackground // Audio continues to play when app entering background.
+            playWhenInactive // [iOS] Video continues to play when control or notification center are shown.
+            resizeMode="cover"
+            repeat
+            style={styles.watchLive.video}
+          />
+        )}
+        <Image source={filter} resizeMode="cover" blurRadius={5} style={styles.watchLive.filter} />
         {buffer &&
           !screenLoading && (
             <View style={styles.watchLive.loadingOverlay}>
@@ -337,22 +352,23 @@ class WatchLive extends React.Component {
         {!screenLoading && (
           <CommentBox
             onSendCommentPress={text => this.onSendCommentPress(text)}
-            broadcasterId={broadcasterId}
             commentList={commentList}
+            onGiftIconPress={() => this.onGiftIconPress()}
+            onSharePress={() => this.onSharePress()}
           />
         )}
 
-        {giftList.size !== 0 && (
-          <GiftBox
-            onSendGiftPress={this.onSendGiftPress}
-            broadcasterId={broadcasterId}
-            userInfo={userInfo}
-            isShowed={isGiftBoxShowed}
-            giftList={giftList}
-            userCoin={userCoin}
-          />
-        )}
-                {!screenLoading && (
+        {giftList.size !== 0 &&
+          isGiftBoxShowed && (
+            <GiftBox
+              onSendGiftPress={this.onSendGiftPress}
+              broadcasterId={broadcasterId}
+              userInfo={userInfo}
+              giftList={giftList}
+              userCoin={userCoin}
+            />
+          )}
+        {!screenLoading && (
           <GiftAnimator
             ref={(animator) => {
               this.giftAnimator = animator;
@@ -360,7 +376,7 @@ class WatchLive extends React.Component {
             activeGift={activeGift}
           />
         )}
-        {(screenLoading || giftList.size === 0 || !broadcastHash) && (
+        {(screenLoading || giftList.size === 0 ) && (
           <View style={styles.watchLive.loadingContainer}>
             <Image
               source={{ uri: liveImage, height: 400, width: 400 }}
@@ -376,7 +392,6 @@ class WatchLive extends React.Component {
             />
           </View>
         )}
-        
       </View>
     );
   }
@@ -389,6 +404,7 @@ WatchLive.propTypes = {
         accessToken: PropTypes.string.isRequired,
         broadcasterId: PropTypes.number.isRequired,
         liveImage: PropTypes.string.isRequired,
+        streamName: PropTypes.string.isRequired,
       }).isRequired,
     }).isRequired,
     navigate: PropTypes.func.isRequired,
@@ -403,7 +419,6 @@ WatchLive.propTypes = {
   broadcasterInfo: PropTypes.instanceOf(List).isRequired,
   commentList: PropTypes.instanceOf(List).isRequired,
   broadcasterCoin: PropTypes.number.isRequired,
-  broadcastHash: PropTypes.string.isRequired,
   userCoin: PropTypes.number.isRequired,
 };
 
@@ -414,7 +429,6 @@ const mapStateToProps = state => ({
   giftList: getGiftList(state.watchLiveReducer),
   broadcasterInfo: getBroadcasterInfo(state.watchLiveReducer),
   broadcasterCoin: getBroadcasterCoin(state.watchLiveReducer),
-  broadcastHash: getBroadcastHash(state.watchLiveReducer),
   activeGift: getActiveGift(state.watchLiveReducer),
   commentList: getCommentList(state.watchLiveReducer),
   userCoin: getUserCoin(state.userInfoReducer),

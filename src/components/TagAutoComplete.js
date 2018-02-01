@@ -8,6 +8,7 @@ import styles from '../styles';
 class TagAutoComplete extends React.Component {
   static propTypes = {
     onTagListChange: PropTypes.func.isRequired,
+    onTitleChange: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -38,21 +39,23 @@ class TagAutoComplete extends React.Component {
               </Text>
             );
           }
-          return <Text key={'test'}>{value + ' '}</Text>;
+          return <Text>{value + ' '}</Text>;
         })}
       </Text>
     );
   }
 
   onChangeText(text) {
+    const { onTitleChange, onTagListChange } = this.props;
     const { tagList } = this.state;
     const newTagList = _.filter(text.split(' '), this.isHashtag);
     if (newTagList !== tagList) {
       this.setState({ text, tagList: newTagList });
-      this.props.onTagListChange(newTagList);
+      onTagListChange(newTagList);
     } else {
       this.setState({ text });
     }
+    onTitleChange(text);
   }
 
   /*

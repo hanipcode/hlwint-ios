@@ -12,6 +12,7 @@ import StylesManager from '../styles';
 import Storage from '../data/storage';
 import Loading from '../components/LoadingPage';
 import constants from '../constants';
+import normalizeText from '../helpers/normalizeText';
 
 const styles = StylesManager.login;
 
@@ -40,10 +41,10 @@ class Login extends Component {
     const { dispatch } = this.props;
     try {
       const accessToken = await Storage.getToken();
-      // if (accessToken) {
-      //   this.setState({ isLoading: true });
-      //   dispatch(reLogin());
-      // }
+      if (accessToken) {
+        this.setState({ isLoading: true });
+        dispatch(reLogin());
+      }
     } catch (error) {
       console.error(error.message, error.stack);
       dispatch(didReceiveError(ERROR_TAG.LOC_STORAGE_ERROR, ERROR_MESSAGE.STORAGE_FAIL));
@@ -131,7 +132,7 @@ class Login extends Component {
           />
         </TouchableOpacity>
         <View style={styles.textContainer}>
-          <Text style={{ textAlign: 'center', color: '#777', fontSize: 12 }}>
+          <Text style={{ textAlign: 'center', color: '#777', fontSize: normalizeText(12) }}>
             By continuing, you agree to our {'\n'}
             <Text style={{ fontWeight: '900' }} onPress={() => navigation.navigate('TermOfUse')}>
               Term of services{' '}

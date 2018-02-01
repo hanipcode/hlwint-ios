@@ -14,13 +14,11 @@ import { toggleGiftBox } from '../ducks/watchLive';
 import styles from '../styles';
 import assets from '../assets';
 
-const { height } = Dimensions.get('window');
-const KEYBOARD_HEIGHT = height / 1.618 + 10;
-
 class CommentBoxBottom extends React.Component {
   static propTypes = {
     publishComment: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    toggleGiftBox: PropTypes.func.isRequired,
+    onSharePress: PropTypes.func.isRequired,
   };
   constructor(props) {
     super(props);
@@ -40,34 +38,30 @@ class CommentBoxBottom extends React.Component {
   }
   render() {
     const { text } = this.state;
-    const { dispatch } = this.props;
+    const { toggleGiftBox, onSharePress } = this.props;
     return (
-      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={KEYBOARD_HEIGHT}>
-        <View style={styles.commentBoxBottom.container}>
-          <TouchableOpacity style={styles.commentBoxBottom.share}>
-            <Image style={styles.commentBoxBottom.image} source={assets.share} />
-          </TouchableOpacity>
-          <TextInput
-            style={styles.commentBoxBottom.input}
-            onChangeText={newText => this.onChangeText(newText)}
-            value={text}
-            onSubmitEditing={() => this.onSend()}
-          />
-          <TouchableOpacity style={styles.commentBoxBottom.send} onPress={() => this.onSend()}>
-            <Image style={styles.commentBoxBottom.image} source={assets.plane} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.commentBoxBottom.gift}
-            onPress={() => requestAnimationFrame(() => dispatch(toggleGiftBox()))}
-          >
-            <Image style={styles.commentBoxBottom.giftImage} source={assets.sendGift} />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+      <View style={styles.commentBoxBottom.container}>
+        <TouchableOpacity style={styles.commentBoxBottom.share} onPress={onSharePress}>
+          <Image style={styles.commentBoxBottom.image} source={assets.share} />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.commentBoxBottom.input}
+          onChangeText={newText => this.onChangeText(newText)}
+          value={text}
+          onSubmitEditing={() => this.onSend()}
+        />
+        <TouchableOpacity style={styles.commentBoxBottom.send} onPress={() => this.onSend()}>
+          <Image style={styles.commentBoxBottom.image} source={assets.plane} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.commentBoxBottom.gift}
+          onPress={() => requestAnimationFrame(() => toggleGiftBox())}
+        >
+          <Image style={styles.commentBoxBottom.giftImage} source={assets.sendGift} />
+        </TouchableOpacity>
+      </View>
     );
   }
 }
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps)(CommentBoxBottom);
+export default CommentBoxBottom;

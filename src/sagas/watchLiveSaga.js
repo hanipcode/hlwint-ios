@@ -1,3 +1,5 @@
+
+import { Alert } from 'react-native';
 import {
   put,
   actionChannel,
@@ -10,6 +12,7 @@ import {
   select,
 } from 'redux-saga/effects';
 import { delay, buffers } from 'redux-saga';
+import { NavigationActions } from 'react-navigation';
 import pubnubEventChannel from './eventChannel';
 import {
   SUBSCRIBE_CHANNEL,
@@ -18,6 +21,7 @@ import {
   FETCH_VIEWER_LIST,
   addHeart,
   STOP_FETCH_VIEWER_LIST,
+  getGiftList,
   fetchViewerFinish,
   resetViewerList,
   setBroadcasterCoin,
@@ -36,6 +40,8 @@ import {
   addComment,
   PUBLISH_COMMENT,
   getBroadcasterCoin,
+  resetComment,
+  setBroadcastEnded,
 } from '../ducks/watchLive';
 import { publishHeart, publishGift, publishComment } from '../data/pubnub';
 import * as service from '../helpers/api';
@@ -51,14 +57,31 @@ import { fetchUserProfile } from '../ducks/userInfo';
 // }
 
 function* giftAnimationQueue() {
-  const giftAnimationChannel = yield actionChannel(SEND_GIFT);
+  const giftAnimationChannel = yield actionChannel(SEND_GIFT, buffers.expanding(10));
   while (true) {
-    const {
-      name, profilePicture, count, itemName, itemImage,
-    } = yield take(giftAnimationChannel);
-    yield put(setActiveGift(name, profilePicture, count, itemName, itemImage));
-    yield call(delay, 3000);
-    yield put(resetActiveGift());
+    try {
+      const {
+        name, profilePicture, count, itemName,
+      } = yield take(giftAnimationChannel);
+      const currentState = yield select();
+      const giftList = getGiftList(currentState.watchLiveReducer);
+      if (giftList.size === 0) {
+        throw new Error('Gift List is not yet loaded');
+      }
+      const unionGiftList = giftList
+        .get('hot')
+        .concat(giftList.get('basic'))
+        .concat(giftList.get('premium'));
+      const itemImage = unionGiftList
+        .filter(gift => gift.get('cs_itemname') === itemName)
+        .get(0)
+        .get('cs_image');
+      yield put(setActiveGift(name, profilePicture, count, itemName, itemImage));
+      yield call(delay, 3000);
+      yield put(resetActiveGift());
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
@@ -91,7 +114,7 @@ function* watchPublishGift() {
       yield all([
         put(fetchUserProfile()),
         put(setBroadcasterCoin(newBroadcasterCoin)),
-        fork(publishGift, channel, sender, itemCount, itemName, itemImage),
+        fork(publishGift, channel, sender, itemCount, itemName),
       ]);
     } catch (err) {
       console.log(err);
@@ -129,7 +152,7 @@ function* watchPubnub() {
         const message = yield take(subscribedChannel);
         const { type, sender, text } = message;
         if (type === 'heart') {
-          if (sender.id !== userId) {
+          if (sender.id.toString() !== userId.toString()) {
             yield put(addHeart(sender));
           }
         }
@@ -141,12 +164,24 @@ function* watchPubnub() {
         if (type === 'comment') {
           yield put(addComment(sender, text));
         }
+        if (type === 'closed') {
+          Alert.alert('Current Stream Has Ended');
+          yield put(NavigationActions.navigate({
+            routeName: 'ViewerLiveEnded',
+            params: { userId: channel },
+          }));
+          // yield put(setBroadcastEnded(true, 'Broadcaster has ended the stream'));
+        }
       }
     } finally {
       if (yield cancelled()) {
         yield subscribedChannel.close();
-        yield put(resetActiveGift());
-        yield put(resetHeart());
+        yield all([
+          put(resetActiveGift()),
+          put(resetHeart()),
+          put(resetBroadcastState()),
+          put(resetComment()),
+        ]);
       }
     }
   }
@@ -180,8 +215,11 @@ function* viewerListTask() {
   yield cancel(viewerListRefreshTask);
 }
 
-function* getGiftList(id, accessToken) {
+function* watchGiftList() {
   try {
+    const userData = yield call(Storage.getUser);
+    const { id } = userData;
+    const accessToken = yield call(Storage.getToken);
     const giftList = yield call(service.getGiftList, id, accessToken);
     yield put(setGiftList(giftList));
   } catch (e) {
@@ -190,33 +228,27 @@ function* getGiftList(id, accessToken) {
 }
 
 function* broadcastDetailTask() {
+  const { broadcasterId } = yield take(FETCH_BROADCAST_DETAIL);
   try {
-    const { broadcasterId } = yield take(FETCH_BROADCAST_DETAIL);
     console.log('disini');
+    yield put(resetBroadcastState());
     const userData = yield call(Storage.getUser);
     const accessToken = yield call(Storage.getToken);
     const { id } = userData;
-    const broadcastDetailData = yield call(
-      service.getBroadcastDetail,
-      id,
-      accessToken,
-      broadcasterId,
-    );
     const userProfileData = yield call(service.getOtherUserProfile, id, accessToken, broadcasterId);
-    yield fork(getGiftList, id, accessToken);
-    console.log('nyah', id, accessToken, broadcasterId);
-    console.log('dor', userProfileData);
-    if (broadcastDetailData.message !== 'success' || userProfileData.message !== 'success') {
-      console.log(userProfileData);
+    const joinLiveData = yield call(service.joinLive, id, accessToken, broadcasterId);
+    if (
+      userProfileData.message !== 'success' ||
+      joinLiveData.message !== 'success'
+    ) {
+      console.log(userProfileData, joinLiveData);
       throw new Error('ERROR broadcast detail');
     }
-    const { hash } = broadcastDetailData.data;
     const {
       profile_pic, first_name, last_name, gender,
     } = userProfileData.data;
     const fullName = `${first_name} ${last_name}`;
     yield all([
-      put(setBroadcastHash(hash)),
       put(setBroadcasterInfo(fullName, profile_pic, gender)),
       put(fetchUserProfile()),
     ]);
@@ -236,12 +268,14 @@ export default function* watchLiveSaga() {
   while (true) {
     const subscription = yield fork(watchPubnub);
     const viewerList = yield fork(viewerListTask);
+    const giftList = yield fork(watchGiftList);
     const broadcastDetail = yield fork(broadcastDetailTask);
     const { channel } = yield take(UNSUBSCRIBE_CHANNEL);
     if (channel) {
       yield cancel(subscription);
       yield cancel(viewerList);
       yield cancel(broadcastDetail);
+      yield cancel(giftList);
     }
   }
 }

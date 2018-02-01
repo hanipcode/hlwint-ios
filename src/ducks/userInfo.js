@@ -43,6 +43,12 @@ function convertToState(data) {
     fullName: data.u_full_name,
     gender: data.u_gender,
     profilePic: data.u_profile_pic,
+    nickName: data.u_nick_name,
+    followerCount: data.u_follower_count,
+    fanCount: data.u_fan_count,
+    bio: data.u_bioghraphy,
+    city: data.u_city,
+    income: data.u_income,
   };
 }
 
@@ -69,6 +75,12 @@ const initialState = Map({
     fullName: '',
     gender: '',
     profilePic: null,
+    nickName: '',
+    followerCount: 0,
+    fanCount: 0,
+    bio: '',
+    city: '',
+    income: 0,
   }),
 });
 
@@ -80,3 +92,4 @@ export default function reducer(state = initialState, action) {
 }
 
 export const getUserCoin = state => state.getIn(['profileData', 'coin']);
+export const getProfile = state => state.get('profileData');

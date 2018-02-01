@@ -1,19 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { View, FlatList, Alert, Image, Animated, StyleSheet } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 import Loading from '../components/LoadingPage';
 import Card from '../components/Card';
 import MainHeader from '../components/MainHeader';
-import WithAnimateOverlay from '../components/animations/LiveListAnimation';
 import { getIsLoading, getStreamList, fetchLive, fetchLiveStop } from '../ducks/live';
-import { generateStreamLink } from '../data/wowza';
 import Storage from '../data/storage';
-import assets from '../assets';
-import styles from '../styles';
-import CONSTANTS from '../constants';
 
 class Live extends React.Component {
   static navigationOptions = {
@@ -24,9 +18,6 @@ class Live extends React.Component {
     dispatch: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     streamList: PropTypes.instanceOf(Immutable.List).isRequired,
-    animateCards: PropTypes.func.isRequired,
-    overlayOpacity: PropTypes.instanceOf(Animated.Value).isRequired,
-    cardsOpacity: PropTypes.instanceOf(Animated.Value).isRequired,
   };
 
   constructor(props) {
@@ -34,7 +25,6 @@ class Live extends React.Component {
     this.state = {
       loading: true,
       profilePicture: null,
-      selectedId: null,
     };
   }
 
@@ -46,95 +36,64 @@ class Live extends React.Component {
     const profilePicture = await Storage.getUserPicture();
     const { id } = userData;
     dispatch(fetchLive({ id, accessToken }));
-    this.setState({ profilePicture });
+    this.setState({ profilePicture, loading: false });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { isLoading } = nextProps;
-    if (!isLoading) {
-      this.setState({ loading: false });
-    }
-  }
-
-  async goToWatchLive(broadcasterId, liveImage) {
-    // props from animation
-    const { animateCards } = this.props;
-    this.setState({ selectedId: broadcasterId });
+  async goToWatchLive(broadcasterId, liveImage, streamName) {
     const userData = await Storage.getUser();
     // const accessToken = await Storage.getToken();
     const { navigation, dispatch } = this.props;
     const { id, u_token: accessToken } = userData;
     try {
-      // const broadcastDetail = await getBroadcastDetail(id, accessToken, broadcasterId);
-      // if (broadcastDetail.message !== 'success') {
-      //   throw new Error('Fail when fetching broadcast detail');
-      // }
-      animateCards(() => {
-        navigation.navigate('WatchLive', {
-          id,
-          accessToken,
-          liveImage,
-          broadcasterId,
-        });
+      navigation.navigate('WatchLive', {
+        id,
+        accessToken,
+        liveImage,
+        broadcasterId,
+        streamName,
       });
-      // dispatch(fetchLiveStop());
     } catch (error) {
-      // Alert.alert(error);
       console.log(error);
     }
   }
 
   renderItem({ item, index }) {
     const { streamList } = this.props;
-    const { selectedId } = this.state;
-    // props from animation
-    let isLast;
-    if (streamList.size % 2 !== 0 && index === streamList.size - 1) {
-      isLast = true;
-    } else {
-      isLast = false;
-    }
-    const { cardsOpacity } = this.props;
     const tagText = item
       .get('tags')
       .map(tag => tag.get('t_name'))
       .join(' ');
     return (
-      <Animated.View style={{ opacity: selectedId === item.get('id') ? 1 : cardsOpacity }}>
-        <Card
-          onPress={() => this.goToWatchLive(item.get('id'), item.get('liveImage'))}
-          image={item.get('liveImage')}
-          name={item.get('name')}
-          viewCount={item.get('id')}
-          tags={tagText}
-          title={item.get('title')}
-          location={item.get('location')}
-          isOfficial={item.get('isOfficial')}
-          isLast={isLast}
-        />
-      </Animated.View>
+      <Card
+        onPress={() =>
+          this.goToWatchLive(item.get('id'), item.get('liveImage'), item.get('streamName'))
+        }
+        image={item.get('liveImage')}
+        name={item.get('name')}
+        viewCount={item.get('viewCount')}
+        tags={tagText}
+        title={item.get('title')}
+        location={item.get('location')}
+        isOfficial={item.get('isOfficial')}
+      />
     );
   }
 
   render() {
     const { isLoading, streamList } = this.props;
     // props from animation
-    const { overlayOpacity } = this.props;
+    const { navigation } = this.props;
     const { profilePicture } = this.state;
     const { loading } = this.state;
     const data = streamList.toArray();
 
     return (
       <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-        <MainHeader profilePicture={profilePicture} />
-        <Animated.View
-          pointerEvents="none"
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: 'rgba(0,0,0, 0.9)',
-            opacity: overlayOpacity,
-          }}
+        <MainHeader
+          onProfilePress={() => navigation.navigate('CurrentUserProfile')}
+          profilePicture={profilePicture}
         />
+
         <FlatList
           data={data}
           contentContainerStyle={{
@@ -157,5 +116,4 @@ const mapStateToProps = state => ({
   streamList: getStreamList(state.liveReducer),
 });
 
-const AnimatedLive = WithAnimateOverlay(Live);
-export default connect(mapStateToProps)(AnimatedLive);
+export default connect(mapStateToProps)(Live);

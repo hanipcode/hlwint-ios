@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     position: 'absolute',
     zIndex: 2,
-    top: 28,
+    top: 32,
     left: 8,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0)',

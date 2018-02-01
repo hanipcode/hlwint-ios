@@ -44,6 +44,40 @@ export function* uploadDeviceSaga() {
   }
 }
 
+export function* reloginDeviceSaga() {
+  try {
+    const userId = yield Storage.getUser();
+    const accessToken = yield Storage.getToken();
+    const deviceAgent = device.getUniqueID().replace(/[-]/gi, '');
+    const uploadLastDeviceResponse = yield call(
+      service.uploadLastDevice,
+      userId.id,
+      deviceAgent,
+      deviceOS,
+      accessToken,
+    );
+    if (uploadLastDeviceResponse.status !== 200) {
+      throw new Error(ERROR_MESSAGE.DEVICE_FAIL);
+    }
+    const uploadLastDeviceJson = yield uploadLastDeviceResponse.json();
+    if (uploadLastDeviceJson.message !== 'success') {
+      throw new Error(ERROR_TAG.LOGIN_ERROR, ERROR_MESSAGE.DEVICE_FAIL);
+    }
+    try {
+      const getServerInfo = yield service.getServerInfo();
+      Storage.setServerInfo(getServerInfo);
+    } catch (err) {
+      yield put(didReceiveError(ERROR_TAG.LOC_STORAGE_ERROR, ERROR_MESSAGE.SERVER_INFO));
+    }
+
+    yield put(NavigationActions.navigate({
+      routeName: 'Home',
+    }));
+  } catch (err) {
+    yield put(didReceiveError(ERROR_TAG.LOGIN_ERROR, ERROR_MESSAGE.DEVICE_FAIL));
+  }
+}
+
 export default function* loginSaga({ payload }) {
   yield put(actionCreators.startLogin());
   try {

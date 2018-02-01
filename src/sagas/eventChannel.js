@@ -1,4 +1,4 @@
-import { eventChannel, END } from 'redux-saga';
+import { eventChannel, END, buffers } from 'redux-saga';
 import { subscribe } from '../data/pubnub';
 
 export default function listenToPubnubChannel(channelId) {
@@ -12,5 +12,5 @@ export default function listenToPubnubChannel(channelId) {
       console.log('unsubscribe di listen');
       subscription.unsubscribe();
     };
-  });
+  }, buffers.expanding(10));
 }

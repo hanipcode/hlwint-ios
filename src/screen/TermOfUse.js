@@ -42,7 +42,7 @@ class TermOfUse extends React.Component {
             fontWeight: '600',
             backgroundColor: '#FFF',
           }}
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.goBack(null)}
         >
           {'← BACK'}
         </Text>

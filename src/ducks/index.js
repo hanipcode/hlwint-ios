@@ -6,6 +6,7 @@ import liveReducer from './live';
 import watchLiveReducer from './watchLive';
 import exploreReducer from './explore';
 import userInfoReducer from './userInfo';
+import broadcastReducer from './broadcast';
 
 const reducers = combineReducers({
   nav: navReducer,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   watchLiveReducer,
   exploreReducer,
   userInfoReducer,
+  broadcastReducer,
 });
 
 export default reducers;

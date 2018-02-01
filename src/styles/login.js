@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
   facebookLogin: {
     position: 'absolute',
-    bottom: 65,
+    bottom: height / 8.2,
   },
   facebookLoginImage: {
     width: width / 1.618 + 40,

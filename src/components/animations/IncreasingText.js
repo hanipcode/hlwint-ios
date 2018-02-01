@@ -19,6 +19,10 @@ class IncreasingText extends React.Component {
     const { value } = this.props;
     const { value: nextValue } = nextProps;
     clearInterval(this.increaseInterval);
+    if (value === 0) {
+      this.setState({ outputValue: nextValue });
+      return;
+    }
     this.increaseInterval = setInterval(() => {
       const { outputValue } = this.state;
       if (nextValue === outputValue) {
@@ -26,11 +30,11 @@ class IncreasingText extends React.Component {
         return;
       }
       if (nextValue > outputValue) {
-        this.setState({ outputValue: outputValue + 1 });
+        requestAnimationFrame(() => this.setState({ outputValue: outputValue + 1 }));
       } else if (nextValue < outputValue) {
-        this.setState({ outputValue: outputValue - 1 });
+        requestAnimationFrame(() => this.setState({ outputValue: outputValue - 1 }));
       }
-    }, 50);
+    }, 30);
   }
 
   componentWillUnmount() {

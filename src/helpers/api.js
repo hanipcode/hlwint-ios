@@ -197,19 +197,14 @@ export function getBroadcastDetail(id, accessToken, broadcasterId) {
 }
 
 export function initBroadcast(broadcasterId, accessToken, title, tags) {
-  const data = JSON.stringify({
-    id: broadcasterId,
-    u_token: accessToken,
-    // title,
-    // tag: tags,
-  });
+  console.log(tags);
   return fetch('https://dashboard.imliveapp.com/api/ml/broadcast', {
     method: 'POST',
     body: JSON.stringify({
       id: broadcasterId,
       u_token: accessToken,
       title: title || 'untitled stream',
-      tag: tags,
+      tag: JSON.stringify({ tags }),
     }),
     headers: defaultHeaders,
   }).then((response) => {

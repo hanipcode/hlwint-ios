@@ -80,6 +80,14 @@ export default class Storage {
     }
   }
 
+  static async resetToken() {
+    try {
+      await AsyncStorage.removeItem(TOKEN_DATA_KEY);
+    } catch (error) {
+      throw new Error('error while reseting token');
+    }
+  }
+
   static async getToken() {
     try {
       const accessToken = await AsyncStorage.getItem(TOKEN_DATA_KEY);

@@ -17,6 +17,9 @@ import tabBar from './HomeTabBar';
 import watchLiveHeader from './watchLiveHeader';
 import explore from './explore';
 import giftAnimator from './giftAnimator';
+import broadcastingFragment from './broadcastingFragment';
+import currentUserProfile from './currentUserProfile';
+import viewerLiveEnded from './viewerLiveEnded';
 
 export default {
   login,
@@ -38,4 +41,7 @@ export default {
   watchLiveHeader,
   explore,
   giftAnimator,
+  broadcastingFragment,
+  currentUserProfile,
+  viewerLiveEnded,
 };

@@ -63,6 +63,7 @@ export function convertToState(liveListJson) {
     location: liveItem.location,
     isOfficial: liveItem.type === 4,
     title: liveItem.broadcast_title,
+    streamName: liveItem.stream_name,
   }));
 }
 

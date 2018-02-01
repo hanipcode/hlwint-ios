@@ -20,14 +20,15 @@ class HeartContainer extends Component {
     return (
       <View style={styles.heartContainer.container} pointerEvents="none">
         {/* <Text style={{ color: '#FFF' }}>{heart.length}</Text> */}
-        {heartIdList.size > 0 && heartIdList.map(heartItem => (
-          <Heart
-            key={heartItem}
-            id={heartItem}
-            // avatar={heartItem.avatar}
-            // removeHeart={() => this.removeHeart(heartItem.id)}
-          />
-        ))}
+        {heartIdList.size > 0 &&
+          heartIdList.map(heartItem => (
+            <Heart
+              key={heartItem}
+              id={heartItem}
+              // avatar={heartItem.avatar}
+              // removeHeart={() => this.removeHeart(heartItem.id)}
+            />
+          ))}
       </View>
     );
   }
@@ -36,5 +37,4 @@ class HeartContainer extends Component {
 const mapStateToProps = state => ({
   heartIdList: getHeartIdList(state.watchLiveReducer),
 });
-
 export default connect(mapStateToProps)(HeartContainer);

@@ -12,6 +12,7 @@ const MESSAGE_TYPE = {
   MESSAGE_LIKE: 'like',
   MESSAGE_HEART: 'heart',
   COMMENT_MESSAGE: 'comment',
+  CLOSED: 'closed',
 };
 let connection;
 const presenceSubscriptions = new Set();
@@ -64,6 +65,9 @@ export const connect = () => {
               case 'PNNetworkDownCategory':
                 connect(); // reconnect
                 break;
+              case 'PNTimeoutCategory':
+                console.log('Timeout');
+                break;
             }
           },
         });
@@ -93,6 +97,15 @@ const handshake = pubnub =>
     });
   });
 
+export const unsubscribe = (channel) => {
+  console.log('nyoba unsub');
+  connect().then(({ pubnub }) => {
+    pubnub.unsubscribe({
+      channels: [channel],
+    });
+  });
+};
+
 export const subscribe = (channel, presenceHandler, messageHandler) => {
   presenceSubscriptions.add(presenceHandler);
 
@@ -110,8 +123,7 @@ export const subscribe = (channel, presenceHandler, messageHandler) => {
       presenceSubscriptions.delete(presenceHandler);
 
       messageSubscriptons.delete(messageHandler);
-
-      return connect().then(handle => handle.unsubscribe({ channel })).catch(err => console.log(err));
+      return unsubscribe(channel);
     },
   };
 };
@@ -170,20 +182,22 @@ export const publishTypingState = (channel, userId, isTyping) =>
 
 export const publishMessage = (channel, message) =>
   new Promise((resolve, reject) => {
-    connect().then(({ pubnub }) =>
-      pubnub.publish(
-        {
-          channel,
-          message,
-        },
-        (status, response) => {
-          if (status.error) {
-            reject(status.category);
-          } else {
-            resolve();
-          }
-        },
-      )).catch(err => console.log(err));
+    connect()
+      .then(({ pubnub }) =>
+        pubnub.publish(
+          {
+            channel,
+            message,
+          },
+          (status, response) => {
+            if (status.error) {
+              reject(status.category);
+            } else {
+              resolve();
+            }
+          },
+        ))
+      .catch(err => console.log(err));
   });
 
 /*
@@ -196,24 +210,26 @@ export const publishMessage = (channel, message) =>
 */
 export const publishComment = (broadcasterId, sender, text) =>
   new Promise((resolve, reject) => {
-    connect().then(({ pubnub }) =>
-      pubnub.publish(
-        {
-          channel: broadcasterId,
-          message: {
-            type: MESSAGE_TYPE.COMMENT_MESSAGE,
-            sender,
-            text,
+    connect()
+      .then(({ pubnub }) =>
+        pubnub.publish(
+          {
+            channel: broadcasterId,
+            message: {
+              type: MESSAGE_TYPE.COMMENT_MESSAGE,
+              sender,
+              text,
+            },
           },
-        },
-        (status, response) => {
-          if (status.error) {
-            reject(status.category);
-          } else {
-            resolve();
-          }
-        },
-      )).catch(err => console.log(err));
+          (status, response) => {
+            if (status.error) {
+              reject(status.category);
+            } else {
+              resolve();
+            }
+          },
+        ))
+      .catch(err => console.log(err));
   });
 
 export const publishHeart = (broadcasterId, sender) =>
@@ -238,38 +254,60 @@ export const publishHeart = (broadcasterId, sender) =>
       ));
   });
 
-export const publishGift = (broadcasterId, sender, itemCount, itemName, itemImage) =>
+export const publishCloseStream = (broadcasterId, sender) =>
   new Promise((resolve, reject) => {
     connect().then(({ pubnub }) =>
       pubnub.publish(
         {
           channel: broadcasterId,
           message: {
-            type: MESSAGE_TYPE.MESSAGE_LIKE,
+            type: MESSAGE_TYPE.CLOSED,
             sender,
-            text: '',
-            item_count: itemCount,
-            item_name: itemName,
-            item_image: itemImage,
           },
         },
         (status, response) => {
           if (status.error) {
-            console.log(status);
             reject(status.category);
           } else {
-            console.log(
-              'successed',
-              response,
-              broadcasterId,
-              sender,
-              itemCount,
-              itemName,
-              MESSAGE_TYPE.MESSAGE_LIKE,
-            );
-
             resolve();
           }
         },
-      )).catch(err => console.log(err));
+      ));
+  });
+export const publishGift = (broadcasterId, sender, itemCount, itemName, itemImage) =>
+  new Promise((resolve, reject) => {
+    connect()
+      .then(({ pubnub }) =>
+        pubnub.publish(
+          {
+            channel: broadcasterId,
+            message: {
+              type: MESSAGE_TYPE.MESSAGE_LIKE,
+              sender,
+              text: '',
+              item_count: itemCount,
+              item_name: itemName,
+              item_image: itemImage,
+            },
+          },
+          (status, response) => {
+            if (status.error) {
+              console.log(status);
+              reject(status.category);
+            } else {
+              console.log(
+                'successed',
+                response,
+                broadcasterId,
+                sender,
+                itemCount,
+                itemName,
+                MESSAGE_TYPE.MESSAGE_LIKE,
+              );
+
+              resolve();
+            }
+          },
+        ))
+      .catch(err => console.log(err));
   });

@@ -66,4 +66,14 @@ export default StyleSheet.create({
     height: 35 / 1.618 / 1.618,
     width: 35 / 1.618 / 1.618,
   },
+  filter: {
+    opacity: 0.18,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height,
+  },
 });

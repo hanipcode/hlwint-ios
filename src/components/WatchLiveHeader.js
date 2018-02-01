@@ -120,7 +120,10 @@ class WatchLiveHeader extends React.Component {
             <IncreasingText style={styles.watchLiveHeader.coinText} value={broadcasterCoin} />
           </View>
         )}
-        <TouchableOpacity onPress={() => onClosePress()} style={styles.watchLiveHeader.close}>
+        <TouchableOpacity
+          onPress={() => requestAnimationFrame(() => onClosePress())}
+          style={styles.watchLiveHeader.close}
+        >
           <Image
             source={assets.close}
             resizeMode="contain"

@@ -25,7 +25,10 @@ export default StyleSheet.create({
   send: {
     marginRight: 5,
   },
-  gift: {},
+  camera: {
+    maxWidth: 32.5,
+    height: 65,
+  },
   image: {
     maxWidth: 32,
     height: 32,
