@@ -40,11 +40,11 @@ class Login extends Component {
   async componentWillMount() {
     const { dispatch } = this.props;
     try {
-      const accessToken = await Storage.getToken();
-      if (accessToken) {
-        this.setState({ isLoading: true });
-        dispatch(reLogin());
-      }
+      // const accessToken = await Storage.getToken();
+      // if (accessToken) {
+      //   this.setState({ isLoading: true });
+      //   dispatch(reLogin());
+      // }
     } catch (error) {
       console.error(error.message, error.stack);
       dispatch(didReceiveError(ERROR_TAG.LOC_STORAGE_ERROR, ERROR_MESSAGE.STORAGE_FAIL));

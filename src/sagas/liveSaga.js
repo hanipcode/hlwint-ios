@@ -26,7 +26,7 @@ export function* liveSaga(payload) {
       }
       // separate user that have under 10 view count, meaning that fake viewer isn't completely loaded
       const filterByViewCount = _.filter(liveFetchData.live_lists, (liveItem) => {
-        if (liveItem.view_count > 10) return true;
+        if (liveItem.view_count > 9) return true;
         return false;
       });
       // // first intersect data from wowza with data from our server

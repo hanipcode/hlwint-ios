@@ -114,7 +114,7 @@ class CurrentUserProfile extends React.Component {
           </View>
         </LinearGradient>
         <View style={styles.currentUserProfile.body}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => this.toIncome()}
             style={styles.currentUserProfile.bodyItem}
           >
@@ -133,7 +133,7 @@ class CurrentUserProfile extends React.Component {
               <Text style={styles.currentUserProfile.rightInfo}>{userInfo.get('coin')}</Text>
               <Text style={styles.currentUserProfile.bodyText}>></Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => this.toTermOfUse()}
             style={styles.currentUserProfile.bodyItem}

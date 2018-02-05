@@ -20,6 +20,7 @@ import giftAnimator from './giftAnimator';
 import broadcastingFragment from './broadcastingFragment';
 import currentUserProfile from './currentUserProfile';
 import viewerLiveEnded from './viewerLiveEnded';
+import otherUserProfile from './otherUserProfile';
 
 export default {
   login,
@@ -44,4 +45,5 @@ export default {
   broadcastingFragment,
   currentUserProfile,
   viewerLiveEnded,
+  otherUserProfile,
 };

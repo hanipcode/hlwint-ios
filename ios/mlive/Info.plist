@@ -30,7 +30,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>10</string>
+	<key>CodePushDeploymentKey</key>
+	<string>4vx_lAIje8rAcEm0fxW8Aln0ON95r102AZeLz</string>
 	<key>FacebookAppID</key>
 	<string>107011993378332</string>
 	<key>FacebookDisplayName</key>
@@ -62,7 +64,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>${PRODUCT_NAME} need camera because it is broadcasting</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -76,6 +78,7 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+		<string>gamekit</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

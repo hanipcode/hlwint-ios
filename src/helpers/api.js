@@ -499,3 +499,12 @@ export function getNearbyData(id, accessToken, limit, offset) {
     return response.json();
   });
 }
+
+export function getTopFan(id) {
+  return fetch(`${BASE_URL}api/ml/getfans/${id}`).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Error while getting to fan ${response.status}`);
+    }
+    return response.json();
+  })
+}

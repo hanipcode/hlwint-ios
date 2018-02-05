@@ -6,6 +6,8 @@ import Home from './screen/HomeTabNavigator';
 import PrivacyPolicy from './screen/PrivacyPolicy';
 import TermOfUse from './screen/TermOfUse';
 import CurrentUserProfile from './screen/CurrentUserProfile';
+import OtherUserProfile from './screen/OtherUserProfile';
+import SingleChat from './screen/SingleChat';
 import Recharge from './screen/Recharge';
 import Income from './screen/Income';
 
@@ -20,7 +22,12 @@ export default StackNavigator(
     // PrivacyPolicy: {
     //   screen: PrivacyPolicy,
     // },
-
+    // OtherUserProfile: {
+    //   screen: OtherUserProfile,
+    // },
+    SingleChat: {
+      screen: SingleChat,
+    },
     Login: {
       screen: LoginPageNavigator,
     },

@@ -6,6 +6,7 @@ import { didReceiveError, ERROR_TAG, ERROR_MESSAGE } from '../ducks/error';
 import * as service from '../helpers/api';
 import Storage from '../data/storage';
 import CONSTANTS from '../constants';
+import { loginChat } from '../ducks/chat';
 
 const { ACTIVITY } = CONSTANTS;
 const deviceOS = 'iOS';
@@ -73,6 +74,7 @@ export function* reloginDeviceSaga() {
     yield put(NavigationActions.navigate({
       routeName: 'Home',
     }));
+
   } catch (err) {
     yield put(didReceiveError(ERROR_TAG.LOGIN_ERROR, ERROR_MESSAGE.DEVICE_FAIL));
   }
@@ -141,6 +143,7 @@ export default function* loginSaga({ payload }) {
     yield Storage.setUser(data);
     yield Storage.setToken(accessToken);
     yield Storage.setUserPicture(u_profile_pic);
+    yield put(loginChat(data.u_nick_name, data.u_full_name, data.u_profile_pic));
     yield put(actionCreators.finishLogin(accessToken, data));
     yield put(NavigationActions.navigate({
       routeName: 'Tutorial',

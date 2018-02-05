@@ -32,12 +32,17 @@
 		2905EB391FB29BEA005CAB9D /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2971DD011FB1AB600011EA18 /* FBSDKShareKit.framework */; };
 		2905EB3A1FB29BEA005CAB9D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2971DCFD1FB1AB600011EA18 /* Bolts.framework */; };
 		2905EB441FB30513005CAB9D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2905EB431FB304CD005CAB9D /* libBVLinearGradient.a */; };
-		292CC7B92022BD1600D70105 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B32022BD1500D70105 /* AppCenterDistribute.framework */; };
-		292CC7BA2022BD1600D70105 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B42022BD1500D70105 /* AppCenterCrashes.framework */; };
-		292CC7BB2022BD1600D70105 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B52022BD1500D70105 /* AppCenterAnalytics.framework */; };
-		292CC7BC2022BD1600D70105 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B62022BD1600D70105 /* AppCenter.framework */; };
-		292CC7BD2022BD1600D70105 /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B72022BD1600D70105 /* AppCenterPush.framework */; };
-		292CC7BE2022BD1600D70105 /* AppCenterReactNativeShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B82022BD1600D70105 /* AppCenterReactNativeShared.framework */; };
+		292CC8312022C7A800D70105 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC8032022C76600D70105 /* libCodePush.a */; };
+		292CC8332022F3CE00D70105 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 292CC8322022F3CE00D70105 /* splash_icon.png */; };
+		292CC836202313E600D70105 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC835202313E600D70105 /* GameKit.framework */; };
+		292CC838202313F200D70105 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC837202313F200D70105 /* StoreKit.framework */; };
+		292CC8A42024AFD900D70105 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 292CC86F2024AFD800D70105 /* GoogleService-Info.plist */; };
+		29403CAF20266D5000FCDCF3 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B62022BD1600D70105 /* AppCenter.framework */; };
+		29403CB020266D5000FCDCF3 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B52022BD1500D70105 /* AppCenterAnalytics.framework */; };
+		29403CB120266D5000FCDCF3 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B42022BD1500D70105 /* AppCenterCrashes.framework */; };
+		29403CB220266D5000FCDCF3 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B32022BD1500D70105 /* AppCenterDistribute.framework */; };
+		29403CB320266D5000FCDCF3 /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B72022BD1600D70105 /* AppCenterPush.framework */; };
+		29403CB420266D5000FCDCF3 /* AppCenterReactNativeShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292CC7B82022BD1600D70105 /* AppCenterReactNativeShared.framework */; };
 		2940A9691FE7C89F0012006E /* libRNGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2940A9681FE7C8470012006E /* libRNGL.a */; };
 		2940A97B1FE8CA7A0012006E /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2940A9751FE8CA680012006E /* libRNBlur.a */; };
 		29512DA21FDFE58200DBDD9F /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29512DA11FDFE56000DBDD9F /* libRCTFBSDK.a */; };
@@ -63,10 +68,7 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* mliveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mliveTests.m */; };
-		3CA812A124744325A440C5C2 /* libAppCenterReactNativeCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A96F9399DA4D5BA4228F58 /* libAppCenterReactNativeCrashes.a */; };
-		5A81FA3D1D7B49B9B9CA0BE7 /* libAppCenterReactNativeAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E13500278104F1F81F10BF4 /* libAppCenterReactNativeAnalytics.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		7D13274121D94533894B14DA /* libAppCenterReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7276A35F584AACAC072874 /* libAppCenterReactNative.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 /* End PBXBuildFile section */
@@ -169,6 +171,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5419C2701D824AA700DDF3A1;
 			remoteInfo = AppCenterReactNativeCrashes;
+		};
+		292CC8002022C76600D70105 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 292CC7F62022C76600D70105 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = CodePush;
+		};
+		292CC8022022C76600D70105 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 292CC7F62022C76600D70105 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F886647B1F4ADB500036D01B;
+			remoteInfo = "CodePush-tvOS";
 		};
 		2940A9671FE7C8470012006E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -472,13 +488,18 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mlive/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2905EB3B1FB304CD005CAB9D /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
-		292CC67B2021754D00D70105 /* mlive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mlive.entitlements; path = mlive/mlive.entitlements; sourceTree = "<group>"; };
 		292CC7B32022BD1500D70105 /* AppCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterDistribute.framework; path = ../../../Documents/FacebookSDK/AppCenterDistribute.framework; sourceTree = "<group>"; };
 		292CC7B42022BD1500D70105 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = ../../../Documents/FacebookSDK/AppCenterCrashes.framework; sourceTree = "<group>"; };
 		292CC7B52022BD1500D70105 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = ../../../Documents/FacebookSDK/AppCenterAnalytics.framework; sourceTree = "<group>"; };
 		292CC7B62022BD1600D70105 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = ../../../Documents/FacebookSDK/AppCenter.framework; sourceTree = "<group>"; };
 		292CC7B72022BD1600D70105 /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = ../../../Documents/FacebookSDK/AppCenterPush.framework; sourceTree = "<group>"; };
 		292CC7B82022BD1600D70105 /* AppCenterReactNativeShared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterReactNativeShared.framework; path = ../../../Documents/FacebookSDK/AppCenterReactNativeShared.framework; sourceTree = "<group>"; };
+		292CC7F62022C76600D70105 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		292CC8322022F3CE00D70105 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_icon.png; path = ../src/assets/splash_icon.png; sourceTree = "<group>"; };
+		292CC8342023126700D70105 /* mlive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mlive.entitlements; path = mlive/mlive.entitlements; sourceTree = "<group>"; };
+		292CC835202313E600D70105 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		292CC837202313F200D70105 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		292CC86F2024AFD800D70105 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2940A9401FE7C8470012006E /* RNGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGL.xcodeproj; path = "../node_modules/gl-react-native/ios/RNGL.xcodeproj"; sourceTree = "<group>"; };
 		2940A96A1FE8CA670012006E /* RNBlur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		29512D9C1FDFE56000DBDD9F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
@@ -530,6 +551,7 @@
 			files = (
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
+				292CC836202313E600D70105 /* GameKit.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -537,11 +559,11 @@
 				29889CA81FE0CB6700F0B520 /* WowzaGoCoderSDK.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
-				292CC7BC2022BD1600D70105 /* AppCenter.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				292CC838202313F200D70105 /* StoreKit.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				29EC509E1FBC2C55008983EE /* libRNDeviceInfo.a in Frameworks */,
 				29B18ADF1FCFBCC900A7B4A8 /* libRCTVideo.a in Frameworks */,
@@ -549,24 +571,23 @@
 				2905EB341FB29BEA005CAB9D /* FBNotifications.framework in Frameworks */,
 				2905EB351FB29BEA005CAB9D /* FBSDKCoreKit.framework in Frameworks */,
 				2905EB361FB29BEA005CAB9D /* FBSDKLoginKit.framework in Frameworks */,
-				292CC7B92022BD1600D70105 /* AppCenterDistribute.framework in Frameworks */,
 				2905EB371FB29BEA005CAB9D /* FBSDKMessengerShareKit.framework in Frameworks */,
-				292CC7BB2022BD1600D70105 /* AppCenterAnalytics.framework in Frameworks */,
 				2905EB381FB29BEA005CAB9D /* FBSDKPlacesKit.framework in Frameworks */,
 				2905EB391FB29BEA005CAB9D /* FBSDKShareKit.framework in Frameworks */,
+				29403CAF20266D5000FCDCF3 /* AppCenter.framework in Frameworks */,
+				29403CB020266D5000FCDCF3 /* AppCenterAnalytics.framework in Frameworks */,
+				29403CB120266D5000FCDCF3 /* AppCenterCrashes.framework in Frameworks */,
+				29403CB220266D5000FCDCF3 /* AppCenterDistribute.framework in Frameworks */,
+				29403CB320266D5000FCDCF3 /* AppCenterPush.framework in Frameworks */,
+				29403CB420266D5000FCDCF3 /* AppCenterReactNativeShared.framework in Frameworks */,
 				2905EB3A1FB29BEA005CAB9D /* Bolts.framework in Frameworks */,
 				2905EB441FB30513005CAB9D /* libBVLinearGradient.a in Frameworks */,
 				29512DA21FDFE58200DBDD9F /* libRCTFBSDK.a in Frameworks */,
-				292CC7BD2022BD1600D70105 /* AppCenterPush.framework in Frameworks */,
 				29889CAA1FE115C100F0B520 /* libRNWowzaBroadcaster.a in Frameworks */,
 				2940A9691FE7C89F0012006E /* libRNGL.a in Frameworks */,
-				292CC7BA2022BD1600D70105 /* AppCenterCrashes.framework in Frameworks */,
 				2940A97B1FE8CA7A0012006E /* libRNBlur.a in Frameworks */,
 				29C6322F1FE909A1005418A4 /* libRNSound.a in Frameworks */,
-				7D13274121D94533894B14DA /* libAppCenterReactNative.a in Frameworks */,
-				5A81FA3D1D7B49B9B9CA0BE7 /* libAppCenterReactNativeAnalytics.a in Frameworks */,
-				3CA812A124744325A440C5C2 /* libAppCenterReactNativeCrashes.a in Frameworks */,
-				292CC7BE2022BD1600D70105 /* AppCenterReactNativeShared.framework in Frameworks */,
+				292CC8312022C7A800D70105 /* libCodePush.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +698,8 @@
 		13B07FAE1A68108700A75B9A /* mlive */ = {
 			isa = PBXGroup;
 			children = (
-				292CC67B2021754D00D70105 /* mlive.entitlements */,
+				292CC8342023126700D70105 /* mlive.entitlements */,
+				292CC86F2024AFD800D70105 /* GoogleService-Info.plist */,
 				29D738A2201E36D100F6BDAA /* LaunchScreen.xib */,
 				2971DCFA1FB1AB580011EA18 /* Frameworks */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -714,6 +736,8 @@
 		2905EB321FB29BEA005CAB9D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				292CC837202313F200D70105 /* StoreKit.framework */,
+				292CC835202313E600D70105 /* GameKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -747,6 +771,15 @@
 			isa = PBXGroup;
 			children = (
 				292CC75B2022B51E00D70105 /* libAppCenterReactNativeCrashes.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		292CC7F72022C76600D70105 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				292CC8012022C76600D70105 /* libCodePush.a */,
+				292CC8032022C76600D70105 /* libCodePush.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -857,6 +890,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				292CC7F62022C76600D70105 /* CodePush.xcodeproj */,
 				29C631FB1FE90997005418A4 /* RNSound.xcodeproj */,
 				2940A96A1FE8CA670012006E /* RNBlur.xcodeproj */,
 				2940A9401FE7C8470012006E /* RNGL.xcodeproj */,
@@ -897,6 +931,7 @@
 			isa = PBXGroup;
 			children = (
 				29D738E8201E3F7C00F6BDAA /* Splash.png */,
+				292CC8322022F3CE00D70105 /* splash_icon.png */,
 				292CC7B62022BD1600D70105 /* AppCenter.framework */,
 				292CC7B52022BD1500D70105 /* AppCenterAnalytics.framework */,
 				292CC7B42022BD1500D70105 /* AppCenterCrashes.framework */,
@@ -1011,9 +1046,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "mlive-tvOSTests" */;
 			buildPhases = (
+				F2C8D1B3AF82615533C8102D /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
+				A329D120EA12201CF77DD0B5 /* [CP] Embed Pods Frameworks */,
+				43956F13D87FC9717C3EA8C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1044,13 +1082,16 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.InterAppAudio = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -1092,6 +1133,10 @@
 				{
 					ProductGroup = 2905EB3C1FB304CD005CAB9D /* Products */;
 					ProjectRef = 2905EB3B1FB304CD005CAB9D /* BVLinearGradient.xcodeproj */;
+				},
+				{
+					ProductGroup = 292CC7F72022C76600D70105 /* Products */;
+					ProjectRef = 292CC7F62022C76600D70105 /* CodePush.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1270,6 +1315,20 @@
 			fileType = archive.ar;
 			path = libAppCenterReactNativeCrashes.a;
 			remoteRef = 292CC75A2022B51E00D70105 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		292CC8012022C76600D70105 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 292CC8002022C76600D70105 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		292CC8032022C76600D70105 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 292CC8022022C76600D70105 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2940A9681FE7C8470012006E /* libRNGL.a */ = {
@@ -1547,9 +1606,11 @@
 			files = (
 				29BD5C121FF4B50F000C5425 /* gift_sound.wav in Resources */,
 				29C632311FE90D67005418A4 /* pop.wav in Resources */,
+				292CC8A42024AFD900D70105 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				29D738E9201E3F7D00F6BDAA /* Splash.png in Resources */,
 				29D738A4201E36D200F6BDAA /* LaunchScreen.xib in Resources */,
+				292CC8332022F3CE00D70105 /* splash_icon.png in Resources */,
 				23E9C6C8E5264635BDA21E53 /* Zawgyi-One.ttf in Resources */,
 				16CAEF83EF704EDD87CF904B /* AppCenter-Config.plist in Resources */,
 			);
@@ -1613,6 +1674,65 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		43956F13D87FC9717C3EA8C2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mlive-tvOSTests/Pods-mlive-tvOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A329D120EA12201CF77DD0B5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-mlive-tvOSTests/Pods-mlive-tvOSTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/React/React.framework",
+				"${BUILT_PRODUCTS_DIR}/CodePush/CodePush.framework",
+				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/react-native-blur/react_native_blur.framework",
+				"${BUILT_PRODUCTS_DIR}/react-native-video/react_native_video.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CodePush.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_blur.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_video.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mlive-tvOSTests/Pods-mlive-tvOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F2C8D1B3AF82615533C8102D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mlive-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1752,6 +1872,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = mlive/mlive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1764,6 +1885,8 @@
 					"$(PROJECT_DIR)/wowzagocoder",
 				);
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "~/Documents/FacebookSDK";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
@@ -1776,10 +1899,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
+					"$(inherited)",
 					"-lc++",
 				);
+				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shwetech.mlive;
 				PRODUCT_NAME = mlive;
 				PROVISIONING_PROFILE = "";
@@ -1794,6 +1918,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = mlive/mlive.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -1805,6 +1930,8 @@
 					"$(PROJECT_DIR)/wowzagocoder",
 				);
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "~/Documents/FacebookSDK";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
@@ -1817,10 +1944,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
+					"$(inherited)",
 					"-lc++",
 				);
+				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shwetech.mlive;
 				PRODUCT_NAME = mlive;
 				PROVISIONING_PROFILE = "";

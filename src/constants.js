@@ -8,6 +8,12 @@ export default {
     start: { x: 1, y: 0 },
     end: { x: 0, y: 0 },
   },
+  GRADIENT_TOP_OVERLAY: {
+    colors: ['rgba(0, 0, 0, 0.6)', 'rgba(0, 0, 0, 0)'],
+  },
+  GRADIENT_BOTTOM_OVERLAY: {
+    colors: ['rgba(0, 0, 0, 0.0)', 'rgba(0, 0, 0, 6)'],
+  },
   GRADIENT_LOADING_PROPS: {
     customColors: ['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.7)'],
     speed: 2000,

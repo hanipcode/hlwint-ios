@@ -238,6 +238,13 @@ describe('Hlwint API Service', () => {
     expect(destroyBroadcastData.message).toEqual('success');
   });
 
+  it('able to get top fan', async () => {
+    const blob = await data.json();
+    const { id, u_token } = blob.data;
+    const topFanData = await service.getTopFan(id);
+    expect(topFanData).toMatchSnapshot();
+    expect(topFanData.message).toEqual('success');
+  }
   /* DIsable for testing because very resourceful */
   // it('able to get server info', async () => {
   //   const serverInfoData = await service.getServerInfo();

@@ -34,19 +34,21 @@ class ViewerLiveEnded extends React.Component {
     const currentUser = await Storage.getUser();
     const token = await Storage.getToken();
     const { id } = currentUser;
-    try {
-      const userData = await service.getOtherUserProfile(id, token, userId);
-      this.setState({ userData: userData.data });
-    } catch (error) {
-      const userDataError = {
-        first_name: "Can't connect",
-        last_name: 'to User',
-        profile_pic: constants.PLACEHOLDER_URI,
-        follower_count: 0,
-        fan_count: 0,
-      };
-      this.setState({ userData: userDataError });
-    }
+    service
+      .getOtherUserProfile(id, token, userId)
+      .then((userData) => {
+        this.setState({ userData: userData.data });
+      })
+      .catch((error) => {
+        const userDataError = {
+          first_name: "Can't connect",
+          last_name: 'to User',
+          profile_pic: constants.PLACEHOLDER_URI,
+          follower_count: 0,
+          fan_count: 0,
+        };
+        this.setState({ userData: userDataError });
+      });
   }
 
   async followUnfollow() {
