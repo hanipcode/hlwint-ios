@@ -22,12 +22,12 @@ export default StackNavigator(
     // PrivacyPolicy: {
     //   screen: PrivacyPolicy,
     // },
-    // OtherUserProfile: {
-    //   screen: OtherUserProfile,
-    // },
-    SingleChat: {
-      screen: SingleChat,
+    OtherUserProfile: {
+      screen: OtherUserProfile,
     },
+    // SingleChat: {
+    //   screen: SingleChat,
+    // },
     Login: {
       screen: LoginPageNavigator,
     },
